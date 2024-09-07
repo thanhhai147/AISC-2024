@@ -1,6 +1,8 @@
 **/__pycache__/
 Pipfile
 Pipfile.lock
+/Backend/Backend/.env
 /frontend/node_modules
 /frontend/package-lock.json
 /frontend/package.json
+/frontend/.env
