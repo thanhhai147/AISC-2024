@@ -1,0 +1,6 @@
+**/__pycache__/
+Pipfile
+Pipfile.lock
+/frontend/node_modules
+/frontend/package-lock.json
+/frontend/package.json
