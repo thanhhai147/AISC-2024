@@ -5,5 +5,4 @@ Pipfile.lock
 /Backend/Backend/db.sqlite3
 /frontend/node_modules
 /frontend/package-lock.json
-/frontend/package.json
 /frontend/.env
