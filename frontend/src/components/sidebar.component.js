@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from 'react'
 import '../assets/css/sidebar.css'
 
-import homeIcon from '../assets/img/home.png'
-import homeBlueIcon from '../assets/img/home-blue.png'
-import bookIcon from '../assets/img/book.png'
-import bookBlueIcon from '../assets/img/book-blue.png'
-import clockIcon from '../assets/img/clock.png'
-import clockBlueIcon from '../assets/img/clock-blue.png'
-import accountIcon from '../assets/img/account.png'
-import accountBlueIcon from '../assets/img/account-blue.png'
-import settingsIcon from  '../assets/img/settings.png'
-import settingsBlueIcon from '../assets/img/settings-blue.png' 
+import homeIcon from '../assets/img/home.svg'
+import homeBlueIcon from '../assets/img/home-blue.svg'
+import bookIcon from '../assets/img/book.svg'
+import bookBlueIcon from '../assets/img/book-blue.svg'
+import clockIcon from '../assets/img/clock.svg'
+import clockBlueIcon from '../assets/img/clock-blue.svg'
+import accountIcon from '../assets/img/account.svg'
+import accountBlueIcon from '../assets/img/account-blue.svg'
+import settingsIcon from  '../assets/img/settings.svg'
+import settingsBlueIcon from '../assets/img/settings-blue.svg' 
+import forumIcon from  '../assets/img/forum.svg'
+import forumBlueIcon from '../assets/img/forum-blue.svg' 
 
 const clickToNavigate = (type) => {
 
@@ -29,6 +31,9 @@ const clickToNavigate = (type) => {
             break;
         case 'settings':
             window.location.assign('/statistics')
+            break;
+        case 'forum':
+            window.location.assign('/forum')
             break;
         default:
             window.location.assign('/')
@@ -54,6 +59,9 @@ const sidebarItem = (name, type='home', mode='default') => {
             break;
         case 'settings':
             icon = mode !== 'default' ? settingsBlueIcon : settingsIcon
+            break;
+        case 'forum':
+            icon = mode !== 'default' ? forumBlueIcon : forumIcon
             break;
         default:
             icon = mode !== 'default' ? homeBlueIcon : homeIcon
@@ -82,6 +90,8 @@ const accountItem = sidebarItem('Tài khoản', 'account', 'default')
 const accountItemSelected = sidebarItem('Tài khoản', 'account', 'selected')
 const settingsItem = sidebarItem('Thống kê', 'settings', 'default')
 const settingsItemSelected = sidebarItem('Thống kê', 'settings', 'selected')
+const forumItem = sidebarItem('Diễn đàn', 'forum', 'default')
+const forumItemSelected = sidebarItem('Diễn đàn', 'forum', 'selected')
 
 export default function Sidebar() {
     const [selected, setSelected] = useState({
@@ -89,7 +99,8 @@ export default function Sidebar() {
         'exam': false,
         'history': false,
         'account': false,
-        'settings': false
+        'settings': false,
+        'forum': false
     })
 
     useEffect(() => {
@@ -100,7 +111,8 @@ export default function Sidebar() {
                     'exam': false,
                     'history': false,
                     'account': false,
-                    'settings': false
+                    'settings': false,
+                    'forum': false
                 })
                 break;
             case '/question':
@@ -109,7 +121,8 @@ export default function Sidebar() {
                     'exam': false,
                     'history': false,
                     'account': false,
-                    'settings': false
+                    'settings': false,
+                    'forum': false
                 })
                 break;
             case '/take-exam':
@@ -118,7 +131,8 @@ export default function Sidebar() {
                     'exam': true,
                     'history': false,
                     'account': false,
-                    'settings': false
+                    'settings': false,
+                    'forum': false
                 })
                 break;
             case '/exam':
@@ -127,7 +141,8 @@ export default function Sidebar() {
                     'exam': true,
                     'history': false,
                     'account': false,
-                    'settings': false
+                    'settings': false,
+                    'forum': false
                 })
                 break;
             case '/exam-detail':
@@ -136,7 +151,8 @@ export default function Sidebar() {
                     'exam': true,
                     'history': false,
                     'account': false,
-                    'settings': false
+                    'settings': false,
+                    'forum': false
                 })
                 break;
             case '/history':
@@ -145,7 +161,8 @@ export default function Sidebar() {
                     'exam': false,
                     'history': true,
                     'account': false,
-                    'settings': false
+                    'settings': false,
+                    'forum': false
                 })
                 break;
             case '/history-detail':
@@ -154,7 +171,8 @@ export default function Sidebar() {
                     'exam': false,
                     'history': true,
                     'account': false,
-                    'settings': false
+                    'settings': false,
+                    'forum': false
                 })
                 break;
             case '/account':
@@ -163,7 +181,8 @@ export default function Sidebar() {
                     'exam': false,
                     'history': false,
                     'account': true,
-                    'settings': false
+                    'settings': false,
+                    'forum': false
                 })
                 break;
             case '/statistics':
@@ -171,8 +190,19 @@ export default function Sidebar() {
                     'home': false,
                     'exam': false,
                     'history': false,
-                    'account': true,
-                    'settings': false
+                    'account': false,
+                    'settings': true,
+                    'forum': false
+                })
+                break;
+            case '/forum':
+                setSelected({
+                    'home': false,
+                    'exam': false,
+                    'history': false,
+                    'account': false,
+                    'settings': false,
+                    'forum': true
                 })
                 break;
         }
@@ -195,7 +225,10 @@ export default function Sidebar() {
                         selected['account'] ? accountItemSelected : accountItem
                     }
                     {
-                        selected['settins'] ? settingsItemSelected : settingsItem
+                        selected['settings'] ? settingsItemSelected : settingsItem
+                    }
+                    {
+                        selected['forum'] ? forumItemSelected : forumItem
                     }
                 </div>
             </div>

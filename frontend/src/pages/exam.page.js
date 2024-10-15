@@ -1,11 +1,11 @@
 import React from "react";
-import Sidebar from "../components/sidebar.component";
+
+import MainLayout from "../layouts/main.layout";
 
 export default function ExamPage() {
     return (
         <>
-            <Sidebar />
-            This is Exam Page
+            <MainLayout> </MainLayout>
         </>
     )
 }

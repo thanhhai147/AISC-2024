@@ -15,6 +15,7 @@ import PremiumPage from './pages/premium.page.js'
 import QuestionPage from './pages/question.page.js'
 import StatisticsPage from './pages/statistics.page.js'
 import TakeExamPage from './pages/takeExam.page.js'
+import ForumPage from './pages/forum.page.js';
 
 function App() {
   return (
@@ -100,6 +101,14 @@ function App() {
             element={
               <PrivateRoute>
                 <TakeExamPage />
+              </PrivateRoute>
+            }
+          />
+          <Route 
+            path='/forum'
+            element={
+              <PrivateRoute>
+                <ForumPage />
               </PrivateRoute>
             }
           />
