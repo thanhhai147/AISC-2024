@@ -2,7 +2,8 @@
     padding: 7px;
 }
 .sidebar-item-name {
-    padding: 7px
+    padding: 7px;
+    line-height: 22px;
 }
 .sidebar-item {
     gap: 3px;

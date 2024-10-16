@@ -18,6 +18,7 @@
   --white-color: #FFF;
   --black-color: #000;
   --link-color: #3E78FF;
+  --premium-color: #C89B09;
 }
 
 .foreground-color {
@@ -96,4 +97,8 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+p {
+  margin: 0;
 }
