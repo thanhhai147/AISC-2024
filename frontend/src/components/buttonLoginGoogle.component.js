@@ -17,7 +17,7 @@ const GoogleLoginButton = () => {
             <FcGoogle size={20} />
             <input
                     type = 'text'
-                    style={{width: '216px', height: '20px', textAlign: 'center', border: 'none', outline: 'none', background: 'none' }}
+                    style={{width: '216px', height: '20px', textAlign: 'center', border: 'none', outline: 'none', background: 'none', cursor: 'pointer', pointerEvents: 'none' }}
                     className={`font-family-light ${isHovered && !isFocused ? 'link-color' : ''}`}
                     value='Đăng nhập bằng google'
                 />
