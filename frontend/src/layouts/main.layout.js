@@ -1,11 +1,10 @@
 import React from 'react'
 
-import Sidebar from '../components/sidebar.component'
-
+import GoogleLoginButton from '../components/buttonLoginGoogle.component'
 export default function MainLayout({children}) {
     return (
         <>
-            <Sidebar />
+            <GoogleLoginButton/>
             {children}
         </>
     )
