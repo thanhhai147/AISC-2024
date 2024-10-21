@@ -13,12 +13,11 @@ const GoogleLoginButton = () => {
                 onMouseLeave={() => setIsHovered(false)}
                 onFocus={() => setIsFocused(true)}
                 onBlur={() => setIsFocused(false)} 
-                className={`google-login-button ${isHovered && !isFocused ? 'hover' : ''} ${isHovered && isFocused ? 'focus' : ''} ${!isHovered && !isFocused ? 'default' : ''}`}>
+                className={`google-login-button ${isHovered && !isFocused ? 'hover' : ''} ${isHovered && isFocused ? 'focus' : ''} ${!isHovered  ? 'default' : ''}`}>
             <FcGoogle size={20} />
             <input
                     type = 'text'
-                    style={{width: '216px', height: '20px', textAlign: 'center', border: 'none', outline: 'none', background: 'none', cursor: 'pointer', pointerEvents: 'none' }}
-                    className={`font-family-light ${isHovered && !isFocused ? 'link-color' : ''}`}
+                    className={`text-input font-family-light ${isHovered && !isFocused ? 'link-color' : ''}`}
                     value='Đăng nhập bằng google'
                 />
         </button>
