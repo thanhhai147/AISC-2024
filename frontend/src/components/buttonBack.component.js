@@ -15,7 +15,7 @@ const BackButton = () => {
             <IoIosArrowBack size={20} />
             <input
                 type = 'text'
-                className={`input-text font-family-extrabold `}
+                className={`back-button-input-text font-family-extrabold `}
                 value='Quay lại'
             />
         </button>
