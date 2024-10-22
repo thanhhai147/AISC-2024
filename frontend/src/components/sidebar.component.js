@@ -41,7 +41,7 @@ const clickToNavigate = (type) => {
     }
 }
 
-const sidebarItem = (name, type='home', mode='default') => {
+const sidebarItem = (name, type='home', mode='default', onMouseEnter, onMouseLeave) => {
 
     let icon = null
     switch (type) {
@@ -70,7 +70,12 @@ const sidebarItem = (name, type='home', mode='default') => {
 
     return (
         <>
-            <div className='sidebar-item d-flex flex-row align-items-center' onClick={() => clickToNavigate(type)}>
+            <div 
+                className='sidebar-item d-flex flex-row align-items-center' 
+                onClick={() => clickToNavigate(type)} 
+                onMouseEnter={() => onMouseEnter(type)} 
+                onMouseLeave={() => onMouseLeave(type)}
+            >
                 <div className='sidebar-item-icon'>
                     <img src={icon} alt='sidebar-item-con' />
                 </div>
@@ -80,21 +85,17 @@ const sidebarItem = (name, type='home', mode='default') => {
     )
 }
 
-const homeItem = sidebarItem('Trang chủ', 'home', 'default')
-const homeItemSelected = sidebarItem('Trang chủ', 'home', 'selected')
-const examItem = sidebarItem('Đề ôn', 'exam', 'default')
-const examItemSelected = sidebarItem('Đề ôn', 'exam', 'selected')
-const historyItem = sidebarItem('Lịch sử', 'history', 'default')
-const historyItemSelected = sidebarItem('Lịch sử', 'history', 'selected')
-const accountItem = sidebarItem('Tài khoản', 'account', 'default')
-const accountItemSelected = sidebarItem('Tài khoản', 'account', 'selected')
-const settingsItem = sidebarItem('Thống kê', 'settings', 'default')
-const settingsItemSelected = sidebarItem('Thống kê', 'settings', 'selected')
-const forumItem = sidebarItem('Diễn đàn', 'forum', 'default')
-const forumItemSelected = sidebarItem('Diễn đàn', 'forum', 'selected')
-
 export default function Sidebar() {
     const [selected, setSelected] = useState({
+        'home': false,
+        'exam': false,
+        'history': false,
+        'account': false,
+        'settings': false,
+        'forum': false
+    })
+
+    const [hover, setHover] = useState({
         'home': false,
         'exam': false,
         'history': false,
@@ -208,28 +209,30 @@ export default function Sidebar() {
         }
     }, [window.location.pathname])
 
+    const handleMouseEnter = (type) => {
+        setHover((prevHover) => ({
+            ...prevHover,
+            [type]: true,
+        }))
+    }
+
+    const handleMouseLeave = (type) => {
+        setHover((prevHover) => ({
+            ...prevHover,
+            [type]: false,
+        }))
+    }
+
     return (
         <>
             <div className='sidebar col-2 foreground-color'>
                 <div className='sidebar-item-list d-flex flex-column align-items-center'>
-                    {
-                        selected['home'] ? homeItemSelected : homeItem
-                    }
-                    {
-                        selected['exam'] ? examItemSelected : examItem
-                    }
-                    {
-                        selected['history'] ? historyItemSelected : historyItem
-                    }
-                    {
-                        selected['account'] ? accountItemSelected : accountItem
-                    }
-                    {
-                        selected['settings'] ? settingsItemSelected : settingsItem
-                    }
-                    {
-                        selected['forum'] ? forumItemSelected : forumItem
-                    }
+                    {sidebarItem('Trang chủ', 'home', selected['home'] || hover['home'] ? 'selected' : 'default', handleMouseEnter, handleMouseLeave)}
+                    {sidebarItem('Đề ôn', 'exam', selected['exam'] || hover['exam'] ? 'selected' : 'default', handleMouseEnter, handleMouseLeave)}
+                    {sidebarItem('Lịch sử', 'history', selected['history'] || hover['history'] ? 'selected' : 'default', handleMouseEnter, handleMouseLeave)}
+                    {sidebarItem('Tài khoản', 'account', selected['account'] || hover['account'] ? 'selected' : 'default', handleMouseEnter, handleMouseLeave)}
+                    {sidebarItem('Thống kê', 'settings', selected['settings'] || hover['settings'] ? 'selected' : 'default', handleMouseEnter, handleMouseLeave)}
+                    {sidebarItem('Diễn đàn', 'forum', selected['forum'] || hover['forum'] ? 'selected' : 'default', handleMouseEnter, handleMouseLeave)}
                 </div>
             </div>
         </>

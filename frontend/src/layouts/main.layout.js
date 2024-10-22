@@ -6,6 +6,7 @@ export default function MainLayout({children}) {
         <>
             <OTP/>
             <NavbarQuestion/>
+
             {children}
         </>
     )

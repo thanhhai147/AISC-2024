@@ -1,9 +1,19 @@
 import React from 'react'
 import '../assets/css/button.css'
 
-const onClickDefault = () => {}
+const handleClickDefault = () => {}
+const handleMouseEnterDefault = () => {console.log('a')}
+const handleMouseLeaveDefault = () => {}
 
-export default function Button({ type='primary', size='small', status='active', onClick=onClickDefault, children }) {
+export default function Button({ 
+    type='primary', 
+    size='small', 
+    status='active', 
+    onClick=handleClickDefault, 
+    onMouseEnter=handleMouseEnterDefault,
+    onMouseLeave=handleMouseLeaveDefault,
+    children 
+}) {
 
     let classNameList = [
         'button',
@@ -57,7 +67,12 @@ export default function Button({ type='primary', size='small', status='active', 
 
     return (
         <>
-            <div className={classNameList.join(" ")} onClick={() => onClick()}>
+            <div 
+                className={classNameList.join(" ")} 
+                onClick={onClick}
+                onMouseEnter={onMouseEnter}
+                onMouseLeave={onMouseLeave}
+            >
                 {children}
             </div>
         </>
