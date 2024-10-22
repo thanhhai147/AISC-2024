@@ -21,12 +21,12 @@
     pointer-events: none;
 }
 
-.default{
+.back-button-default{
     background-color: var(--background-color);
     border: 1px solid var(--black-color);
     opacity: 100%;
 }
-.hover{
+.back-button-hover{
     background-color: var(--background-color);
     border: 1px solid var(--black-color);
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);

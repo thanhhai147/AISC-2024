@@ -5,19 +5,19 @@ import { IoIosArrowBack } from "react-icons/io";
 
 const BackButton = () => {
     const [isHovered, setIsHovered] = useState(false);
-    const [isFocused, setIsFocused] = useState(false);
-
 
     return (
-        <button onMouseEnter={() => setIsHovered(true)} 
-                onMouseLeave={() => setIsHovered(false)} 
-                className={`back-button ${isHovered ? 'hover' : 'default'} `}>
+        <button 
+            onMouseEnter={() => setIsHovered(true)} 
+            onMouseLeave={() => setIsHovered(false)} 
+            className={`back-button ${isHovered ? 'back-button-hover' : 'back-button-default'} `}
+        >
             <IoIosArrowBack size={20} />
             <input
-                    type = 'text'
-                    className={`input-text font-family-extrabold `}
-                    value='Quay lại'
-                />
+                type = 'text'
+                className={`input-text font-family-extrabold `}
+                value='Quay lại'
+            />
         </button>
     );
   };
