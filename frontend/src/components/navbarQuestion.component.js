@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import '../assets/css/navbarQuestion.css'
 
 import Button from './button.component.js'
