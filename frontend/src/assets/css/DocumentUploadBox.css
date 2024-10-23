@@ -1,0 +1,35 @@
+.box-document-upload{
+    width: 1174px;
+    height: 1140px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+.box-document-upload-container{
+    width: 1174px;
+    height: 1030px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    background-color: var();
+}
+
+.box-document-upload-input-text{
+    font-size: 16px;
+}
+.box-document-upload-container-input-text{
+    font-size: 24px;
+    text-align: center;
+    color: #B1B1B1;
+}
+.box-document-upload-container-additional-information{
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+}
+.box-document-upload-container-button{
+    display: flex;
+    flex-direction: row;
+    gap: 9px;
+}

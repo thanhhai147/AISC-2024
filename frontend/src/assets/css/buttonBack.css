@@ -1,7 +1,6 @@
 .back-button {
     width: 108px;
     height: 30px;
-    margin: auto;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -9,7 +8,8 @@
     border-radius: 8px;
     transition: all 0.3s ease;
 }
-.input-text{
+
+.back-button-input-text{
     font-size: var(--font-size-normal);
     width: 70px;
     height: 20px;
