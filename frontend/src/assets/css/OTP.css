@@ -4,8 +4,7 @@
     align-items: center;
     width: 265px;
     height: 247px;
-    margin: auto;
-    background-color: var(--background-color);
+    background-color: none;
 }
 .otp-input-text{
     width: 157px;
