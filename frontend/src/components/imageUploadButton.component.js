@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import '../assets/css/fileUploadButton.css';
+import '../assets/css/imageUploadButton.css'
 import { LuUpload } from 'react-icons/lu';
 
-const FileUploadButton = () => {
+const ImageUploadButton = () => {
   const [selectedFile, setSelectedFile] = useState(null);
 
   const handleFileChange = (event) => {
@@ -19,12 +19,12 @@ const FileUploadButton = () => {
   };
 
   return (
-    <div className="file-upload-button">
-      <label htmlFor="file-upload" className="custom-file-upload font-family-regular">
-        <LuUpload  className="icon-upload" /> Chọn các tệp
+    <div className="image-upload-button">
+      <label htmlFor="image-upload" className="custom-image-upload font-family-regular">
+        <LuUpload  className="icon-upload" /> Tải ảnh lên
       </label>
       <input 
-        id="file-upload" 
+        id="image-upload" 
         type="file" 
         onChange={handleFileChange} 
         style={{ display: 'none' }} 
@@ -32,4 +32,4 @@ const FileUploadButton = () => {
     </div>
   );
 };
-export default FileUploadButton;
+export default ImageUploadButton;
