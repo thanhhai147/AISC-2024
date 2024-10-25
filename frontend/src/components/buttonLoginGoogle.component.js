@@ -18,8 +18,8 @@ const GoogleLoginButton = () => {
         >
             <FcGoogle size={20} />
             <input
-                type = 'text's
-                className={`text-input font-family-light ${isHovered && !isFocused ? 'link-color' : ''}`}
+                type = 'text'
+                className={`google-login-button-input-text font-family-light ${isHovered && !isFocused ? 'link-color' : ''}`}
                 value='Đăng nhập bằng google'
             />
         </button>
