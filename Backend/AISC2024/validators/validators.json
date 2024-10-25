@@ -1,0 +1,385 @@
+{
+    "user": {
+        "user_name": {
+            "type": "string",
+            "null": false,
+            "blank": false,
+            "unique": true,
+            "min_length": 6,
+            "max_length": 12,
+            "custom_validator": "check_user_name"
+        },
+        "date_of_birth": {
+            "type": "string",
+            "null": false,
+            "blank": false,
+            "custom_validator": "check_date_of_birth"
+        },
+        "email": {
+            "type": "string",
+            "null": false,
+            "blank": false,
+            "unique": true,
+            "custom_validator": "check_email"
+        },
+        "phone_number": {
+            "type": "string",
+            "null": false,
+            "blank": false,
+            "unique": true,
+            "custom_validator": "check_phone_number"
+        },
+        "password": {
+            "type": "string",
+            "null": false,
+            "blank": false,
+            "min_length": 6,
+            "max_length": 12,
+            "custom_validator": "check_password"
+        },
+        "role": {
+            "type": "string",
+            "null": false,
+            "blank": false,
+            "default": "Admin",
+            "choices": [
+                "Admin",
+                "Basic User",
+                "Premium User"
+            ]
+        },
+        "created_at": {
+            "null": false,
+            "blank": false,
+            "type": "datetime"
+        },
+        "updated_at": {
+            "null": false,
+            "blank": false,
+            "type": "datetime"
+        }
+    },
+    "quizzes": {
+        "user_id": {
+            "type": "ForeignKey",
+            "null": false,
+            "blank": false,
+            "delete_cascade": true
+        },
+        "title": {
+            "type": "string",
+            "null": false,
+            "blank": false,
+            "unique": true,
+            "min_length": 12,
+            "max_length": 120
+        },
+        "attempt_count": {
+            "type": "int",
+            "null": false,
+            "blank": false,
+            "min": 0
+        },
+        "number_of_questions": {
+            "type": "int",
+            "null": false,
+            "blank": false,
+            "min": 0
+        },
+        "time_limit": {
+            "type": "int",
+            "null": false,
+            "blank": false,
+            "min": 0
+        },
+        "created_at": {
+            "null": false,
+            "blank": false,
+            "type": "datetime"
+        },
+        "updated_at": {
+            "null": false,
+            "blank": false,
+            "type": "datetime"
+        }
+    },
+    "questions": {
+        "quiz_id": {
+            "type": "ForeignKey",
+            "null": false,
+            "blank": false,
+            "delete_cascade": true
+        },
+        "question_text": {
+            "type": "string",
+            "null": false,
+            "blank": false,
+            "min_length": 12,
+            "max_length": 120
+        },
+        "question_position": {
+            "type": "int",
+            "null": false,
+            "blank": false,
+            "min": 1,
+            "max": "quizzes.number_of_questions"
+        },
+        "status": {
+            "type": "boolean",
+            "null": false,
+            "blank": false
+        },
+        "explanation": {
+            "type": "string",
+            "null": false,
+            "blank": false,
+            "min_length": 12,
+            "max_length": 25
+        },
+        "created_at": {
+            "null": false,
+            "blank": false,
+            "type": "datetime"
+        },
+        "updated_at": {
+            "null": false,
+            "blank": false,
+            "type": "datetime"
+        }
+    },
+    "answers": {
+       "question_id": {
+            "type": "ForeignKey",
+            "null": false,
+            "blank": false,
+            "delete_cascade": true
+       },
+       "answer_text": {
+            "type": "string",
+            "null": false,
+            "blank": false,
+            "min_length": 12,
+            "max_length": 120
+       },
+       "is_correct": {
+            "type": "boolean",
+            "null": false,
+            "blank": false
+       },
+       "created_at": {
+            "type": "datetime",
+            "null": false,
+            "blank": false
+       },
+       "updated_at": {
+            "type": "datetime",
+            "null": false,
+            "blank": false
+       }
+    },
+    "quiz_attempts": {
+        "quiz_id": {
+            "type": "ForeignKey",
+            "null": false,
+            "blank": false,
+            "delete_cascade": true
+        },
+        "user_id": {
+            "type": "ForeignKey",
+            "null": false,
+            "blank": false,
+            "delete_cascade": true
+        },
+        "correct_ans_count": {
+            "type": "int",
+            "null": false,
+            "blank": false,
+            "min": 0,
+            "max": "quizzes.number_of_questions"
+        },
+        "score": {
+            "type": "float",
+            "null": false,
+            "blank": false, 
+            "min": 0,
+            "max": "10 * quizzes.number_of_questions",
+            "default": "10 * correct_ans_count"
+        },
+        "complettion_level": {
+            "type": "float",
+            "null": false,
+            "blank": false,
+            "min": 0,
+            "max": 1,
+            "default": "correct_ans_count / quizzes.number_of_questions"
+        },
+        "incorrect_ans_count": {
+            "type": "int",
+            "null": false,
+            "blank": false,
+            "min": 0,
+            "max": "quizzes.number_of_questions",
+            "default": "quizzes.number_of_questions - correct_ans_count"
+        },
+        "attempted_at": {
+            "type": "datetime",
+            "null": false,
+            "blank": false
+        },
+        "created_at": {
+            "type": "datetime",
+            "null": false,
+            "blank": false
+        },
+        "updated_at": {
+            "type": "datetime",
+            "null": false,
+            "blank": false
+        }
+    },
+    "user_answers": {
+        "answer_id": {
+            "type": "ForeignKey",
+            "null": false,
+            "blank": false,
+            "delete_cascade": true
+        },
+        "question_id": {
+            "type": "ForeignKey",
+            "null": false,
+            "blank": false,
+            "delete_cascade": true
+        },
+        "attempt_id": {
+            "type": "ForeignKey",
+            "null": false,
+            "blank": false,
+            "delete_cascade": true
+        },
+        "created_at": {
+            "type": "datetime",
+            "null": false,
+            "blank": false
+        },
+        "updated_at": {
+            "type": "datetime",
+            "null": false,
+            "blank": false
+        }
+    },
+    "forums": {
+        "user_id": {
+            "type": "ForeignKey",
+            "null": false,
+            "blank": false,
+            "delete_cascade": true
+        },
+        "name": {
+            "type": "string",
+            "null": false,
+            "blank": false,
+            "min_length": 12,
+            "max_length": 120
+        },
+        "description": {
+            "type": "string",
+            "null": false,
+            "blank": false,
+            "min_length": 12,
+            "max_lenngth": 250
+        },
+        "total_posts": {
+            "type": "int",
+            "null": false,
+            "blank": false,
+            "min": 0,
+            "default": "count of posts"
+        },
+        "total_comments": {
+            "type": "int",
+            "null": false,
+            "blank": false,
+            "min": 0,
+            "default": "count of comments"
+        },
+        "created_at": {
+            "type": "datetime",
+            "null": false,
+            "blank": false
+        },
+        "updated_at": {
+            "type": "datetime",
+            "null": false,
+            "blank": false
+        }
+    },
+    "posts": {
+        "forum_id": {
+            "type": "ForeignKey",
+            "null": false,
+            "blank": false,
+            "delete_cascade": true
+        },
+        "user_id": {
+            "type": "ForeignKey",
+            "null": false,
+            "blank": false,
+            "delete_cascade": true
+        },
+        "title": {
+            "type": "string",
+            "null": false,
+            "blank": false,
+            "min_length": 12,
+            "max_length": 120
+        },
+        "content": {
+            "type": "string",
+            "null": false,
+            "blank": false,
+            "min_length": 12,
+            "max_length": 4000
+        },
+        "created_at": {
+            "type": "datetime",
+            "null": false,
+            "blank": false
+        },
+        "updated_at": {
+            "type": "datetime",
+            "null": false,
+            "blank": false
+        }
+    },
+    "comments": {
+        "post_id": {
+            "type": "ForeignKey",
+            "null": false,
+            "blank": false,
+            "delete_cascade": true
+        },
+        "user_id": {
+            "type": "ForeignKey",
+            "null": false,
+            "blank": false,
+            "delete_cascade": true
+        },
+        "content": {
+            "type": "string",
+            "null": false,
+            "blank": false,
+            "min_length": 6,
+            "max_length": 4000
+        },
+        "created_at": {
+            "type": "datetime",
+            "null": false,
+            "blank": false
+        },
+        "updated_at": {
+            "type": "datetime",
+            "null": false,
+            "blank": false
+        }
+    }
+}

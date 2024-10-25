@@ -79,8 +79,12 @@ WSGI_APPLICATION = 'Backend.wsgi.application'
 
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
+#         'ENGINE': 'djongo',
+#         'NAME': 'EduVision',  # Your MongoDB database name
+#         'ENFORCE_SCHEMA': True,  # Optional: If you don't want Djongo to enforce the schema
+#         'CLIENT': {
+#             'host': 'mongodb+srv://admin:1041087997@eduvision.apbhd.mongodb.net/',
+#         }
 #     }
 # }
 
