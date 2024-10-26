@@ -1,5 +1,9 @@
 {
     "user": {
+        "_id": {
+            "type": "objectId",
+            "key": "PrimaryKey"
+        },
         "user_name": {
             "type": "string",
             "null": false,
@@ -60,8 +64,13 @@
         }
     },
     "quizzes": {
+        "_id": {
+            "type": "objectId",
+            "key": "PrimaryKey"
+        },
         "user_id": {
-            "type": "ForeignKey",
+            "type": "objectId",
+            "key": "ForeignKey",
             "null": false,
             "blank": false,
             "delete_cascade": true
@@ -104,8 +113,13 @@
         }
     },
     "questions": {
+        "_id": {
+            "type": "objectId",
+            "key": "PrimaryKey"
+        },
         "quiz_id": {
-            "type": "ForeignKey",
+            "type": "objectId",
+            "key": "ForeignKey",
             "null": false,
             "blank": false,
             "delete_cascade": true
@@ -148,8 +162,13 @@
         }
     },
     "answers": {
+        "_id": {
+            "type": "objectId",
+            "key": "PrimaryKey"
+        },
        "question_id": {
-            "type": "ForeignKey",
+            "type": "objectId",
+            "key":"ForeignKey",
             "null": false,
             "blank": false,
             "delete_cascade": true
@@ -178,14 +197,20 @@
        }
     },
     "quiz_attempts": {
+        "_id": {
+            "type": "objectId",
+            "key": "PrimaryKey"
+        },
         "quiz_id": {
-            "type": "ForeignKey",
+            "type": "objectId",
+            "key": "ForeignKey",
             "null": false,
             "blank": false,
             "delete_cascade": true
         },
         "user_id": {
-            "type": "ForeignKey",
+            "type": "objectId",
+            "key": "ForeignKey",
             "null": false,
             "blank": false,
             "delete_cascade": true
@@ -239,19 +264,22 @@
     },
     "user_answers": {
         "answer_id": {
-            "type": "ForeignKey",
+            "type": "ObjectId",
+            "key": "ForeignKey",
             "null": false,
             "blank": false,
             "delete_cascade": true
         },
         "question_id": {
-            "type": "ForeignKey",
+            "type": "ObjectId",
+            "key": "ForeignKey",
             "null": false,
             "blank": false,
             "delete_cascade": true
         },
         "attempt_id": {
-            "type": "ForeignKey",
+            "type": "ObjectId",
+            "key": "ForeignKey",
             "null": false,
             "blank": false,
             "delete_cascade": true
@@ -268,8 +296,13 @@
         }
     },
     "forums": {
+        "_id": {
+            "type": "objectId",
+            "key": "PrimaryKey"
+        },
         "user_id": {
-            "type": "ForeignKey",
+            "type": "objectId",
+            "key": "ForeignKey",
             "null": false,
             "blank": false,
             "delete_cascade": true
@@ -278,6 +311,7 @@
             "type": "string",
             "null": false,
             "blank": false,
+            "unique": true,
             "min_length": 12,
             "max_length": 120
         },
@@ -314,14 +348,20 @@
         }
     },
     "posts": {
+        "_id": {
+            "type": "objectId",
+            "key": "PrimaryKey"
+        },
         "forum_id": {
-            "type": "ForeignKey",
+            "type": "objectId",
+            "key": "ForeignKey",
             "null": false,
             "blank": false,
             "delete_cascade": true
         },
         "user_id": {
-            "type": "ForeignKey",
+            "type": "objectId",
+            "key": "ForeignKey",
             "null": false,
             "blank": false,
             "delete_cascade": true
@@ -330,6 +370,7 @@
             "type": "string",
             "null": false,
             "blank": false,
+            "unique": true,
             "min_length": 12,
             "max_length": 120
         },
@@ -352,14 +393,20 @@
         }
     },
     "comments": {
+        "_id": {
+            "type": "objectId",
+            "key": "PrimaryKey"
+        },
         "post_id": {
-            "type": "ForeignKey",
+            "type": "objectId",
+            "key": "ForeignKey",
             "null": false,
             "blank": false,
             "delete_cascade": true
         },
         "user_id": {
-            "type": "ForeignKey",
+            "type": "objectId",
+            "key": "ForeignKey",
             "null": false,
             "blank": false,
             "delete_cascade": true
