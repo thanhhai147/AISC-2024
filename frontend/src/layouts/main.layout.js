@@ -1,5 +1,4 @@
 import React from 'react'
-
 import Sidebar from '../components/sidebar.component'
 import SearchBar from '../components/searchbar.component'
 import NavbarAccount from '../components/navbarAccount.component'
@@ -10,18 +9,20 @@ import DownloadButton from '../components/downloadButton.component'
 import Toggle from '../components/toggle.component'
 import Checkbox from '../components/checkBox.component'
 import CheckBoxWithText from '../components/checkBoxWithText.component'
+import LoginPage from '../pages/login.page'
 export default function MainLayout({children}) {
     return (
         <>
-            <Toggle/>
+            {/* <Toggle/>
             <Checkbox/>
-            <CheckBoxWithText />
+            <CheckBoxWithText /> */}
             {/* <SearchBar /> */}
             {/* <NavbarAccount /> */}
             {/* <ListItems/> */}
-            <FileUploadButton/>
+            {/* <FileUploadButton/>
             <ImageUploadButton/>
-            <DownloadButton />
+            <DownloadButton /> */}
+            <LoginPage />
             {children}
         </>
     )
