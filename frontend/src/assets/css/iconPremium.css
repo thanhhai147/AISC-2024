@@ -1,0 +1,9 @@
+.icon-premium{
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+}
+.icon-premium-hover{
+    color: #0C286E;
+    opacity: 0.5;
+}

@@ -1,0 +1,59 @@
+.otp-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 265px;
+    height: 247px;
+    background-color: none;
+}
+.otp-input-text{
+    width: 157px;
+    height: 39px;
+    font-size: 25px;
+    text-align: center;
+    border: none;
+    outline: none;
+    background: none;
+    cursor: pointer;
+    pointer-events: none;
+}
+.otp-input-link-text{
+    margin-top: 5px;
+    width: 114px;
+    height: 28px;
+    line-height: 28px; 
+    font-size: var(--font-size-small);
+    text-decoration-line:underline;
+    color: var(--black-color);
+    text-align: center;
+    cursor: pointer;
+}
+
+.otp-input-link-text:hover{
+    color: var(--link-color);
+}
+.otp-input-timer-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 29px;
+    margin-bottom: 29px;
+
+}
+.otp-input-container {
+    display: flex;
+    justify-content: space-between;
+    width: 265px;
+    height: 40px;
+    margin-bottom: 15px;
+}
+
+.otp-input {
+    width: 40px !important; 
+    height: 40px;
+    font-size: 20px;
+    border-radius: 8px;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    outline: none;
+    background-color: var(--foreground-color);
+  }

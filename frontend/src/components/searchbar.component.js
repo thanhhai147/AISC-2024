@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import '../assets/css/searchbar.css'
 import { IoMdSearch } from "react-icons/io";
+import ListItems from './listItems.component';
 
 const SearchBar = () => {
     const [search, setSearch] = useState(''); 
@@ -20,10 +21,14 @@ const SearchBar = () => {
 
     const fetchSuggestions = async (query) => {
         try {
-            const data = ['Đề thi số 1', 'Đề thi số 2', 'Đề thi số 3'].filter(item =>
+            const data = ['Đề số 1', 'Đề số 2', 'Đề số 3', 'Đề số 4'];
+            // Lọc dữ liệu chỉ chứa nội dung đã nhập
+            const filteredData = data.filter(item =>
                 item.toLowerCase().includes(query.toLowerCase())
             );
-            setResults(data);
+
+            // Nếu có kết quả phù hợp, cập nhật results
+            setResults(filteredData);
         } catch (error) {
             console.error('Error fetching suggestions:', error);
         }
@@ -45,19 +50,7 @@ const SearchBar = () => {
                     value={search}
                 />
             </div>
-            {results.length > 0 && (
-                <div className='search_result'>
-                    {results.map((result, index) => (
-                        <p
-                            key={index} 
-                            target='_blank' 
-                            className='search_suggestion_line font-family-extrabold'
-                        >
-                            {result}
-                        </p>
-                    ))}
-                </div>
-            )}
+            {results.length > 0 && <ListItems results={results} search={search} />}
         </section>
     );
 };
