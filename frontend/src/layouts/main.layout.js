@@ -1,4 +1,4 @@
-import React from 'react'
+import React  from 'react'
 
 import Sidebar from '../components/sidebar.component'
 import SearchBar from '../components/searchbar.component'

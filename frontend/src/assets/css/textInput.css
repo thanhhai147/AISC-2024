@@ -1,0 +1,27 @@
+.text-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc; 
+    border-radius: 8px;
+    font-size: 16px; 
+    font-weight: bolder;
+    transition: border-color 0.2s ease; 
+}
+.text-input.hover{
+    border: 1px solid #3E78FF;
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+.text-input:focus {
+    padding: 10px;
+    border-color: #3E78FF; 
+    border-radius: 8px;
+    outline: none;
+}
+
+.text-input::placeholder {
+    color: #aaa; 
+}
