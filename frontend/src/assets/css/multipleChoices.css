@@ -1,0 +1,54 @@
+.multiple-choices {
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
+}
+
+.choice {
+    line-height: 40px;
+    width: fit-content;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.edit-choice-background {
+    background-color: var(--white-color);
+    padding-left: 16px;
+    padding-right: 16px;
+    border-radius: 8px;
+    border: solid 0.5px rgba(0,0,0,0.5);
+    margin-top: 18px;
+}
+
+.choice-label-exam {
+    width: 40px;
+    height: 40px;
+    padding-left: 11px;
+    padding-right: 11px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    border-radius: 50%;
+    border: solid 0.5px rgba(0,0,0,0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 11px;
+    cursor: pointer;
+}
+
+.exam-margin-bottom {
+    margin-bottom: 10px;
+}
+
+.choice-exam {
+    padding-left: 16px;
+    padding-right: 16px;
+    border-radius: 8px;
+    border: solid 0.5px rgba(0,0,0,0.2);
+    cursor: pointer;
+}
+
+.edit-margin-top {
+    margin-top: 18px;
+}

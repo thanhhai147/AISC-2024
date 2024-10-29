@@ -1,20 +1,20 @@
 import React from 'react'
 
-import BackButton from '../components/buttonBack.component'
-import GoogleLoginButton from '../components/buttonLoginGoogle.component'
-import OTP from '../components/OTP.component'
-import IconPremium from '../components/iconPremium.component'
-import DocumentUploadBox from '../components/documentUploadBox.component'
-import FunctionBoxes from '../components/functionBoxes.component'
-import RecentlyActiveBox from '../components/recentlyActiveBox.component'
-import NavbarHomePage from '../components/navbarHomePage.component'
-import NavbarExam from '../components/navbarExam.component'
+import QuestionCombo from '../components/questionCombo.component'
 
 export default function MainLayout({children}) {
     return (
         <>
-            <BackButton />
-
+            <QuestionCombo 
+                type={'exam'}
+                questionNumber={'1'}
+                questionContext={'Nêu lý do thực hiện dự án, dự án giúp giải quyết vấn đề gì trong thực tiễn? '}
+                A={'Để tạo ra hệ thống tự động đánh giá chất lượng giáo viên.'}
+                B={'Để giúp giảm bớt gánh nặng công việc cho giáo viên, tiết kiệm thời gian và công sức trong việc tạo đề thi.'}
+                C={'Để phát triển các ứng dụng giải trí cho học sinh.'}
+                D={'Để thay thế hoàn toàn giáo viên trong việc giảng dạy.'}
+                answer={'A'}
+            />
             {children}
         </>
     )
