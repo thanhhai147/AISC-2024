@@ -84,7 +84,7 @@ export default function QuestionCombo({ type, questionNumber, questionContext, A
                     questionNumber={questionNumber}
                     questionContext={questionContext}
                 />
-                <div class="line-with-text">
+                <div className="line-with-text">
                     <span className="font-family-light">Chọn một đáp án đúng</span>
                 </div>
                 <MultipleChoices 

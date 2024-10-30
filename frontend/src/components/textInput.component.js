@@ -1,16 +1,19 @@
 import React from "react";
-import "../assets/css/textInput.css"
+import '../assets/css/textInput.css';
 
-export default function TextInput({ placeholder="", defaultValue="", uneditable=null, boldText=false, setCallBackValue=()=>{} }) {
+export default function TextInput({
+    placeholder = '',
+    type = 'text',
+    defaultValue = '',
+    uneditable = '',
+    width = '',
+    boldText=false,
+    onChange=()=>{}
+}) {
+
     return (
         <div 
-            className={
-                `
-                    text-input-wrapper
-                    ${boldText ? 'font-family-semibold' : 'font-family-regular'}
-                `
-            } 
-            tabIndex="0"
+            className='text-input-wrapper'
         >
             {
                 uneditable ? 
@@ -21,16 +24,20 @@ export default function TextInput({ placeholder="", defaultValue="", uneditable=
                 </div>
                 : null
             }
-            <input 
-                className='text-input'
-                type="text"
+            <input
+                type={type}
                 defaultValue={defaultValue}
                 placeholder={placeholder}
-                onChange={e => {
-                    setCallBackValue(e.target.value)
-                }}
+                style={{width}}
+                onChange={onChange}
+                className={`
+                    text-input 
+                    ${boldText ? 'font-family-semibold' : 'font-family-regular'}
+                `}
                 size={(defaultValue.length)}
             />
         </div>
-    )
+    );
 }
+
+

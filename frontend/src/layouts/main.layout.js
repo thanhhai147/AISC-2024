@@ -1,4 +1,4 @@
-import React from 'react'
+import React  from 'react'
 
 import QuestionCombo from '../components/questionCombo.component'
 
@@ -6,7 +6,7 @@ export default function MainLayout({children}) {
     return (
         <>
             <QuestionCombo 
-                type={'exam'}
+                type={'edit'}
                 questionNumber={'1'}
                 questionContext={'Nêu lý do thực hiện dự án, dự án giúp giải quyết vấn đề gì trong thực tiễn? '}
                 A={'Để tạo ra hệ thống tự động đánh giá chất lượng giáo viên.'}
