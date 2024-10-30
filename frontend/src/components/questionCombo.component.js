@@ -6,7 +6,7 @@ import MultipleChoices from "./multipleChoices.component";
 import Answer from "./answer.component";
 import Button from "./button.component";
 
-export default function QuestionCombo({ type, questionNumber, questionContext, A, B, C, D, answer }) {
+export default function QuestionCombo({ type, questionNumber, questionContext, A, B, C, D, answer, rightAnswer, wrongAnswer }) {
     const basicCombo = () => {
         return (
             <div className="basic-combo">
@@ -98,6 +98,30 @@ export default function QuestionCombo({ type, questionNumber, questionContext, A
         )
     }
 
+    const reviewCombo = () => {
+        return (
+            <div className="exam-combo">
+                <Question 
+                    type={'review'}
+                    questionNumber={questionNumber}
+                    questionContext={questionContext}
+                />
+                <div className="line-with-text">
+                    <span className="font-family-light">Chọn một đáp án đúng</span>
+                </div>
+                <MultipleChoices 
+                    type={'review'}
+                    A={A}
+                    B={B}
+                    C={C}
+                    D={D}
+                    rightAnswer={rightAnswer}
+                    wrongAnswer={wrongAnswer}
+                />
+            </div>
+        )
+    }
+
     return (
         <>
             {
@@ -107,7 +131,9 @@ export default function QuestionCombo({ type, questionNumber, questionContext, A
                 editCombo() :
                 type === 'pre-edit' ? 
                 preEditCombo() :
-                examCombo()
+                type === 'exam' ?
+                examCombo() :
+                reviewCombo()
             }
         </>
     )

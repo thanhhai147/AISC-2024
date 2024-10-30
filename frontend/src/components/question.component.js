@@ -20,7 +20,7 @@ export default function Question({type, questionNumber, questionContext, setQues
                                 `
                                     question-context 
                                     font-size-normal
-                                    ${type === 'exam' ? 'font-family-regular' : 'font-family-semibold'}
+                                    ${type === 'exam' || type === 'review' ? 'font-family-regular' : 'font-family-semibold'}
                                 `
                             }
                         >

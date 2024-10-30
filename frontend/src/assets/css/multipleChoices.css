@@ -52,3 +52,18 @@
 .edit-margin-top {
     margin-top: 18px;
 }
+
+.choice-exam-selected {
+    background-color: var(--primary-color);
+    color: var(--white-color);
+}
+
+.choice-exam-right {
+    background-color: var(--success-color);
+    color: var(--white-color);
+}
+
+.choice-exam-wrong {
+    background-color: var(--warning-color);
+    color: var(--white-color);
+}
