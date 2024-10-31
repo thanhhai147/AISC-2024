@@ -21,14 +21,14 @@ class BaseValidator:
         return len(value) == 0
 
     @staticmethod
-    def check_type(type: str=None, value=None) -> bool:
-        if type == "string": return type(value) == str
-        if type == "int": return type(value) == int
-        if type == "float": return type(value) == float
-        if type == "boolean": return type(value) == bool
-        if type == "datetime": return BaseValidator.check_datetime(value)
-        if type == "date": return BaseValidator.check_date(value)
-        if type == "objectId": return ObjectId(value)
+    def check_type(ctype: str=None, value=None) -> bool:
+        if ctype == "string": return (type(value) == str)
+        if ctype == "int": return (type(value) == int)
+        if ctype == "float": return (type(value) == float)
+        if ctype == "boolean": return (type(value) == bool)
+        if ctype == "datetime": return BaseValidator.check_datetime(value)
+        if ctype == "date": return BaseValidator.check_date(value)
+        if ctype == "objectId": return ObjectId(value)
         else: return type(value) == None
     
     @staticmethod
@@ -50,23 +50,23 @@ class BaseValidator:
 class AdancedValidator():
     @staticmethod
     def check_user_name(user_name: str) -> bool:
-        pattern = r'^[\w\d]+$'
-        return re.fullmatch(pattern, user_name)
+        pattern = r'^[\w]+$'
+        return re.fullmatch(pattern, user_name) is not None
     
     @staticmethod
     def check_email(email: str) -> bool:
-        pattern = r'^[a-zA-Z0-9_]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,}$'
-        return re.fullmatch(pattern, email)
-    
+        pattern = r'[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}'
+        return re.fullmatch(pattern, email) is not None
+        
     @staticmethod
     def check_phone_number(phone_number: str) -> bool:
         pattern = r'(84|0[3|5|7|8|9])+([0-9]{8})\b'
-        return re.fullmatch(pattern, phone_number)
+        return re.fullmatch(pattern, phone_number) is not None
     
     @staticmethod
     def check_password(password: str) -> bool:
         pattern = r'^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*()\-_=+{};:,<.>]).*$'
-        return re.fullmatch(pattern, password)
+        return re.fullmatch(pattern, password) is not None
     
     @staticmethod
     def check_date_of_birth(date_of_birth: str = "DD/MM/YYYY") -> bool:
