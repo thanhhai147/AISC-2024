@@ -1,5 +1,4 @@
 import React  from 'react'
-
 import QuestionCombo from '../components/questionCombo.component'
 
 export default function MainLayout({children}) {

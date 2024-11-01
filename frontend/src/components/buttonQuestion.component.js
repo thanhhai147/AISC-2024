@@ -1,5 +1,5 @@
 import React from 'react'
-import '../assets/css/button.css'
+import '../assets/css/buttonQuestion.css'
 
 const handleClickDefault = () => {}
 const handleMouseEnterDefault = () => {}
@@ -7,7 +7,6 @@ const handleMouseLeaveDefault = () => {}
 
 export default function Button({ 
     type='primary', 
-    size='small', 
     status='active', 
     onClick=handleClickDefault, 
     onMouseEnter=handleMouseEnterDefault,
@@ -33,23 +32,8 @@ export default function Button({
         case 'success':
             classNameList.push("success-button")
             break
-        case 'premium':
-            classNameList.push("premium-button")
-            break
         default:
             classNameList.push("primary-button")
-            break
-    }
-
-    switch(size) {
-        case 'small':
-            classNameList.push("small-button")
-            break
-        case 'large':
-            classNameList.push("large-button")
-            break
-        default:
-            classNameList.push("small-button")
             break
     }
 

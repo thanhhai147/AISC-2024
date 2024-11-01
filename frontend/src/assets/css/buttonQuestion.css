@@ -1,0 +1,45 @@
+.button {
+    width: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 0;
+    border-radius: 8px;
+    cursor: pointer;
+    gap: 3px;
+    padding-left: 10px;
+    padding-right: 10px; 
+    font-size: var(--font-size-small);
+    height: 26px;
+}
+.button:hover {
+    background-color: var(--background-color);
+    border-radius: 8px;
+}
+.primary-button {
+    color: var(--white-color);
+    background-color: var(--primary-color);
+}
+
+.secondary-button {
+    color: var(--primary-color);
+    background-color: none;
+    border: 1px solid var(--background-color);
+    border-radius: 8px;
+}
+
+.warning-button {
+    color: var(--white-color);
+    background-color: var(--warning-color);
+}
+
+.success-button {
+    color: var(--white-color);
+    background-color: var(--success-color);
+}
+
+
+.disabled-button {
+    opacity: .5;
+}
+
