@@ -9,6 +9,11 @@
     width: fit-content;
 }
 
+.premium-container:hover {
+    background-color: rgba(177, 177, 177, .15);
+    cursor: pointer;
+}
+
 .premium-icon-container {
     margin-bottom: 7px;
 }
