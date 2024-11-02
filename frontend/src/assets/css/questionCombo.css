@@ -1,0 +1,31 @@
+.pre-edit-buttons {
+    display: flex;
+    flex-direction: row;
+}
+.pre-edit-button-spacer {
+    width: 10px;
+}
+.basic-combo {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.exam-combo {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.line-with-text {
+    display: flex;
+    align-items: center; /* Center vertically */
+    text-align: center; /* Center text horizontally */
+    color: rgba(0, 0, 0, 0.5);
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.line-with-text::before,
+.line-with-text::after {
+    content: '';
+    flex: 1; /* Allow both sides to grow equally */
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* Line style */
+    margin: 0 10px; /* Spacing between the line and text */
+}

@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
-from pymongo import AsyncMongoClient
+from pymongo import MongoClient
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -89,7 +89,7 @@ WSGI_APPLICATION = 'Backend.wsgi.application'
 #     }
 # }
 
-CLIENT = AsyncMongoClient("mongodb+srv://admin:1041087997@eduvision.apbhd.mongodb.net/")
+CLIENT = MongoClient("mongodb+srv://admin:1041087997@eduvision.apbhd.mongodb.net/")
 DB = CLIENT.EduVision
 
 

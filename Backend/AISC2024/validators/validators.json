@@ -8,13 +8,10 @@
             "type": "string",
             "null": false,
             "blank": false,
-            "unique": true,
-            "min_length": 6,
-            "max_length": 12,
-            "custom_validator": "check_user_name"
+            "max_length": 50
         },
         "date_of_birth": {
-            "type": "string",
+            "type": "date",
             "null": false,
             "blank": false,
             "custom_validator": "check_date_of_birth"

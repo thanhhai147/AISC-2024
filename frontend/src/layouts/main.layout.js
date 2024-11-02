@@ -1,21 +1,19 @@
 import React  from 'react'
-import { useState } from 'react'
-// import BackButton from '../components/buttonBack.component'
-// import GoogleLoginButton from '../components/buttonLoginGoogle.component'
-// import OTP from '../components/OTP.component'
-// import IconPremium from '../components/iconPremium.component'
-// import DocumentUploadBox from '../components/documentUploadBox.component'
-// import FunctionBoxes from '../components/functionBoxes.component'
-// import RecentlyActiveBox from '../components/recentlyActiveBox.component'
-// import NavbarHomePage from '../components/navbarHomePage.component'
-// import NavbarExam from '../components/navbarExam.component'
-import TextInput from '../components/textInput.component'
+import Premium from "../components/premium.component"
 
 export default function MainLayout({children}) {
     return (
         <>
-            {/* <BackButton /> */}
-            <TextInput />
+            <Premium 
+                period={"1 tháng"} 
+                price={"59.000 VND/tháng"} 
+                shortDescription={"Trải nghiệm lần đầu 1 tuần với giá 0 VND"} 
+                longDescription={[
+                    "1 tài khoản Premium",
+                    "Hủy bất cứ lúc nào"
+                ]}
+                VAT={"Không bao gồm thuế GTGT"}
+            />
             {children}
         </>
     )

@@ -1,31 +1,40 @@
-import React, { useState } from "react";
+import React from "react";
 import '../assets/css/textInput.css';
 
 export default function TextInput({
     placeholder = '',
     type = 'text',
-    value = '',
+    defaultValue = '',
+    uneditable = '',
     width = '',
-    onChange
+    boldText=false,
+    onChange=()=>{}
 }) {
-    
-    const [isHovered, setisHovered] = useState(false);
-    const [name, setName] = useState('');
-  
-    const handleMouseEnter = () => setisHovered(true);
-    const handleMouseLeave = () => setisHovered(false);
 
     return (
-        <div className="text-input-container">
+        <div 
+            className='text-input-wrapper'
+        >
+            {
+                uneditable ? 
+                <div
+                    className='text-input-uneditable mr-2'
+                >
+                    {uneditable}
+                </div>
+                : null
+            }
             <input
                 type={type}
-                value={value}
+                defaultValue={defaultValue}
                 placeholder={placeholder}
                 style={{width}}
                 onChange={onChange}
-                className={`text-input ${isHovered ? 'hover' : ''}`}
-                onMouseEnter={handleMouseEnter}
-                onMouseLeave={handleMouseLeave}
+                className={`
+                    text-input 
+                    ${boldText ? 'font-family-semibold' : 'font-family-regular'}
+                `}
+                size={(defaultValue.length)}
             />
         </div>
     );

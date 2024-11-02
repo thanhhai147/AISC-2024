@@ -1,0 +1,20 @@
+.question {
+    width: fit-content;
+}
+
+.question-number {
+    line-height: 40px;
+}
+
+.question-context {
+    line-height: 40px;
+}
+
+.question-context-background {
+    background-color: var(--white-color);
+    padding-left: 16px;
+    padding-right: 16px;
+    border-radius: 8px;
+    border: solid 0.5px rgba(0,0,0,0.5);
+    margin-top: 10px;
+}
