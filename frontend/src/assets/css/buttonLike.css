@@ -1,0 +1,21 @@
+.like-button-wrapper {
+    display: flex;
+    align-items: center;
+    /* font-size: var(--font-size-small); */
+    
+  }
+  
+  .like-button {
+    cursor: pointer;
+    font-size: 24px;
+  }
+  
+  .count-like {
+    margin-left: 8px;
+    font-size: 18px;
+  }
+  
+  .liked {
+    color: var(--link-color); 
+  }
+  
