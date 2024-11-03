@@ -1,20 +1,19 @@
 import React  from 'react'
-import QuestionCombo from '../components/questionCombo.component'
+
+import Premium from "../components/premium.component"
 
 export default function MainLayout({children}) {
     return (
         <>
-            <QuestionCombo 
-                type={'review'}
-                questionNumber={'1'}
-                questionContext={'Nêu lý do thực hiện dự án, dự án giúp giải quyết vấn đề gì trong thực tiễn? '}
-                A={'Để tạo ra hệ thống tự động đánh giá chất lượng giáo viên.'}
-                B={'Để giúp giảm bớt gánh nặng công việc cho giáo viên, tiết kiệm thời gian và công sức trong việc tạo đề thi.'}
-                C={'Để phát triển các ứng dụng giải trí cho học sinh.'}
-                D={'Để thay thế hoàn toàn giáo viên trong việc giảng dạy.'}
-                answer={'A'}
-                rightAnswer={'A'}
-                wrongAnswer={'B'}
+            <Premium 
+                period={"1 tháng"} 
+                price={"59.000 VND/tháng"} 
+                shortDescription={"Trải nghiệm lần đầu 1 tuần với giá 0 VND"} 
+                longDescription={[
+                    "1 tài khoản Premium",
+                    "Hủy bất cứ lúc nào"
+                ]}
+                VAT={"Không bao gồm thuế GTGT"}
             />
             {children}
         </>

@@ -65,6 +65,10 @@
   color: var(--link-color);
 }
 
+.premium-color {
+  color: var(--premium-color);
+}
+
 .font-family-regular {
   font-family: "Montserrat", sans-serif !important;
   font-optical-sizing: auto !important;

@@ -85,7 +85,8 @@ class SignUpAPIView(GenericAPIView):
         try:
             BaseModel.insert_one('user', {
                 **user,
-                'created_at': datetime.now()
+                'created_at': datetime.now(),
+                'updated_at': datetime.now()
             })
         except:
             return Response(
