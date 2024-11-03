@@ -1,8 +1,5 @@
 import React  from 'react'
 import QuestionCombo from '../components/questionCombo.component'
-import PostArticle from '../components/postArticle.component'
-import PostReport from '../components/postReport.component'
-import BoxSort from '../components/boxSort.component'
 
 export default function MainLayout({children}) {
     return (
@@ -19,11 +16,6 @@ export default function MainLayout({children}) {
                 rightAnswer={'A'}
                 wrongAnswer={'B'}
             />
-
-            <PostArticle/>
-            <PostReport/>
-            <BoxSort/>
-
             {children}
         </>
     )
