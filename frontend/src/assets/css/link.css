@@ -1,0 +1,19 @@
+.link {
+    font-size: 16px;
+    color: var(--black-color);
+    transition: color 0.2s ease;
+    cursor: pointer; 
+}
+
+.link:focus {
+    outline: none;
+}
+
+.link.hover {
+    color: #3E78FF;
+    transition: color 0.2s ease;
+}
+
+.link.active {
+    color: #3E78FF;
+}

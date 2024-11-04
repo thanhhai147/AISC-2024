@@ -36,3 +36,18 @@
 .search_input_div:hover{
   border: 1px solid var(--link-color);
 }
+
+/* .search_suggestion_line {
+  display: block;
+  padding: 8px 40px;
+  text-decoration: none;
+  color: #0F2C59;
+  opacity: 0.2;
+}
+
+.search_suggestion_line:hover {
+  background-color: #f9f9f9;
+  border-radius: 8px;
+
+} */
+

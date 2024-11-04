@@ -1,0 +1,41 @@
+.answer {
+    line-height: 40px;
+    width: fit-content;
+}
+
+.margin-top-answer-basic {
+    margin-top: 10px;
+}
+
+.margin-top-answer-edit {
+    margin-top: 18px;
+}
+
+.answer-edit {
+    background-color: var(--white-color);
+    padding-left: 16px;
+    padding-right: 16px;
+    border-radius: 8px;
+    border: solid 0.5px rgba(0,0,0,0.5);
+    cursor: pointer;
+}
+
+.answer-choice-wrapper {
+    background-color: var(--white-color);
+    padding-left: 16px;
+    padding-right: 16px;
+    border-radius: 8px;
+    border: solid 0.5px rgba(0,0,0,0.5);
+    width: fit-content;
+    margin-top: 5px;
+}
+
+.answer-choice {
+    cursor: pointer;
+    color: var(--primary-color);
+    opacity: 50%;
+}
+
+.answer-choice:hover {
+    opacity: 1;
+}

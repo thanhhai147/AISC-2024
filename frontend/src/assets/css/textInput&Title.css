@@ -1,0 +1,40 @@
+.title-text-input {
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    flex-wrap: wrap; 
+}
+
+.text-input-container {
+    flex: 1;
+    min-width: 0; 
+}
+
+.text-input {
+    width: 100%; 
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.text-input.hover {
+    border-color: #3E78FF;
+}
+
+.text-input:focus {
+    border-color: #3E78FF;
+    outline: none;
+    box-shadow: 0 0 4px rgba(62, 120, 255, 0.5); 
+}
+
+.text-input::placeholder {
+    color: #aaa;
+}
+
+.title {
+    padding-right: 1%;
+    color: var(--primary-color);
+    font-weight: normal;
+}
