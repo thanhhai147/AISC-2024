@@ -104,3 +104,67 @@ class SignUpAPIView(GenericAPIView):
             }, 
             status=status.HTTP_200_OK
         )
+
+class LogInAPIView(GenericAPIView):
+    def post(self, request):
+        data = request.data
+        try:
+            user_name = data['user_name']
+            password = data['password']
+        except:
+            return Response(
+                {
+                    "success": False,
+                    "message": "Tên đăng nhập hoặc mật khẩu không được cung cấp"
+                },
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        if not UserValidator.check_user_name(user_name):
+            return Response(
+            {
+                "success": False,
+                "message": "Tên người dùng không hợp lệ"
+            }, 
+            status=status.HTTP_400_BAD_REQUEST
+        )
+
+        if not UserValidator.check_password(password):
+            return Response(
+            {
+                "success": False,
+                "message": "Mật khẩu không hợp lệ"
+            }, 
+            status=status.HTTP_400_BAD_REQUEST
+        )
+
+        return Response(
+            {
+                "success": True,
+                "message": "Đăng nhập thành công"
+            },
+            status=status.HTTP_200_OK
+        )
+    
+class LogOutAPIView(GenericAPIView):
+    def post(self, request):
+        data = request.data
+        try:
+            user_name = data['user_name']
+        except:
+            return Response(
+                {
+                    "success": False,
+                    "message": "Bạn chưa đăng nhập"
+                },
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        return Response(
+            {
+                "success": True,
+                "message": "Đăng xuất thành công"
+            },
+            status=status.HTTP_200_OK
+        )
+    
