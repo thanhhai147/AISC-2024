@@ -1,21 +1,21 @@
-import React  from 'react'
+import React from 'react';
+import QuestionCombo from '../components/questionCombo.component';
+import Premium from "../components/premium.component";
+import Question from '../components/question.component';
+import Avatar from '../components/avatar.component';
+import Post from '../components/post.component';
+import Comment from '../components/comment.component';
 
-import Premium from "../components/premium.component"
+export default function MainLayout({ children }) {
 
-export default function MainLayout({children}) {
     return (
         <>
-            <Premium 
-                period={"1 tháng"} 
-                price={"59.000 VND/tháng"} 
-                shortDescription={"Trải nghiệm lần đầu 1 tuần với giá 0 VND"} 
-                longDescription={[
-                    "1 tài khoản Premium",
-                    "Hủy bất cứ lúc nào"
-                ]}
-                VAT={"Không bao gồm thuế GTGT"}
-            />
             {children}
         </>
+<<<<<<< HEAD
     )
 }
+=======
+    );
+}
+>>>>>>> main
