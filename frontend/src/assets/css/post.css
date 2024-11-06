@@ -1,0 +1,34 @@
+.Post{
+    width: 1175px;
+    height: 402px;
+    background-color: var(--white-color);
+    border-radius: 8px;
+    border: 1px solid var(--black-color);
+    padding: 40px;
+}
+.post-image{
+    width: 527px;
+    height: 161px;
+    margin-top: 10px;
+}
+.content{
+    font-size: 14px;
+    margin-top: 10px;
+}
+.time{
+    font-size: 14px;
+    opacity: 0.5;
+    margin-top: 10px;
+}
+.action-row {
+    display: flex;
+    gap: 20px; 
+    align-items: center; 
+    margin-top: 10px;
+}
+.action-row .link_Cmt{
+    font-size: 14px;
+}
+.action-row .link_Report{
+    font-size: 14px;
+}

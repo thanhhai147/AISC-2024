@@ -17,7 +17,7 @@ export default function Link({
     return (
         <a 
             href={href} 
-            className={`link ${isHovered ? 'hover' : ''} ${isActive ? 'active' : ''}`} 
+            className={`link ${isHovered ? 'hover' : ''} ${isActive ? 'active' : ''} font-family-regular`} 
             style={{ textDecoration }}
             onMouseEnter={handleMouseEnter} 
             onMouseLeave={handleMouseLeave}
