@@ -4,11 +4,12 @@ import { FaRegEye } from "react-icons/fa";
 import { FaRegEyeSlash } from "react-icons/fa";
 
 export default function InputFormPassWord({
-    label = '',
-    placeholder = '',
+    label = 'Mật khẩu',
+    placeholder = 'Nhập mật khẩu của bạn',
     defaultValue = '',
-    width = '40%',
-    boxShadow = '',
+    width = '361px',
+    error = false, // Thêm biến error để kiểm tra
+    errorMessage = 'Mật khẩu không hợp lệ', // Thông báo lỗi mặc định
     onChange=()=>{}
 }) {
 
@@ -19,13 +20,12 @@ export default function InputFormPassWord({
     return (
        
         <div className="input-form-password-wraper" style={{ width }}>
-            {label && <label className="input-form-password-label font-family-extrabold">{label}</label>}
+            {label && <label className="input-form-password-label font-family-semibold">{label}</label>}
             <div className="input-form-password-container" style={{ width }}>
                 <input
                     type={isPasswordVisible ? "text" : "password"}
                     defaultValue={defaultValue}
                     placeholder={placeholder}
-                    style={{ boxShadow }}
                     onChange={onChange}
                     className="input-form-password font-family-regular"
                 />
@@ -36,6 +36,7 @@ export default function InputFormPassWord({
                     {isPasswordVisible ? <FaRegEye /> : <FaRegEyeSlash />}
                 </span>
             </div>
+            {error && <p className="error-message font-family-light">{errorMessage}</p>}
         </div>
         
         

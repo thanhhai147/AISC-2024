@@ -1,45 +1,39 @@
-.button {
-    width: 40px;
+ .buttonQuestion {
     display: flex;
     justify-content: center;
     align-items: center;
     border: 0;
-    border-radius: 8px;
+    border-radius: 4px;
     cursor: pointer;
-    gap: 3px;
-    padding-left: 10px;
-    padding-right: 10px; 
+    padding: 10px 20px;
     font-size: var(--font-size-small);
-    height: 26px;
+    
 }
-.button:hover {
-    background-color: var(--background-color);
-    border-radius: 8px;
+.buttonQuestion:hover {
+    background-color: var(--background-color); 
+    color: var(--primary-color); 
 }
-.primary-button {
+.primary-button-question {
     color: var(--white-color);
     background-color: var(--primary-color);
 }
 
-.secondary-button {
+.secondary-button-question {
     color: var(--primary-color);
-    background-color: none;
-    border: 1px solid var(--background-color);
-    border-radius: 8px;
+    border: 0.5px solid var(--background-color);
 }
 
-.warning-button {
+.warning-button-question {
     color: var(--white-color);
     background-color: var(--warning-color);
 }
 
-.success-button {
+.success-button-question {
     color: var(--white-color);
     background-color: var(--success-color);
 }
 
 
-.disabled-button {
+/* .disabled-button {
     opacity: .5;
-}
-
+} */

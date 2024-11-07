@@ -5,16 +5,22 @@ import TextInput from "./textInput.component";
 export default function TextInputLabel({
     label = '',
     placeholder = '',
+    defaultValue = '',
+    width = '1440px',
+    onChange=()=>{}
 }) {
 
     return (
-        <div className="label-text-input-title">
+        <div className="text-input-label-container" style={{ width }}>
 
-            {label && <label className="text-input-label">{label}</label>}
+            {label && <label className="label font-family-semibold">{label}</label>}
 
-            <div className="text-input-container">
+            <div className="text-input-label" >
                 <TextInput
+                    width={{ width }}
                     placeholder={placeholder}
+                    defaultValue={defaultValue}
+                    onChange={onChange}
                 />
             </div>
         </div>

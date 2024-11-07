@@ -5,9 +5,8 @@ const handleClickDefault = () => {}
 const handleMouseEnterDefault = () => {}
 const handleMouseLeaveDefault = () => {}
 
-export default function Button({ 
+export default function ButtonQuestion({ 
     type='primary', 
-    status='active', 
     onClick=handleClickDefault, 
     onMouseEnter=handleMouseEnterDefault,
     onMouseLeave=handleMouseLeaveDefault,
@@ -15,39 +14,27 @@ export default function Button({
 }) {
 
     let classNameList = [
-        'button',
-        'font-family-extrabold'
+        'buttonQuestion',
+        'font-family-regular'
     ]
 
     switch(type) {
         case 'primary':
-            classNameList.push("primary-button")
+            classNameList.push("primary-button-question")
             break
         case 'secondary':
-            classNameList.push("secondary-button")
+            classNameList.push("secondary-button-question")
             break
         case 'warning':
-            classNameList.push("warning-button")
+            classNameList.push("warning-button-question")
             break
         case 'success':
-            classNameList.push("success-button")
+            classNameList.push("success-button-question")
             break
         default:
-            classNameList.push("primary-button")
+            classNameList.push("primary-button-question")
             break
     }
-
-    switch(status) {
-        case 'select':
-            break
-        case 'correct':
-            classNameList.push("disabled-button")
-            break
-        default:
-            break
-    }
-
-
 
     return (
         <>

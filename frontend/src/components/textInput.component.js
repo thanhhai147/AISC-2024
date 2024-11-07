@@ -33,6 +33,7 @@ export default function TextInput({
                 className={`
                     text-input 
                     ${boldText ? 'font-family-semibold' : 'font-family-regular'}
+                    
                 `}
                 size={(defaultValue.length)}
             />

@@ -8,11 +8,11 @@ export default function TextInputTitle({
 }) {
 
     return (
-        <div className="title-text-input">
+        <div className="text-input-title-container">
 
-            {title && <lable className="title font-family-regular">{title}</lable>}
+            {title && <lable className="title font-family-semibold">{title}</lable>}
 
-            <div className="text-input-container">
+            <div className="text-input-title">
                 <TextInput
                     placeholder={placeholder}
                 />

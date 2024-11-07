@@ -1,5 +1,5 @@
 import React from 'react';
-import Button from './buttonQuestion.component';
+import ButtonQuestion from './buttonQuestion.component';
 import '../assets/css/boxQuestion.css';
 
 
@@ -10,12 +10,12 @@ export default function BoxQuestion({ questionCount = 10, statusQuestions = [] }
     return (
         <div className="box-question-container">
             {questionStatuses.map((status, index) => (
-                <Button
+                <ButtonQuestion
                     key={index}
                     type={status}
                 >
                 {String(index + 1).padStart(2, '0')}
-                </Button>
+                </ButtonQuestion>
             ))}
         </div>
     );

@@ -12,10 +12,5 @@ export default function MainLayout({ children }) {
         <>
             {children}
         </>
-<<<<<<< HEAD
-    )
-}
-=======
     );
 }
->>>>>>> main
