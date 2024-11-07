@@ -29,6 +29,7 @@ class BaseValidator:
         if ctype == "datetime": return BaseValidator.check_datetime(value)
         if ctype == "date": return BaseValidator.check_date(value)
         if ctype == "objectId": return ObjectId(value)
+        if ctype == "binary": return ((type(value) is bytes) or (type(value) is bytearray))
         else: return type(value) == None
     
     @staticmethod

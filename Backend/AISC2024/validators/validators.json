@@ -49,6 +49,11 @@
                 "Premium User"
             ]
         },
+        "avatar": {
+            "type": "bindata",
+            "null": true,
+            "blank": true    
+        },
         "created_at": {
             "null": false,
             "blank": false,
@@ -145,7 +150,7 @@
             "null": false,
             "blank": false,
             "min_length": 12,
-            "max_length": 25
+            "max_length": 255
         },
         "created_at": {
             "null": false,
