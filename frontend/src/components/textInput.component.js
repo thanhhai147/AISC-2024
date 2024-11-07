@@ -35,7 +35,7 @@ export default function TextInput({
                     ${boldText ? 'font-family-semibold' : 'font-family-regular'}
                     
                 `}
-                size={(defaultValue.length)}
+                size={(defaultValue.length || placeholder.length)}
             />
         </div>
     );
