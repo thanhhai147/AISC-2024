@@ -444,3 +444,221 @@ class QuizAttemptsValidator():
             QuizAttemptsValidator.check_attempted_at(attempted_at)
         ): return True
         return False
+
+class UserAnswersValidator():
+    @staticmethod
+    def check_answer_id(answer_id: ObjectId) -> bool:
+        if (
+            BaseValidator.check_type('objectId', answer_id) and
+            ModelValidator.check_exist_key('answers', answer_id) and
+            BaseValidator.check_null(answer_id) and
+            BaseValidator.check_blank(answer_id)
+        ): return True
+        return False
+    
+    @staticmethod
+    def check_question_id(question_id: ObjectId) -> bool:
+        if (
+            BaseValidator.check_type('objectId', question_id) and
+            ModelValidator.check_exist_key('questions', question_id) and
+            BaseValidator.check_null(question_id) and
+            BaseValidator.check_blank(question_id)
+        ): return True
+        return False
+
+    @staticmethod
+    def check_attempt_id(attempt_id: ObjectId) -> bool:
+        if (
+            BaseValidator.check_type('objectId', attempt_id) and
+            ModelValidator.check_exist_key('quiz_attempts', attempt_id) and
+            BaseValidator.check_null(attempt_id) and
+            BaseValidator.check_blank(attempt_id)
+        ): return True
+        return False
+    
+    @staticmethod
+    def check_user_answer(user_answer: dict) -> bool:
+        answer_id = user_answer.get('answer_id', None)
+        question_id = user_answer.get('question_id', None)
+        attempt_id = user_answer.get('attempt_id', None)
+
+class ForumsValidator():
+    @staticmethod
+    def check_user_id(user_id: ObjectId) -> bool:
+        if (
+            BaseValidator.check_type('objectId', user_id) and
+            ModelValidator.check_exist_key('user', user_id) and
+            BaseValidator.check_null(user_id) and
+            BaseValidator.check_blank(user_id)
+        ): return True
+        return False
+    
+    @staticmethod
+    def check_name(name: str) -> bool:
+        if (
+            BaseValidator.check_type('string', name) and
+            BaseValidator.check_null(name) and
+            BaseValidator.check_blank(name) and
+            ModelValidator.check_unique('forums', 'name', name) and
+            BaseValidator.check_min_length(12, name) and
+            BaseValidator.check_max_length(120, name)
+        ): return True
+        return False
+    
+    @staticmethod
+    def check_description(description: str) -> bool:
+        if (
+            BaseValidator.check_type('string', description) and
+            BaseValidator.check_null(description) and
+            BaseValidator.check_blank(description) and
+            BaseValidator.check_min_length(12, description) and
+            BaseValidator.check_max_length(255, description)
+        ): return True
+        return False
+    
+    @staticmethod
+    def check_total_posts(total_posts: int) -> bool:
+        if (
+            BaseValidator.check_type('int', total_posts) and
+            BaseValidator.check_null(total_posts) and
+            BaseValidator.check_blank(total_posts) and
+            BaseValidator.check_min(0, total_posts) 
+        ): return True
+        return False
+    
+    @staticmethod
+    def check_total_comments(total_comments: int) -> bool:
+        if (
+            BaseValidator.check_type('int', total_comments) and
+            BaseValidator.check_null(total_comments) and
+            BaseValidator.check_blank(total_comments) and
+            BaseValidator.check_min(0, total_comments) 
+        ): return True
+        return False
+
+    @staticmethod
+    def check_forum(forum: dict) -> bool:
+        user_id = forum.get('user_id', None)
+        name = forum.get('name', None)
+        description = forum.get('description', None)
+        total_posts = forum.get('total_posts', None)
+        total_comments = forum.get('total_comments', None)
+        if (
+            ForumsValidator.check_user_id(user_id) and
+            ForumsValidator.check_name(name) and
+            ForumsValidator.check_description(description) and
+            ForumsValidator.check_total_posts(total_posts) and
+            ForumsValidator.check_total_comments(total_comments)
+        ): return True
+        return False
+    
+class PostsValidator():
+    @staticmethod
+    def check_forum_id(forum_id: ObjectId) -> bool:
+        if (
+            BaseValidator.check_type('objectId', forum_id) and
+            ModelValidator.check_exist_key('forums', forum_id)
+        ): return True
+        return False
+    
+    @staticmethod
+    def check_user_id(user_id: ObjectId) -> bool:
+        if (
+            BaseValidator.check_type('objectId', user_id) and
+            ModelValidator.check_exist_key('user', user_id) and
+            BaseValidator.check_null(user_id) and
+            BaseValidator.check_blank(user_id)
+        ): return True
+        return False
+    
+    @staticmethod
+    def check_title(title: str) -> bool:
+        if (
+            BaseValidator.check_type('string', title) and
+            BaseValidator.check_null(title) and
+            BaseValidator.check_blank(title) and
+            ModelValidator.check_unique('posts', 'title', title) and
+            BaseValidator.check_min_length(12, title) and
+            BaseValidator.check_max_length(120, title)
+        ): return True
+        return False
+    
+    @staticmethod
+    def check_content(content: str) -> bool:
+        if (
+            BaseValidator.check_type('string', content) and
+            BaseValidator.check_null(content) and
+            BaseValidator.check_blank(content) and
+            BaseValidator.check_min_length(12, content) and
+            BaseValidator.check_max_length(4000, content)
+        ): return True
+        return False
+    
+    @staticmethod
+    def check_img(img: Union[bytes, bytearray]) -> bool:
+        if (
+            BaseValidator.check_type('binary', img) and
+            BaseValidator.check_null(img) and
+            BaseValidator.check_blank(img)
+        ): return True
+        return False
+    
+    @staticmethod
+    def check_post(post: dict) -> bool:
+        forum_id = post.get('forum_id', None)
+        user_id = post.get('user_id', None)
+        title = post.get('title', None)
+        content = post.get('content', None)
+        img = post.get('img', None)
+        if (
+            PostsValidator.check_forum_id(forum_id) and
+            PostsValidator.check_user_id(user_id) and
+            PostsValidator.check_title(title) and
+            PostsValidator.check_content(content) and
+            PostsValidator.check_img(img)
+        ): return True
+        return False
+
+class CommentValidator():
+    @staticmethod
+    def check_post_id(post_id: ObjectId) -> bool:
+        if (
+            BaseValidator.check_type('objectId', post_id) and
+            ModelValidator.check_exist_key('posts', post_id) and
+            BaseValidator.check_null(post_id) and
+            BaseValidator.check_blank(post_id)
+        ): return True
+        return False
+    
+    @staticmethod
+    def check_user_id(user_id: ObjectId) -> bool:
+        if (
+            BaseValidator.check_type('objectId', user_id) and
+            ModelValidator.check_exist_key('user', user_id) and
+            BaseValidator.check_null(user_id) and
+            BaseValidator.check_blank(user_id)
+        ): return True
+        return False
+    
+    @staticmethod
+    def check_content(content: str) -> bool:
+        if (
+            BaseValidator.check_type('string', content) and
+            BaseValidator.check_null(content) and
+            BaseValidator.check_blank(content) and
+            BaseValidator.check_min_length(12, content) and
+            BaseValidator.check_max_length(4000, content)
+        ): return True
+        return False
+    
+    @staticmethod
+    def check_comment(comment: dict) -> bool:
+        post_id = comment.get('post_id', None)
+        user_id = comment.get('user_id', None)
+        content = comment.get('content', None)
+        if (
+            CommentValidator.check_post_id(post_id) and
+            CommentValidator.check_user_id(user_id) and
+            CommentValidator.check_content(content)
+        ): return True
+        return False
