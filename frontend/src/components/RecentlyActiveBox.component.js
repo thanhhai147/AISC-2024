@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import '../assets/css/RecentlyActiveBox.css';
+import React from 'react';
+import '../assets/css/recentlyActiveBox.css';
 
 const RecentlyActiveBox = () => {
     return (

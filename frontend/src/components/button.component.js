@@ -2,7 +2,7 @@ import React from 'react'
 import '../assets/css/button.css'
 
 const handleClickDefault = () => {}
-const handleMouseEnterDefault = () => {console.log('a')}
+const handleMouseEnterDefault = () => {}
 const handleMouseLeaveDefault = () => {}
 
 export default function Button({ 

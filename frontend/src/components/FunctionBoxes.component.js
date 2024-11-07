@@ -1,6 +1,6 @@
-import RecentlyActiveBox from '../components/RecentlyActiveBox.component.js'
-import GenerateQuestionBox from '../components/GenerateQuestionBox.component.js'
-import '../assets/css/FunctionBoxes.css';
+import RecentlyActiveBox from './recentlyActiveBox.component.js'
+import GenerateQuestionBox from './generateQuestionBox.component.js'
+import '../assets/css/functionBoxes.css';
 const FunctionBoxes = () => {
     return (
         <div className='boxes-function-container'>

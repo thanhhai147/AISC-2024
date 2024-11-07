@@ -1,0 +1,20 @@
+.comment-container{
+    background-color: var(--white-color);
+    border: 1px solid var(--black-color);
+    border-radius: 8px;
+    width: 1174px;
+    height: 195px;
+    padding: 40px;
+}
+.comment-container p {
+    margin-bottom: 5px;
+}
+.comment-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.button-container {
+    margin-top: 10px; 
+    align-self: flex-end; 
+}

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import '../assets/css/GenerateQuestionBox.css';
+import React from 'react';
+import '../assets/css/generateQuestionBox.css';
 import { IoDocumentTextOutline } from "react-icons/io5";
 import { HiOutlineUpload } from "react-icons/hi";
 
