@@ -15,6 +15,7 @@
   /* title */
   .title-article {
     width: 100%;
+    margin-bottom: 10px;
   }
   
   .title-article .text-input-wrapper {
@@ -24,7 +25,10 @@
   /* image */
   .image {
     display: flex;
-    justify-content: left;
+    justify-content: left center;
+    align-items: center;
+    text-align: center;
+    justify-items: center;
     padding: 10px 0;
   }
   

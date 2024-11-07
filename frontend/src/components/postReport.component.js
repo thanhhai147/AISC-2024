@@ -11,15 +11,17 @@ const PostReport = () => {
 
     return (
         <div className="post-report-wrapper">
-            <p className="report-title font-family-extrabold">Báo cáo bài viết</p>
+            <p className="report-title font-family-semibold">Báo cáo bài viết</p>
+            
             <hr />
-            <div className="report-question">
-                <Button type="secondary" size="large">Tại sao bạn lại viết báo cáo này?</Button>
-            </div>
+
+            <p className="report-question font-family-semibold">Tại sao bạn lại viết báo cáo này?</p>
+            
             <p className="note-line font-family-light">
                 Báo cáo của bạn sẽ được ẩn danh. <br />
                 Nếu ai đó đang gặp nguy hiểm, đừng chần chừ 
-                mà hãy báo ngay cho dịch vụ khẩn cấp ở địa phương.
+                mà hãy báo ngay cho dịch vụ <br />
+                khẩn cấp ở địa phương.
             </p>
             <div className="list-report-answer">
                 <Button 

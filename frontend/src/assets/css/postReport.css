@@ -1,8 +1,8 @@
 .post-report-wrapper {
     width: 100%;
-    max-width: 600px;
+    max-width: 630px;
     /* margin: 0 auto; */
-    padding: 20px;
+    padding: 30px;
     background-color: var(--white-color);
     border-radius: 8px;
     box-shadow: 0px 4px 12px var(--background-color);
@@ -15,23 +15,24 @@
   
   .report-title {
     font-size: var(--font-size-normal);
-    margin-bottom: 10px;
+    margin-bottom: 0px;
     color: var(--primary-color);
   }
   
   hr {
-    width: 100%;
+    width: 270px;
     border: none;
     border-top: 1px solid var(--secondary-color);
-    margin-bottom: 20px;
+    margin-bottom: 10px;
   }
   
   .report-question {
     width: 100%;
     display: flex;
     justify-content: center;
-    margin-bottom: 10px;
+    margin-bottom: 0px;
     font-size: var(--font-size-normal);
+    color: var(--primary-color);
   }
   
   .note-line {
@@ -44,9 +45,14 @@
   .list-report-answer {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 5px;
     width: 100%;
   }
+
+  .post-report-wrapper .button, .post-report-wrapper .button.selected{
+    font-weight: var(--font-size-semibold);
+  }
+
   
   
   
