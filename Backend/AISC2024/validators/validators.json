@@ -232,7 +232,7 @@
             "max": "10 * quizzes.number_of_questions",
             "default": "10 * correct_ans_count"
         },
-        "complettion_level": {
+        "completion_level": {
             "type": "float",
             "null": false,
             "blank": false,

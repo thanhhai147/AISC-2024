@@ -182,12 +182,12 @@ class QuizzesValidator():
         return False
     
     @staticmethod
-    def check_quizzes(quizzes: dict) -> bool:
-        user_id = quizzes.get('user_id', None)
-        title = quizzes.get('title', None)
-        attempt_count = quizzes.get('attempt_count', None)
-        number_of_questions = quizzes.get('number_of_questions', None)
-        time_limit = quizzes.get('time_limit', None)
+    def check_quiz(quiz: dict) -> bool:
+        user_id = quiz.get('user_id', None)
+        title = quiz.get('title', None)
+        attempt_count = quiz.get('attempt_count', None)
+        number_of_questions = quiz.get('number_of_questions', None)
+        time_limit = quiz.get('time_limit', None)
         if (
             QuizzesValidator.check_user_id(user_id) and
             QuizzesValidator.check_title(title) and
@@ -220,16 +220,22 @@ class QuestionsValidator():
         return False
     
     @staticmethod
-    def check_question_position(question_position: int, quiz_id) -> bool:
+    def check_question_position(question_position: int, quiz_id: ObjectId) -> bool:
         if (
             BaseValidator.check_type('int', question_position) and
             BaseValidator.check_null(question_position) and
             BaseValidator.check_blank(question_position) and
             BaseValidator.check_min(1, question_position) and
+            BaseValidator.check_type('objectId', quiz_id) and
+            BaseValidator.check_null(quiz_id) and
+            BaseValidator.check_blank(quiz_id) and
             BaseValidator.check_max(
-                BaseModel.find_one({
-                    '_id': quiz_id
-                }).get('number_of_questions', None),
+                BaseModel.find_one(
+                    'quizzes',
+                    {
+                        '_id': quiz_id
+                    }
+                ).get('number_of_questions', None),
                 question_position
             )
         ): return True
@@ -311,5 +317,130 @@ class AnswersValidator():
             AnswersValidator.check_question_id(question_id) and
             AnswersValidator.check_answer_text(answer_text) and
             AnswersValidator.check_is_correct(is_correct)
+        ): return True
+        return False
+    
+class QuizAttemptsValidator():
+    @staticmethod
+    def check_quiz_id(quiz_id: ObjectId) -> bool:
+        if (
+            BaseValidator.check_type('objectId', quiz_id) and
+            ModelValidator.check_exist_key('quizzes', quiz_id) and
+            BaseValidator.check_null(quiz_id) and
+            BaseValidator.check_blank(quiz_id)
+        ): return True
+        return False
+    
+    @staticmethod
+    def check_user_id(user_id: ObjectId) -> bool:
+        if (
+            BaseValidator.check_type('objectId', user_id) and
+            ModelValidator.check_exist_key('user', user_id) and
+            BaseValidator.check_null(user_id) and
+            BaseValidator.check_blank(user_id)
+        ): return True
+        return False
+    
+    @staticmethod
+    def check_correct_ans_count(correct_ans_count: int, quiz_id: ObjectId) -> bool:
+        if (
+            BaseValidator.check_type('int', correct_ans_count) and
+            BaseValidator.check_null(correct_ans_count) and
+            BaseValidator.check_blank(correct_ans_count) and
+            BaseValidator.check_min(0, correct_ans_count) and
+            BaseValidator.check_type('objectId', quiz_id) and
+            BaseValidator.check_null(quiz_id) and
+            BaseValidator.check_blank(quiz_id) and
+            BaseValidator.check_max(
+                BaseModel.find_one('quizzes', {
+                    '_id': quiz_id
+                }).get('number_of_questions', None),
+                correct_ans_count
+            )
+        ): return True
+        return False
+    
+    @staticmethod
+    def check_score(score: float, quiz_id: ObjectId) -> bool:
+        if (
+            BaseValidator.check_type('float', score) and
+            BaseValidator.check_null(score) and
+            BaseValidator.check_blank(score) and
+            BaseValidator.check_min(0, score) and
+            BaseValidator.check_type('objectId', quiz_id) and
+            BaseValidator.check_null(quiz_id) and
+            BaseValidator.check_blank(quiz_id) and
+            BaseValidator.check_max(
+                10 *
+                BaseModel.find_one(
+                    'quizzes',
+                    {
+                        '_id': quiz_id
+                    }
+                ).get('number_of_questions', None),
+                score
+            )
+        ): return True
+        return False
+    
+    @staticmethod
+    def check_completion_level(completion_level: float) -> bool:
+        if (
+            BaseValidator.check_type('float', completion_level) and
+            BaseValidator.check_null(completion_level) and
+            BaseValidator.check_blank(completion_level) and
+            BaseValidator.check_min(0, completion_level) and
+            BaseValidator.check_max(1, completion_level)
+        ): return True
+        return False
+    
+    @staticmethod
+    def check_incorrect_ans_count(incorrect_ans_count: int, quiz_id: ObjectId) -> bool:
+        if (
+            BaseValidator.check_type('int', incorrect_ans_count) and
+            BaseValidator.check_null(incorrect_ans_count) and
+            BaseValidator.check_blank(incorrect_ans_count) and
+            BaseValidator.check_min(0, incorrect_ans_count) and
+            BaseValidator.check_type('objectId', quiz_id) and
+            BaseValidator.check_null(quiz_id) and
+            BaseValidator.check_blank(quiz_id) and
+            BaseValidator.check_max(
+                BaseModel.find_one(
+                    'quizzes',
+                    {
+                        '_id': quiz_id
+                    }
+                ).get('number_of_questions', None),
+                incorrect_ans_count
+            )
+        ): return True
+        return False
+    
+    @staticmethod
+    def check_attempted_at(attempted_at: str) -> bool:
+        if (
+            BaseValidator.check_type('datetime', attempted_at) and
+            BaseValidator.check_null(attempted_at) and
+            BaseValidator.check_blank(attempted_at)
+        ): return True
+        return False
+    
+    @staticmethod
+    def check_quiz_attempt(quiz_attempt: dict) -> bool:
+        quiz_id = quiz_attempt.get('quiz_id', None)
+        user_id = quiz_attempt.get('user_id', None)
+        correct_ans_count = quiz_attempt.get('correct_ans_count', None)
+        score = quiz_attempt.get('score', None)
+        completion_level = quiz_attempt.get('completion_level', None)
+        incorrect_ans_count = quiz_attempt.get('incorrect_ans_count', None)
+        attempted_at = quiz_attempt.get('attempted_at', None)
+        if (
+            QuizAttemptsValidator.check_quiz_id(quiz_id) and
+            QuizAttemptsValidator.check_user_id(user_id) and
+            QuizAttemptsValidator.check_correct_ans_count(correct_ans_count, quiz_id) and
+            QuizAttemptsValidator.check_score(score, quiz_id) and
+            QuizAttemptsValidator.check_completion_level(completion_level) and
+            QuizAttemptsValidator.check_incorrect_ans_count(incorrect_ans_count, quiz_id) and
+            QuizAttemptsValidator.check_attempted_at(attempted_at)
         ): return True
         return False
