@@ -2,8 +2,8 @@
     padding-left: 16px;
     padding-right: 16px;
     border-radius: 8px;
-    border: solid 0.5px rgba(0,0,0,0.5);
-    line-height: 40px;
+    border: solid 0.5px var(--secondary-color);
+    /* line-height: 40px; */
     background-color: var(--white-color);
     width: fit-content;
 }
@@ -15,6 +15,7 @@
     font-weight: inherit;
     font-optical-sizing: inherit;
     font-style: inherit;
+    padding: 6px 0px 6px 0px;
 }
 
 .text-input-uneditable {

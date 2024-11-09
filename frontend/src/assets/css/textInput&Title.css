@@ -1,40 +1,56 @@
-.title-text-input {
+/* toàn bộ textInput title */
+.text-input-title-container {
     display: flex;
     align-items: center;
-    font-weight: bold;
-    flex-wrap: wrap; 
+    flex-wrap: wrap;
+    margin-bottom: 10px;
 }
-
-.text-input-container {
-    flex: 1;
-    min-width: 0; 
-}
-
-.text-input {
-    width: 100%; 
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    font-size: 16px;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-.text-input.hover {
-    border-color: #3E78FF;
-}
-
-.text-input:focus {
-    border-color: #3E78FF;
-    outline: none;
-    box-shadow: 0 0 4px rgba(62, 120, 255, 0.5); 
-}
-
-.text-input::placeholder {
-    color: #aaa;
-}
-
+/* //Title */
 .title {
-    padding-right: 1%;
+    padding-right: 17px;
     color: var(--primary-color);
-    font-weight: normal;
+    font-weight: var(--font-weight-semibold);
+}
+/* //input */
+.text-input-title .text-input-wrapper {
+    border-color: var(--secondary-color);
+    width: 280px; /*chiều dài input*/
+    /* Các style khác chỉ áp dụng trong TextInputTitle */
+}
+
+.text-input-title .text-input-wrapper:hover {
+    border-color: var(--link-color);
+    width: 280px; /*chiều dài input*/
+    /* Các style khác chỉ áp dụng trong TextInputTitle */
+}
+.text-input-title .text-input-wrapper::focus {
+    border-color: var(--link-color)!important;
+    width: 280px; /*chiều dài input*/
+    /* Các style khác chỉ áp dụng trong TextInputTitle */
+}
+.text-input-title .text-input-wrapper .text-input::placeholder{
+    font-size: var(--font-size-small);
+    font-weight:  var(--font-weight-light);
+    color: var(--primary-color);
+    transform-origin: left center;
+    /* transform: scale(0.85); Thu nhỏ placeholder */
+}
+.text-input-title .text-input-wrapper:hover .text-input::placeholder{
+    font-size: var(--font-size-small);
+    font-weight:  var(--font-weight-light);
+    color: var(--link-color);
+    transform-origin: left center;
+    /* transform: scale(0.85); Thu nhỏ placeholder */
+}
+.text-input-title .text-input-wrapper:focus .text-input::placeholder{
+    font-size: var(--font-size-small);
+    font-weight:  var(--font-weight-light);
+    color: var(--link-color);
+    transform-origin: left center;
+    /* transform: scale(0.85); Thu nhỏ placeholder */
+}
+.text-input-title .text-input {
+    font-size: var(--font-size-small);
+    height: 33px;
+    width: 245px;
 }

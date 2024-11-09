@@ -1,36 +1,20 @@
-import React, { useState } from "react";
+import React from "react";
 import '../assets/css/textInput&Title.css';
+import TextInput from "./textInput.component"; 
 
 export default function TextInputTitle({
     title = '',
     placeholder = '',
-    type = 'text',
-    value = '',
-    width = '',
-    boxShadow = '',
-    onChange
 }) {
 
-    const [isHovered, setIsHovered] = useState(false);
-
-    const handleMouseEnter = () => setIsHovered(true);
-    const handleMouseLeave = () => setIsHovered(false);
-
     return (
-        <div className="title-text-input">
+        <div className="text-input-title-container">
 
-            {title && <lable className="title">{title}</lable>}
+            {title && <lable className="title font-family-semibold">{title}</lable>}
 
-            <div className="text-input-container">
-                <input
-                    type={type}
-                    value={value}
+            <div className="text-input-title">
+                <TextInput
                     placeholder={placeholder}
-                    style={{ width, boxShadow }} 
-                    onChange={onChange} 
-                    className={`text-input ${isHovered ? 'hover' : ''}`}
-                    onMouseEnter={handleMouseEnter}
-                    onMouseLeave={handleMouseLeave}
                 />
             </div>
         </div>
