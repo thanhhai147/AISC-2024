@@ -319,6 +319,37 @@ class AnswersValidator():
             AnswersValidator.check_is_correct(is_correct)
         ): return True
         return False
+
+class QuizQuestionValidator():
+    @staticmethod
+    def check_quiz_id(quiz_id: ObjectId) -> bool:
+        if (
+            BaseValidator.check_type('objectId', quiz_id) and
+            ModelValidator.check_exist_key('quizzes', quiz_id) and
+            BaseValidator.check_null(quiz_id) and
+            BaseValidator.check_blank(quiz_id)
+        ): return True
+        return False
+    
+    @staticmethod
+    def check_question_id(question_id: ObjectId) -> bool:
+        if (
+            BaseValidator.check_type('objectId', question_id) and
+            ModelValidator.check_exist_key('questions', question_id) and
+            BaseValidator.check_null(question_id) and
+            BaseValidator.check_blank(question_id)
+        ): return True
+        return False
+    
+    @staticmethod
+    def checkQuizQuestion(quiz_question: dict) -> bool:
+        quiz_id = quiz_question.get('quiz_id', None)
+        question_id = quiz_question.get('question_id', None)
+        if (
+            QuizQuestionValidator.check_quiz_id(quiz_id) and
+            QuizQuestionValidator.check_question_id(question_id)
+        ): return True
+        return False
     
 class QuizAttemptsValidator():
     @staticmethod
