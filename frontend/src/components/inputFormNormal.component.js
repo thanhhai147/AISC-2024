@@ -17,6 +17,7 @@ export default function InputFormNormal({
                 <InputFormPassWord 
                 label={label}
                 placeholder={placeholder}
+                type="text"
                 error={error}
                 errorMessage={errorMessage}
                 />
