@@ -27,15 +27,15 @@ class BaseModel():
         return result
 
     @staticmethod
-    def update_one(collection_name, query, update_document) -> ObjectId:
+    def update_one(collection_name, query, update_query) -> ObjectId:
         collection = settings.DB[collection_name]
-        result = (collection.update_one(query, update_document))
+        result = (collection.update_one(query, update_query))
         return result.upserted_id
     
     @staticmethod
-    def update_many(collection_name, query, update_documents):
+    def update_many(collection_name, query, update_query):
         collection = settings.DB[collection_name]
-        result = (collection.update_many(query, update_documents))
+        result = (collection.update_many(query, update_query))
         return result.upserted_id
 
     @staticmethod
