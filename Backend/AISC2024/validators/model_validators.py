@@ -43,8 +43,8 @@ class UserValidator():
     def check_user_name(user_name: str) -> bool:
         if (
             BaseValidator.check_type("string", user_name) and
-            not BaseValidator.check_null(user_name) and
-            not BaseValidator.check_blank(user_name) and
+            BaseValidator.check_null(user_name) and
+            BaseValidator.check_blank(user_name) and
             BaseValidator.check_max_length(50, user_name)
         ): return True
         return False
@@ -53,8 +53,8 @@ class UserValidator():
     def check_date_of_birth(date_of_birth: str) -> bool:
         if (
             BaseValidator.check_type("date", date_of_birth) and
-            not BaseValidator.check_null(date_of_birth) and
-            not BaseValidator.check_blank(date_of_birth) and
+            BaseValidator.check_null(date_of_birth) and
+            BaseValidator.check_blank(date_of_birth) and
             AdancedValidator.check_date_of_birth(date_of_birth)
         ): return True
         return False
@@ -63,8 +63,8 @@ class UserValidator():
     def check_email(email: str) -> bool:
         if (
             BaseValidator.check_type("string", email) and
-            not BaseValidator.check_null(email) and
-            not BaseValidator.check_blank(email) and
+            BaseValidator.check_null(email) and
+            BaseValidator.check_blank(email) and
             ModelValidator.check_unique('user', 'email', email) and
             AdancedValidator.check_email(email)
         ): return True
@@ -74,8 +74,8 @@ class UserValidator():
     def check_phone_number(phone_number: str) -> bool:
         if (
             BaseValidator.check_type("string", phone_number) and
-            not BaseValidator.check_null(phone_number) and
-            not BaseValidator.check_blank(phone_number) and
+            BaseValidator.check_null(phone_number) and
+            BaseValidator.check_blank(phone_number) and
             ModelValidator.check_unique('user', 'phone_number', phone_number) and
             AdancedValidator.check_phone_number(phone_number)
         ): return True
@@ -85,8 +85,8 @@ class UserValidator():
     def check_password(password: str) -> bool:
         if (
             BaseValidator.check_type("string", password) and
-            not BaseValidator.check_null(password) and
-            not BaseValidator.check_blank(password) and
+            BaseValidator.check_null(password) and
+            BaseValidator.check_blank(password) and
             BaseValidator.check_min_length(6, password) and
             BaseValidator.check_max_length(12, password) and
             AdancedValidator.check_password(password)
@@ -97,8 +97,8 @@ class UserValidator():
     def check_role(role: str) -> bool:
         if (
             BaseValidator.check_type("string", role) and
-            not BaseValidator.check_null(role) and
-            not BaseValidator.check_blank(role) and
+            BaseValidator.check_null(role) and
+            BaseValidator.check_blank(role) and
             (role == "Admin" or role == "Basic User" or role == "Premium User") 
         ): return True
         return False
@@ -512,6 +512,12 @@ class UserAnswersValidator():
         answer_id = user_answer.get('answer_id', None)
         question_id = user_answer.get('question_id', None)
         attempt_id = user_answer.get('attempt_id', None)
+        if (
+            UserAnswersValidator.check_answer_id(answer_id) and
+            UserAnswersValidator.check_question_id(question_id) and
+            UserAnswersValidator.check_attempt_id(attempt_id)
+        ): return True
+        return False
 
 class ForumsValidator():
     @staticmethod
