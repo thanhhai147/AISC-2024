@@ -21,4 +21,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('AISC2024.urls.user')),
     path('', include('AISC2024.urls.questions')),    
+    path('', include('AISC2024.urls.quizzes'))
 ]

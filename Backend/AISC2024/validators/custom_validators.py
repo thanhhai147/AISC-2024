@@ -14,11 +14,11 @@ class BaseValidator:
         return re.fullmatch(pattern, datetime)
     @staticmethod
     def check_null(value) -> bool:
-        return value is None
+        return value is not None
 
     @staticmethod
     def check_blank(value) -> bool:
-        return len(value) == 0
+        return len(value) > 0
 
     @staticmethod
     def check_type(ctype: str=None, value=None) -> bool:

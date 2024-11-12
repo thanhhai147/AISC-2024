@@ -1,0 +1,39 @@
+ .buttonQuestion {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 0;
+    border-radius: 4px;
+    cursor: pointer;
+    padding: 10px 20px;
+    font-size: var(--font-size-small);
+    
+}
+.buttonQuestion:hover {
+    background-color: var(--background-color); 
+    color: var(--primary-color); 
+}
+.primary-button-question {
+    color: var(--white-color);
+    background-color: var(--primary-color);
+}
+
+.secondary-button-question {
+    color: var(--primary-color);
+    border: 0.5px solid var(--background-color);
+}
+
+.warning-button-question {
+    color: var(--white-color);
+    background-color: var(--warning-color);
+}
+
+.success-button-question {
+    color: var(--white-color);
+    background-color: var(--success-color);
+}
+
+
+/* .disabled-button {
+    opacity: .5;
+} */

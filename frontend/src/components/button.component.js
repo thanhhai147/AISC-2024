@@ -54,9 +54,9 @@ export default function Button({
     }
 
     switch(status) {
-        case 'active':
+        case 'select':
             break
-        case 'disabled':
+        case 'correct':
             classNameList.push("disabled-button")
             break
         default:

@@ -198,6 +198,32 @@
             "blank": false
        }
     },
+    "quiz_question": {
+        "quiz_id": {
+            "type": "objectId",
+            "key":"ForeignKey",
+            "null": false,
+            "blank": false,
+            "delete_cascade": true
+        },
+        "question_id": {
+            "type": "objectId",
+            "key":"ForeignKey",
+            "null": false,
+            "blank": false,
+            "delete_cascade": true
+        },
+        "created_at": {
+            "type": "datetime",
+            "null": false,
+            "blank": false
+       },
+       "updated_at": {
+            "type": "datetime",
+            "null": false,
+            "blank": false
+       }
+    },
     "quiz_attempts": {
         "_id": {
             "type": "objectId",
