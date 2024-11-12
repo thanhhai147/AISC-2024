@@ -4,13 +4,13 @@ import fitz
 from PIL import Image
 
 # Cấu hình API key của Google Generative AI
-os.environ["GOOGLE_API_KEY"] = "YOUR_GOOGLE_API_KEY"
+os.environ["GOOGLE_API_KEY"] = "AIzaSyBwRi6f7aoxXxpwy5RhOThn0cOOV9_zI50"
 genai.configure(api_key=os.environ["GOOGLE_API_KEY"])
 model = genai.GenerativeModel("models/gemini-1.5-flash")
 
-def extract_text_from_pdf(pdf_path):
+def extract_text_from_pdf(pdf_content):
     pdf_text = ""
-    with fitz.open(pdf_path) as pdf:
+    with fitz.open(stream=pdf_content, filetype="pdf") as pdf:
         for page in pdf:
             pdf_text += page.get_text()
     return pdf_text
@@ -23,31 +23,54 @@ def extract_text_from_image(image_path):
     context = response.text
     return context
 
-def generate_mcqs_from_text(context, number_mcqs=1):
+def generate_mcqs_from_text(context, number_mcqs=20, isExternalSearch = False):
     if context:
         context_clean = context.replace("\n", " ").replace("\\", "")
-        prompt = f"""
-        You are an AI assistant helping the user generate multiple-choice questions (MCQs) based on the following text: '{context_clean}'
-        Please generate {number_mcqs} MCQs from the text. Each question should have:
-        - A clear question
-        - Four answer options (labeled A, B, C, D)
-        - Indicate which option is the correct answer.
-        - Provide a brief explanation of why the correct answer is right.
-        - Cite the relevant part of the document that supports the correct answer.
-        The response must be in **Vietnamese**.
+        if isExternalSearch:
+            prompt = f"""
+            You are an AI assistant helping the user generate multiple-choice questions (MCQs) based on the following text: '{context_clean}'
+            Please generate {number_mcqs} MCQs from the text. Each question should have:
+            - A clear question
+            - Four answer options (labeled A, B, C, D)
+            - Indicate which option is the correct answer.
+            - Provide a brief explanation of why the correct answer is right.
+            - Cite the relevant part of the document that supports the correct answer.
+            The response must be in **Vietnamese**.
 
-        Format:
-            ## MCQ
-            Question: [question]
-            A) [option A]
-            B) [option B]
-            C) [option C]
-            D) [option D]
-        Answer: [The correct option for question]
-        Explanation: [Explain why this is the correct answer]
-        Supporting Text: [Relevant part of the document]
-        """
+            Format:
+                ## MCQ
+                Question: [question]
+                A) [option A]
+                B) [option B]
+                C) [option C]
+                D) [option D]
+            Answer: [The correct option for question]
+            Explanation: [Explain why this is the correct answer]
+            Supporting Text: [Relevant part of the document]
+            """
+        else:
+            prompt = f"""
+            You are an AI assistant helping the user generate multiple-choice questions (MCQs) based on the following text: '{context_clean}'. 
+            You may search for additional, relevant information to enhance the quality of the questions and answers if needed.
+            Please generate {number_mcqs} MCQs from the text. Each question should have:
+            - A clear question
+            - Four answer options (labeled A, B, C, D)
+            - Indicate which option is the correct answer.
+            - Provide a brief explanation of why the correct answer is right.
+            - Cite the relevant part of the document that supports the correct answer.
+            The response must be in **Vietnamese**.
 
+            Format:
+                ## MCQ
+                Question: [question]
+                A) [option A]
+                B) [option B]
+                C) [option C]
+                D) [option D]
+            Answer: [The correct option for question]
+            Explanation: [Explain why this is the correct answer]
+            Supporting Text: [Relevant part of the document]
+            """
         response = model.generate_content(prompt).text.strip()
         mcqs = [mcq.strip() for mcq in response.split("## MCQ") if mcq.strip()]
         return mcqs

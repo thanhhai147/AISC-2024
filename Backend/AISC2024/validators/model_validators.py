@@ -245,8 +245,7 @@ class QuestionsValidator():
     def check_status(status: bool) -> bool:
         if (
             BaseValidator.check_type('boolean', status) and
-            BaseValidator.check_null(status) and
-            BaseValidator.check_blank(status)
+            BaseValidator.check_null(status) 
         ): return True
         return False
     
@@ -256,8 +255,8 @@ class QuestionsValidator():
             BaseValidator.check_type('string', explanation) and
             BaseValidator.check_null(explanation) and
             BaseValidator.check_blank(explanation) and
-            BaseValidator.check_min(12, explanation) and
-            BaseValidator.check_max(255, explanation)
+            BaseValidator.check_min_length(12, explanation) and
+            BaseValidator.check_max_length(255, explanation)
         ): return True
         return False
 
