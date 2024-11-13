@@ -76,11 +76,11 @@ def generate_mcqs_from_text(context, number_mcqs=20, isExternalSearch = False):
         return mcqs
     return []
 
-def modify_mcq(context, question_number, original_mcq, edit_request):
+def modify_mcq(context, original_mcq, edit_request):
     context_clean = context.replace("\n", " ").replace("\\", "")
     custom_mcq_prompt = f"""
     You are an AI assistant helping the user generate a multiple-choice question based on the following text: '{context_clean}'
-    The user is not satisfied with question {question_number}: {original_mcq}
+    The user is not satisfied with question: {original_mcq}
     Please generate a new question with the following changes: {edit_request}
     The question should have:
     - A clear question
