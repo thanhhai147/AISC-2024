@@ -4,6 +4,7 @@ from rest_framework import status
 from rest_framework.parsers import MultiPartParser, FormParser
 import os
 from datetime import datetime
+from bson import ObjectId
 
 from ..validators.custom_validators import BaseValidator, AdancedValidator
 from ..validators.model_validators import ModelValidator, UserValidator, QuizzesValidator, QuestionsValidator
@@ -156,7 +157,6 @@ class AddQuestionAPIView(GenericAPIView):
                 status=status.HTTP_400_BAD_REQUEST
             )
         for i, question in enumerate(questions):
-            question_position = question["position"]
             question_text = question["text"]
             question_status = question["status"] == 1
             question_explanation = question["explanation"]
@@ -187,7 +187,6 @@ class AddQuestionAPIView(GenericAPIView):
             try:
                 BaseModel.insert_one('questions',
                     {
-                        'question_position': question_position,
                         'question_text': question_text,
                         'created_at': datetime.now(),
                         'updated_at': datetime.now(),
@@ -208,6 +207,91 @@ class AddQuestionAPIView(GenericAPIView):
             {
                 "success": True,
                 "message": "Thêm thành công bộ câu hỏi"
+            }, 
+            status=status.HTTP_200_OK
+        )
+        
+class ModifyQuestionAPIView(GenericAPIView):
+    def post(self, request):
+        data = request.data
+        try:
+            question_id = data["question_id"]
+            isModifyHandcrafted = data["isModifyHandcrafted"]
+            question_position = data["question_position"]
+            edit_request = data["edit_request"]
+        except:
+            return Response(
+                {
+                    "success": False,
+                    "message": "Thông tin đề ôn không hợp lệ"
+                }, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        if isModifyHandcrafted == 0:
+            try:
+                BaseModel.update_one('questions', 
+                    {
+                        '_id': ObjectId(question_id)
+                    },
+                    {
+                        '$set': {
+                            'question_position': question_position,
+                            'updated_at': datetime.now()
+                        }
+                    }    
+                )
+            except:
+                return Response(
+                    {
+                        "success": False,
+                        "message": "Lỗi Datasbase"
+                    }, 
+                    status=status.HTTP_500_INTERNAL_SERVER_ERROR
+                )
+                
+        else:
+            try:
+                question = BaseModel.find_one('questions', 
+                    {
+                        '_id': ObjectId(question_id)
+                    }
+                )
+                
+            except:
+                return Response(
+                    {
+                        "success": False,
+                        "message": "Không tìm thấy câu hỏi trong DB"
+                    }, 
+                    status=status.HTTP_500_INTERNAL_SERVER_ERROR
+                )
+          
+            try:
+                question_text = modify_mcq("1+1 = 2", question['question_text'], edit_request)
+
+                BaseModel.update_one('questions', 
+                    {
+                        '_id': ObjectId(question_id)
+                    },
+                    {
+                        '$set': {
+                            'question_text': question_text,
+                            'updated_at': datetime.now()
+                        }
+                    }    
+                )
+            except:
+                return Response(
+                    {
+                        "success": False,
+                        "message": "Lỗi Datasbase"
+                    }, 
+                    status=status.HTTP_500_INTERNAL_SERVER_ERROR
+                )
+        return Response(
+            {
+                "success": True,
+                "message": "Sửa thành công câu hỏi"
             }, 
             status=status.HTTP_200_OK
         )
