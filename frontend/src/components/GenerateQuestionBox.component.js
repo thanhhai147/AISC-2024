@@ -2,26 +2,18 @@ import React from 'react';
 import '../assets/css/generateQuestionBox.css';
 import { IoDocumentTextOutline } from "react-icons/io5";
 import { HiOutlineUpload } from "react-icons/hi";
+import FileUploadButton from './fileUploadButton.component';
 
 const GenerateQuestionBox = () => {
     return (
         <div className='box-generate-question-container '>
-            <h className='font-family-semibold primary-color box-generate-question-input-text'>
+            <p className='font-family-semibold primary-color box-generate-question-input-text'>
               Tạo câu hỏi
-            </h>
+            </p>
             <div className='box-generate-question-upload-container'>
                 <IoDocumentTextOutline size={56} color='white'/>
                 <div className='box-generate-question-upload-bar'>
-                <button 
-                    className={'box-generate-question-upload-button'}
-                >
-                    <HiOutlineUpload size={16} />
-                    <input
-                        type = 'text'
-                        className={'box-generate-question-upload-input-text font-family-regular'}
-                        value='Chọn các tệp'
-                    />
-                </button>
+                    <FileUploadButton />
                 </div>
             </div>
         </div>

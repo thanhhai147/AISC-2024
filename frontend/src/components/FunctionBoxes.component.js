@@ -5,7 +5,7 @@ const FunctionBoxes = () => {
     return (
         <div className='boxes-function-container'>
             <GenerateQuestionBox/>
-            <RecentlyActiveBox/>
+            <RecentlyActiveBox activities={[{'title': 'a', 'time': '12:30'}]}/>
         </div>
     );
   };

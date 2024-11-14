@@ -8,6 +8,7 @@
     border-radius: 8px;
     border: 1px solid var(--black-color);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    background-color: var(--white-color);
   }
   
   .search_suggestion_line {

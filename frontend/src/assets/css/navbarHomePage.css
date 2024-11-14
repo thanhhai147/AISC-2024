@@ -16,3 +16,8 @@
     align-items: center;
     padding-right: 40px;
 }
+.noti-results-container {
+    position: absolute;
+    top: 40px;
+    right: 10px;
+}
