@@ -14,7 +14,6 @@ export default function Button({
     onMouseLeave=handleMouseLeaveDefault,
     children 
 }) {
-
     let classNameList = [
         'button',
         'font-family-extrabold'
@@ -54,9 +53,9 @@ export default function Button({
     }
 
     switch(status) {
-        case 'select':
+        case 'active':
             break
-        case 'correct':
+        case 'disabled':
             classNameList.push("disabled-button")
             break
         default:
