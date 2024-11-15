@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 import '../assets/css/navbarHomePage.css';
 import SearchBar from './searchbar.component';
 import IconPremium from './iconPremium.component';
@@ -9,6 +10,7 @@ import ListItems from './listItems.component';
 import { useNotification } from '../context/notification.context';
 
 const NavbarHomePage = () => {
+    const navigate = useNavigate()
     const [selected, setSelected] = useState({
         'noti': false,
         'login': false,
@@ -44,7 +46,7 @@ const NavbarHomePage = () => {
             <img src={logoIcon} className='logo-icon'/>
             <div className='navbar-homepage-header'>
                 {/* <SearchBar/> */}
-                <IconPremium/>
+                <IconPremium onClick={() => navigate("/premium")} />
                 <Button 
                     type='secondary' 
                     size='large' 
@@ -69,11 +71,11 @@ const NavbarHomePage = () => {
                     type='secondary' 
                     size='large' 
                     status={(selected['login'] || hover['login']) ? 'disabled' : 'active'}
-                    onClick={() => handleClick('login')}
-                    onMouseEnter={() => {
-                        handleMouseEnter('login') 
-                        window.location.assign("/login")
+                    onClick={() => {
+                        handleClick("click")
+                        navigate("/login")
                     }}
+                    onMouseEnter={() => handleMouseEnter('login')}
                     onMouseLeave={() => handleMouseLeave('login')}
                 >
                     Đăng nhập

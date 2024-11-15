@@ -41,6 +41,11 @@
   color: var(--primary-color);
 }
 
+.primary-disabled-color {
+  color: var(--primary-color);
+  opacity: 20%;
+}
+
 .secondary-color {
   color: var(--secondary-color);
 }
@@ -105,4 +110,13 @@
 
 p {
   margin: 0;
+}
+
+.secondary-container {
+  background-color: #E8E8E8;
+  width: 100%;
+}
+
+.link-effect {
+  text-decoration: underline;
 }

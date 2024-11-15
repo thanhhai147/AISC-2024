@@ -1,8 +1,10 @@
 import React from 'react';
 import '../assets/css/recentlyActiveBox.css';
 import Button from './button.component';
+import { useNavigate } from 'react-router-dom';
 
 const RecentlyActiveBox = ({ activities=[] }) => {
+  const navigate = useNavigate()
 
   const noActivityItem = () => (
     <p className='font-family-regular box-recently-active-noti-input-text'>
@@ -10,16 +12,20 @@ const RecentlyActiveBox = ({ activities=[] }) => {
     </p>
   )
 
-  const activityItem = (title, time) => (
-    <div className='font-family-regular box-recently-activity-item'>
+  const activityItem = (item) => (
+    <div key={item.title} className='font-family-regular box-recently-activity-item'>
       <div className='activity-title'>
-        {title}
+        {item.title}
       </div>
       <div className='activity-time'>
-        {time}
+        {item.time}
       </div>
       <div className='activity-button'>
-        <Button size='small' type='primary'>
+        <Button 
+          size='small' 
+          type='primary'
+          onClick={() => navigate(item.navigateTo)} 
+        >
           Xem
         </Button>
       </div>
@@ -34,7 +40,7 @@ const RecentlyActiveBox = ({ activities=[] }) => {
           <div className={`box-recently-active-noti-container ${!activities.length ? 'align-items-center' : ''}`}>
             {
               activities.length ?
-              activities.map(item => activityItem(item['title'], item['time'])) :
+              activities.map(item => activityItem(item)) :
               noActivityItem()
             }
           </div>
