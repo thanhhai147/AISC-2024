@@ -1,11 +1,11 @@
 import RecentlyActiveBox from './recentlyActiveBox.component.js'
 import GenerateQuestionBox from './generateQuestionBox.component.js'
 import '../assets/css/functionBoxes.css';
-const FunctionBoxes = () => {
+const FunctionBoxes = ({ activities }) => {
     return (
         <div className='boxes-function-container'>
             <GenerateQuestionBox/>
-            <RecentlyActiveBox/>
+            <RecentlyActiveBox activities={activities}/>
         </div>
     );
   };
