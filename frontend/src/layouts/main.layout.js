@@ -1,8 +1,8 @@
 import React from 'react';
-
 import Sidebar from '../components/sidebar.component';
 import NavbarHomePage from '../components/navbarHomePage.component';
 import FunctionBoxes from '../components/functionBoxes.component';
+import InputFormNormal from '../components/inputFormNormal.component';
 
 export default function MainLayout({ children }) {
 
@@ -15,6 +15,7 @@ export default function MainLayout({ children }) {
                   {children}
                 </div>
             </div>
+            <InputFormNormal/>
         </>
     );
 }
