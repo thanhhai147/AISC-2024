@@ -1,9 +1,10 @@
 import React from "react";
+import InputFormNormal from "../components/inputFormNormal.component";
 
 export default function LoginPage() {
     return (
         <>
-            This is Login Page
+            <InputFormNormal />
         </>
     )
 }
