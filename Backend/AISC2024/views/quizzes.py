@@ -313,7 +313,7 @@ class EditQuizAPIView(GenericAPIView):
         return Response(
             {
                 "success": True,
-                "message": "Thêm thành công câu hỏi vào đề ôn"
+                "message": "Chỉnh sửa thành công đề ôn"
             }, 
             status=status.HTTP_200_OK
         )
@@ -374,7 +374,7 @@ class DeleteQuizAPIView(GenericAPIView):
         return Response(
             {
                 "success": True,
-                "message": "Thêm thành công câu hỏi vào đề ôn"
+                "message": "Xóa thành công  đề ôn"
             }, 
             status=status.HTTP_200_OK
         )
@@ -533,7 +533,7 @@ class GetUnAttendedQuiz(GenericAPIView):
             {
                 "success": True,
                 "data": results,
-                "message": "Lấy thành công danh sách đề ôn đã làm"
+                "message": "Lấy thành công danh sách đề ôn chưa làm"
             }, 
             status=status.HTTP_200_OK
         )
