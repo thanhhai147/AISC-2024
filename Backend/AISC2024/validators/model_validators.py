@@ -657,6 +657,16 @@ class PostsValidator():
 
 class CommentValidator():
     @staticmethod
+    def check_comment_id(comment_id: ObjectId) -> bool:
+        if (
+            BaseValidator.check_type('objectId', comment_id) and
+            ModelValidator.check_exist_key('comments', comment_id) and
+            BaseValidator.check_null(comment_id) and
+            BaseValidator.check_blank(comment_id)
+        ): return True
+        return False
+    
+    @staticmethod
     def check_post_id(post_id: ObjectId) -> bool:
         if (
             BaseValidator.check_type('objectId', post_id) and
