@@ -373,9 +373,6 @@ class ResultsStatisticsAPIView(GenericAPIView):
                 score = attempt.get('score')
                 attempted_at = attempt.get('attempted_at')
 
-                if not (attempt_id and score and attempted_at):
-                    continue
-
                 # Chuyển đổi thời gian làm bài về dạng datetime
                 attempted_date = datetime.strptime(attempted_at, "%Y-%m-%dT%H:%M:%S")
 
