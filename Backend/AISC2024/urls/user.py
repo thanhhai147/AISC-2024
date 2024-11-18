@@ -1,8 +1,6 @@
 from django.urls import path
-from ..views.user import SignUpAPIView
-from ..views.user import LogInAPIView
-from ..views.user import LogOutAPIView
-from ..views.user import UpdateAPIView
+from ..views.user import SignUpAPIView, LogInAPIView, LogOutAPIView, UpdateAPIView
+
 
 
 urlpatterns = [

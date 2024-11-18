@@ -179,7 +179,7 @@ class UpdateAPIView(GenericAPIView):
             email = updated_user.get('email')
             phone_number = updated_user.get('phone_number')
             role = updated_user.get('role')
-        except KeyError:
+        except :
             return Response(
                 {
                     "success": False,
