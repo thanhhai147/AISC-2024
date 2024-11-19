@@ -119,7 +119,7 @@
             "type": "objectId",
             "key": "PrimaryKey"
         },
-        "quiz_id": {
+        "question_bank_id": {
             "type": "objectId",
             "key": "ForeignKey",
             "null": false,
@@ -146,6 +146,77 @@
             "blank": false
         },
         "explanation": {
+            "type": "string",
+            "null": false,
+            "blank": false,
+            "min_length": 12,
+            "max_length": 255
+        },
+        "answer_text_A": {
+            "type": "string",
+            "null": false,
+            "blank": false,
+            "min_length": 1,
+            "max_length": 255
+        },
+        "answer_text_B": {
+            "type": "string",
+            "null": false,
+            "blank": false,
+            "min_length": 1,
+            "max_length": 255
+        },
+        "answer_text_C": {
+            "type": "string",
+            "null": false,
+            "blank": false,
+            "min_length": 1,
+            "max_length": 255
+        },
+        "answer_text_D": {
+            "type": "string",
+            "null": false,
+            "blank": false,
+            "min_length": 1,
+            "max_length": 255
+        },
+        "is_correct": {
+            "type": "string",
+            "null": false,
+            "blank": false,
+            "choices": ["A", "B", "C", "D"]
+        },
+        "created_at": {
+            "null": false,
+            "blank": false,
+            "type": "datetime"
+        },
+        "updated_at": {
+            "null": false,
+            "blank": false,
+            "type": "datetime"
+        }
+    },
+    "question_bank": {
+        "_id": {
+            "type": "objectId",
+            "key": "PrimaryKey"
+        },
+        "user_id": {
+            "type": "objectId",
+            "key":"ForeignKey",
+            "null": false,
+            "blank": false,
+            "delete_cascade": true
+        },
+        "title": {
+            "type": "string",
+            "null": false,
+            "blank": false,
+            "min_length": 12,
+            "max_length": 120
+        },
+        "context": {
             "type": "string",
             "null": false,
             "blank": false,
