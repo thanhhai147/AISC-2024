@@ -199,12 +199,12 @@ class QuizzesValidator():
 
 class QuestionsValidator():
     @staticmethod
-    def check_quiz_id(quiz_id: ObjectId) -> bool:
+    def check_question_bank_id(question_bank_id: ObjectId) -> bool:
         if (
-            BaseValidator.check_type('objectId', quiz_id) and
-            ModelValidator.check_exist_key('quizzes', quiz_id) and
-            BaseValidator.check_null(quiz_id) and
-            BaseValidator.check_blank(quiz_id)
+            BaseValidator.check_type('objectId', question_bank_id) and
+            ModelValidator.check_exist_key('question_bank', question_bank_id) and
+            BaseValidator.check_null(question_bank_id) and
+            BaseValidator.check_blank(question_bank_id)
         ): return True
         return False
     
@@ -216,28 +216,6 @@ class QuestionsValidator():
             BaseValidator.check_blank(question_text) and
             BaseValidator.check_min_length(12, question_text) and
             BaseValidator.check_max_length(120, question_text)
-        ): return True
-        return False
-    
-    @staticmethod
-    def check_question_position(question_position: int, quiz_id: ObjectId) -> bool:
-        if (
-            BaseValidator.check_type('int', question_position) and
-            BaseValidator.check_null(question_position) and
-            BaseValidator.check_blank(question_position) and
-            BaseValidator.check_min(1, question_position) and
-            BaseValidator.check_type('objectId', quiz_id) and
-            BaseValidator.check_null(quiz_id) and
-            BaseValidator.check_blank(quiz_id) and
-            BaseValidator.check_max(
-                BaseModel.find_one(
-                    'quizzes',
-                    {
-                        '_id': quiz_id
-                    }
-                ).get('number_of_questions', None),
-                question_position
-            )
         ): return True
         return False
     
@@ -261,21 +239,128 @@ class QuestionsValidator():
         return False
 
     @staticmethod
-    def check_question(question: dict) -> bool:
-        quiz_id = question.get('quiz_id', None)
-        question_text = question.get('question_text', None)
-        question_position = question.get('question_position', None)
-        status = question.get('status', None)
-        explanation = question.get('explanation', None)
+    def check_answer_text_A(answer_text_A: str) -> bool:
         if (
-            QuestionsValidator.check_quiz_id(quiz_id) and
-            QuestionsValidator.check_question_text(question_text) and
-            QuestionsValidator.check_question_position(question_position, quiz_id) and
-            QuestionsValidator.check_status(status) and
-            QuestionsValidator.check_explanation(explanation)
+            BaseValidator.check_type('string', answer_text_A) and
+            BaseValidator.check_null(answer_text_A) and
+            BaseValidator.check_blank(answer_text_A) and
+            BaseValidator.check_min_length(1, answer_text_A) and
+            BaseValidator.check_max_length(255, answer_text_A)
         ): return True
         return False
     
+    @staticmethod
+    def check_answer_text_B(answer_text_B: str) -> bool:
+        if (
+            BaseValidator.check_type('string', answer_text_B) and
+            BaseValidator.check_null(answer_text_B) and
+            BaseValidator.check_blank(answer_text_B) and
+            BaseValidator.check_min_length(1, answer_text_B) and
+            BaseValidator.check_max_length(255, answer_text_B)
+        ): return True
+        return False
+    
+    @staticmethod
+    def check_answer_text_C(answer_text_C: str) -> bool:
+        if (
+            BaseValidator.check_type('string', answer_text_C) and
+            BaseValidator.check_null(answer_text_C) and
+            BaseValidator.check_blank(answer_text_C) and
+            BaseValidator.check_min_length(1, answer_text_C) and
+            BaseValidator.check_max_length(255, answer_text_C)
+        ): return True
+        return False
+    
+    @staticmethod
+    def check_answer_text_D(answer_text_D: str) -> bool:
+        if (
+            BaseValidator.check_type('string', answer_text_D) and
+            BaseValidator.check_null(answer_text_D) and
+            BaseValidator.check_blank(answer_text_D) and
+            BaseValidator.check_min_length(1, answer_text_D) and
+            BaseValidator.check_max_length(255, answer_text_D)
+        ): return True
+        return False
+    
+    @staticmethod
+    def check_is_correct(is_correct: str) -> bool:
+        if (
+            BaseValidator.check_type('string', is_correct) and
+            BaseValidator.check_null(is_correct) and
+            BaseValidator.check_blank(is_correct) and
+            (is_correct in ['A', 'B', 'C', 'D'])
+        ): return True
+        return False
+
+    @staticmethod
+    def check_question(question: dict) -> bool:
+        question_bank_id = question.get('question_bank_id', None)
+        question_text = question.get('question_text', None)
+        status = question.get('status', None)
+        explanation = question.get('explanation', None)
+        answer_text_A = question.get('answer_text_A', None)
+        answer_text_B = question.get('answer_text_B', None)
+        answer_text_C = question.get('answer_text_C', None)
+        answer_text_D = question.get('answer_text_D', None)
+        is_correct = question.get('answer_text_is_correct', None)
+        if (
+            QuestionsValidator.check_question_bank_id(question_bank_id) and
+            QuestionsValidator.check_question_text(question_text) and
+            QuestionsValidator.check_status(status) and
+            QuestionsValidator.check_explanation(explanation) and
+            QuestionsValidator.check_answer_text_A(answer_text_A) and
+            QuestionsValidator.check_answer_text_B(answer_text_B) and
+            QuestionsValidator.check_answer_text_C(answer_text_C) and
+            QuestionsValidator.check_answer_text_D(answer_text_D) and
+            QuestionsValidator.check_is_correct(is_correct)
+        ): return True
+        return False
+    
+class QuestionBankValidator():
+    @staticmethod
+    def check_user_id(user_id: ObjectId) -> bool:
+        if (
+            BaseValidator.check_type('objectId', user_id) and
+            ModelValidator.check_exist_key('user', user_id) and
+            BaseValidator.check_null(user_id) and
+            BaseValidator.check_blank(user_id)
+        ): return True
+        return False
+    
+    @staticmethod
+    def check_title(title: str) -> bool:
+        if (
+            BaseValidator.check_type('string', title) and
+            BaseValidator.check_null(title) and
+            BaseValidator.check_blank(title) and
+            BaseValidator.check_min_length(12, title) and
+            BaseValidator.check_max_length(120, title)
+        ): return True
+        return False
+    
+    @staticmethod
+    def check_context(context: str) -> bool:
+        if (
+            BaseValidator.check_type('string', context) and
+            BaseValidator.check_null(context) and
+            BaseValidator.check_blank(context) and
+            BaseValidator.check_min_length(12, context) and
+            BaseValidator.check_max_length(255, context)
+        ): return True
+        return False
+
+    @staticmethod
+    def check_question_bank(question_bank: dict) -> bool:
+        user_id = question_bank.get('user_id', None)
+        title = question_bank.get('title', None)
+        context = question_bank.get('context', None)
+        if (
+            QuestionBankValidator.check_user_id(user_id) and
+            QuestionBankValidator.check_title(title) and
+            QuestionBankValidator.check_context(context)
+        ): return True
+        return False
+
 class AnswersValidator():
     @staticmethod
     def check_question_id(question_id: ObjectId) -> bool:
@@ -656,6 +741,16 @@ class PostsValidator():
         return False
 
 class CommentValidator():
+    @staticmethod
+    def check_comment_id(comment_id: ObjectId) -> bool:
+        if (
+            BaseValidator.check_type('objectId', comment_id) and
+            ModelValidator.check_exist_key('comments', comment_id) and
+            BaseValidator.check_null(comment_id) and
+            BaseValidator.check_blank(comment_id)
+        ): return True
+        return False
+    
     @staticmethod
     def check_post_id(post_id: ObjectId) -> bool:
         if (

@@ -49,3 +49,19 @@ class BaseModel():
         collection = settings.DB[collection_name]
         result = (collection.delete_many(query))
         return result.deleted_count
+    
+    @staticmethod
+    def insert_image(image_file):
+        image_id = settings.FS.put(image_file.read(), filename=image_file.name)
+        return image_id
+    
+    @staticmethod
+    def get_image(image_id):
+        # Lấy file từ GridFS
+        image = settings.FS.get(ObjectId(image_id))
+        return image   
+    
+    @staticmethod
+    def delete_image(image_id):
+        image = settings.FS.delete(ObjectId(image_id))
+        return image.read()  
