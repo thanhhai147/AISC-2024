@@ -72,7 +72,7 @@ class UploadImagesAPIView(GenericAPIView):
             status=status.HTTP_200_OK
         )
 
-class GenerateQuestionsAPIView  (GenericAPIView):   
+class GenerateQuestionsAPIView(GenericAPIView):   
     parser_classes = (MultiPartParser, FormParser)
     MAX_FILE_SIZE_MB = 25  # Giới hạn kích thước file tối đa là 25 MB
 
@@ -292,6 +292,97 @@ class ModifyQuestionAPIView(GenericAPIView):
             {
                 "success": True,
                 "message": "Sửa thành công câu hỏi"
+            }, 
+            status=status.HTTP_200_OK
+        )
+        
+class CreateQuestionBankAPIView(GenericAPIView):
+    def post(self, request):
+        data = request.data
+        try:
+            question_bank = data['question_bank']
+            user_id = question_bank['user_id']
+            title = question_bank['title']
+            context = question_bank['context']
+            question_ids = question_bank['question_ids']
+        except:
+            return Response(
+                {
+                    "success": False,
+                    "message": "Thông tin đề ôn không hợp lệ"
+                }, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        if not QuizzesValidator.check_user_id(user_id):
+            return Response(
+                {
+                    "success": False,
+                    "message": "Mã người dùng không hợp lệ"
+                }, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        if not QuizzesValidator.check_title(title):
+            return Response(
+                {
+                    "success": False,
+                    "message": "Tiêu đề không hợp lệ"
+                }, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        if not QuizzesValidator.check_time_limit(time_limit):
+            return Response(
+                {
+                    "success": False,
+                    "message": "Thời gian làm bài không hợp lệ"
+                }, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        for question_id in question_ids:
+            if not QuizQuestionValidator.check_question_id(question_id):
+                return Response(
+                    {
+                        "success": False,
+                        "message": "Mã câu hỏi không hợp lệ"
+                    }, 
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+        
+        try:
+            quiz_id = BaseModel.insert_one('quizzes', {
+                'user_id': user_id,
+                'title': title,
+                'attempt_count': 0,
+                'number_of_questions': len(question_ids),
+                'time_limit': time_limit,
+                'created_at': datetime.now(),
+                'updated_at': datetime.now()
+            })
+
+            BaseModel.insert_many('quiz_question', [
+                {
+                    'question_id': question_id,
+                    'quiz_id': quiz_id,
+                    'created_at': datetime.now(),
+                    'updated_at': datetime.now()
+                } for question_id in question_ids
+            ])
+        except:
+            return Response(
+                {
+                    "success": False,
+                    "message": "Lỗi Datasbase"
+                }, 
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+
+        return Response(
+            {
+                "success": True,
+                "message": "Tạo thành công đề ôn"
             }, 
             status=status.HTTP_200_OK
         )
