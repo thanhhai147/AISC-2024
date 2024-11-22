@@ -47,6 +47,9 @@ export default function Button({
         case 'large':
             classNameList.push("large-button")
             break
+        case 'extra-large':
+            classNameList.push("extra-large-button")
+            break
         default:
             classNameList.push("small-button")
             break

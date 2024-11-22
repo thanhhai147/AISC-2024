@@ -5,6 +5,12 @@
     flex-direction: column;
     justify-content: space-evenly;
 }
+.toggle-container {
+    display: flex; 
+    align-items: center; 
+    gap: 12px;
+  }
+  
 .box-document-upload-container{
     width: 1174px;
     height: 1030px;

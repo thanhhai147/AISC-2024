@@ -17,6 +17,9 @@ import QuestionPage from './pages/question.page.js'
 import StatisticsPage from './pages/statistics.page.js'
 import TakeExamPage from './pages/takeExam.page.js'
 import ForumPage from './pages/forum.page.js';
+import RegistrationPage from './pages/registration.page.js';
+import ListOfCompletedExams from './pages/listOfCompletedExams.page.js';
+import AnswerDetail from './pages/answerDetail.page.js';
 
 function App() {
   return (
@@ -47,6 +50,14 @@ function App() {
               element={
                 <PrivateRoute>
                   <ExamDetailPage />
+                </PrivateRoute>
+              }
+            />
+            <Route 
+              path='/list-of-completed-exams'
+              element={
+                <PrivateRoute>
+                  <ListOfCompletedExams />
                 </PrivateRoute>
               }
             />
@@ -111,6 +122,22 @@ function App() {
               element={
                 <PrivateRoute>
                   <ForumPage />
+                </PrivateRoute>
+              }
+            />
+            <Route 
+              path='/registration'
+              element={
+                <PrivateRoute>
+                  <RegistrationPage />
+                </PrivateRoute>
+              }
+            />
+            <Route 
+              path='/answer-detail'
+              element={
+                <PrivateRoute>
+                  <AnswerDetail/>
                 </PrivateRoute>
               }
             />

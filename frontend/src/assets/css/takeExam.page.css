@@ -1,0 +1,28 @@
+.take-exam-page{
+    display: flex;
+    justify-content: center;
+}
+.exam-container{
+    width: 1077px;
+    height: 350px;
+    background-color: var(--white-color);
+    margin: 12px;
+    margin-top: 30px;
+    border-radius: 8px;
+}
+.title-boxquestion{
+    margin: 10px;
+}
+.box-question{
+    background-color: var(--white-color);
+    width: fit-content;
+    height: fit-content;
+    margin-right: 12px;
+    margin-top: 30px;
+    border-radius: 8px;
+}
+
+body {
+    background-color: var(--background-color); 
+    
+}

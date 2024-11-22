@@ -112,6 +112,10 @@ p {
   margin: 0;
 }
 
+.main-container {
+  margin-top: 64px;
+}
+
 .secondary-container {
   background-color: #E8E8E8;
   width: 100%;
