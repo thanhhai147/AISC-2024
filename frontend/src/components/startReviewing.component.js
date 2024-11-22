@@ -1,5 +1,4 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import { FaRegCircleUser } from "react-icons/fa6";
 import { FaRegClock } from "react-icons/fa";
 import { IoCheckmarkDoneCircleOutline } from "react-icons/io5";
@@ -7,14 +6,7 @@ import { FaRegFileAlt } from "react-icons/fa";
 import '../assets/css/startReviewing.css';
 import Button from "../components/button.component";
 
-export default function StartReviewing({ examName, timeTaken, totalQuestions, attempts, examType }) {
-    const navigate = useNavigate();
-
-    const handleStartReviewing = () => {
-        navigate('/take-exam'); 
-        console.log('Bắt đầu ôn tập');
-    };
-
+export default function StartReviewing({ examName, timeTaken, totalQuestions, attempts, examType, onStartReviewing }) {
     return (
         <div className="start-reviewing-container">
             <p className="exam-name font-family-semibold">{examName}</p>
@@ -55,7 +47,7 @@ export default function StartReviewing({ examName, timeTaken, totalQuestions, at
                 type='primary'
                 size='extra-large'
                 status={'active'}
-                onClick={handleStartReviewing}
+                onClick={onStartReviewing}
             >
                 Bắt đầu ôn tập 
             </Button>

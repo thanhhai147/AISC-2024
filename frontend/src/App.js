@@ -9,6 +9,7 @@ import ExamPage from './pages/exam.page.js'
 import ExamDetailPage from './pages/examDetail.page.js'
 import HistoryPage from './pages/history.page.js'
 import HistoryDetailPage from './pages/historyDetail.page.js'
+import Scoring from './pages/scoring.page.js';
 import HomePage from './pages/home.page.js'
 import LoginPage from './pages/login.page.js'
 import PostPage from './pages/post.page.js'
@@ -58,6 +59,14 @@ function App() {
               element={
                 <PrivateRoute>
                   <ListOfCompletedExams />
+                </PrivateRoute>
+              }
+            />
+            <Route 
+              path='/Scoring'
+              element={
+                <PrivateRoute>
+                  <Scoring />
                 </PrivateRoute>
               }
             />
