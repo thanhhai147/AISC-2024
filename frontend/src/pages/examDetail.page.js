@@ -35,7 +35,15 @@ export default function ExamDetailPage() {
     };
 
     const handleBackClick = () => {
-        navigate('/');
+        navigate('/exam');
+    };
+
+    const handleFinishEditing = () => {
+        navigate('/exam');
+    };
+
+    const handleStartReviewing = () => {
+        navigate('/take-exam');
     };
 
     return (
@@ -78,7 +86,7 @@ export default function ExamDetailPage() {
                     type='success'
                     size='small'
                     status={'active'}
-                    // onClick={handleEdit}
+                    onClick={handleFinishEditing}
                 >
                     Hoàn tất chỉnh sửa
                 </Button>
@@ -87,7 +95,7 @@ export default function ExamDetailPage() {
                     type='primary'
                     size='small'
                     status={'active'}
-                    // onClick={handleBackClick}
+                    onClick={handleStartReviewing}
                 >
                     Ôn tập
                 </Button>
