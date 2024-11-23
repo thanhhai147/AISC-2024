@@ -1,0 +1,57 @@
+/*POPUP*/
+/* Container của các nút */
+.button-edit {
+    display: flex;
+    flex-direction: row; 
+    gap: 20px;
+    align-items: center;
+    margin-top: 20px; 
+    width: max-content;
+    justify-content: center;
+    text-align: center;
+}
+
+/* Container của mỗi nút và icon */
+.icon-button-edit {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 25px; /* Điều chỉnh kích thước icon) */
+    cursor: pointer; 
+    color: var(--primary-color); 
+    margin-bottom: 20px;
+}
+
+
+/* Popup overlay */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.2); /* Nền tối mờ */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Luôn ở trên cùng */
+}
+
+/* Popup nội dung */
+.popup-content {
+    background: var(--white-color);
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px var(--secondary-color);
+    text-align: center;
+    width: max-content;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: 20px; 
+}
+
+.popup-content p{
+    font-size: 20px;
+}

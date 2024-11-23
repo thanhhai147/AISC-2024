@@ -1,14 +1,14 @@
 .infor-account-container {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    gap: 10px;
     align-items: center;
     border-radius: 8px;
     padding: 14px 0px 14px 10px;
-    margin-bottom: 10px;
     width: 957px;
     background-color: var(--white-color);
     font-size: var(--font-size-normal);
+    margin-left: 144px;
+    margin-top: 10px;
 }
 
 .title-container {

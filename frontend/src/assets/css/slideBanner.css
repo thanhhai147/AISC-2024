@@ -1,0 +1,23 @@
+.slide-banner {
+    width: 1174px;
+    overflow: hidden;
+    position: relative;
+    margin: 20px 24px;
+}
+
+.slide-container {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    width: 1174px; 
+}
+
+.slide {
+    min-width: 100%; 
+    box-sizing: border-box;
+}
+
+.slide img {
+    width: 1174px;
+    height: auto;
+    display: block;
+}

@@ -1,25 +1,34 @@
 import React from 'react';
 import '../assets/css/infoAccount.css';
-import Link from './link.component';
 
 export default function InforAccount({ 
     title = '', 
     value = '',
+    colorIcon = '',
     icon: IconComponent,
-    type = 'text' 
+    type = 'text',
+    onEdit
 }) {
-    // If type is 'password', replace each character in value with a dot or asterisk
+    // Xử lý hiển thị giá trị
     const displayValue = type === 'password' ? '•'.repeat(value.length) : value || 'Chưa có thông tin';
 
     return (
         <span className='infor-account-container font-family-regular'>
-            <span className='title-container'>
-                {IconComponent && <IconComponent className="icon" />}
+            <span className='title-container font-family-semibold'>
+                {IconComponent && <IconComponent className="icon" color={{ colorIcon }} />}
                 <p>{title}</p>
             </span>
             <span className='value-container'>{displayValue}</span>
             <span className='link-container'>
-                <Link href='#'>{value ? 'Chỉnh sửa' : 'Thêm'}</Link>
+                <a
+                    href="#"
+                    onClick={(e) => {
+                        e.preventDefault(); // Ngăn hành vi mặc định
+                        onEdit(); // Gọi callback khi nhấn
+                    }}
+                >
+                    {value ? 'Chỉnh sửa' : 'Thêm'}
+                </a>
             </span>
         </span>
     );

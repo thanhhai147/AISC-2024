@@ -1,0 +1,16 @@
+.header-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background-color: var(--white-color);
+    margin: 20px 20px 0px 20px;
+    border-bottom: 0.5px solid var(--background-color);
+    border-radius: 8px 8px 0px 0px;
+}
+.header-title{
+    font-size: var(--font-size-normal);
+}
+.header-status{
+    color: var(--success-color);
+}

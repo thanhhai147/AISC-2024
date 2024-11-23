@@ -6,6 +6,8 @@
     align-items: center;
     background-color: var(--white-color);
     border-radius: 8px;
+    margin: 24px;
+    margin-left: 144px;
 }
 .avatar-account-container .account-info{
     display: none;
