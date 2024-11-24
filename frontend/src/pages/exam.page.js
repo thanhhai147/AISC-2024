@@ -10,7 +10,7 @@ export default function ExamPage() {
     const navigate = useNavigate()
 
     const list = {
-        sections: ["Tất cả đề ôn", "Đề đã làm", "Đề chưa làm"],
+        sections: ["Tất cả đề ôn ", "Đề đã làm", "Đề đang làm", "Đề chưa làm"],
         columns: [
             {
                 title: "Tên đề",
@@ -19,6 +19,13 @@ export default function ExamPage() {
                 align: "center",
                 filtered: true,
                 filterSearch: true
+            },
+            {
+                title: "Số lượng câu hỏi",
+                dataIndex: "questionNumber",
+                key: "questionNumber",
+                align: "center",
+                filtered: true
             },
             {
                 title: "Số lượng câu hỏi",

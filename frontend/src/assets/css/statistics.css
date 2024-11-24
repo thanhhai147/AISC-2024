@@ -1,0 +1,24 @@
+.statistics-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 16px; 
+    grid-template-rows: auto; 
+    padding: 16px;
+}
+
+.grid-item {
+    grid-column: span 12; 
+    margin-bottom: 20px; 
+}
+
+.chart-container {
+    width: 972px;
+    height: 495px;
+    margin: 0 auto; 
+    margin-top: 16px;
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

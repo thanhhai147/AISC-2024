@@ -1,0 +1,28 @@
+.edit-question{
+    width: 1100px;
+    height: fit-content;
+    background-color: var(--white-color);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    margin-left: 12px;
+    margin-right: 12px;
+    margin-top: 81px;
+    padding: 30px;
+}
+.title-edit-question{
+    text-align: center;
+    font-size: 20px;
+}
+.download-exam{
+    display: flex;
+    justify-content: space-between; 
+    margin: 12px;
+
+}
+.btn{
+    display: flex;
+    justify-content: center;
+    margin-top: 24px;
+    gap: 16px
+}

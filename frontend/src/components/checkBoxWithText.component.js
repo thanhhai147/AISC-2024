@@ -1,22 +1,22 @@
-import { Checkbox , ConfigProvider} from 'antd';
+import { Checkbox, ConfigProvider } from 'antd';
 import React, { useState } from 'react';
 
-function CheckBoxWithText() {
-    
+function CheckBoxWithText({ text }) {
     const [checked, setChecked] = useState(false);
 
     const handleChange = (checked) => {
         setChecked(checked);
     };
+
     return (
         <ConfigProvider
             theme={{
                 token: {
                     colorBorder: '#000',
                     colorText: '#000',
-                    colorPrimary: '#06AB66', 
+                    colorPrimary: '#06AB66',
                     colorPrimaryBorder: '#06AB66',
-                    colorPrimaryHover: '#06AB66'
+                    colorPrimaryHover: '#06AB66',
                 },
             }}
         >
@@ -25,10 +25,11 @@ function CheckBoxWithText() {
                     className={`custom-check-box-with-text font-family-regular`}
                     onChange={handleChange}
                 >
-                    Lưu mật khẩu
-                </Checkbox> 
+                    <span>{text}</span>
+                </Checkbox>
             </div>
         </ConfigProvider>
     );
 }
+
 export default CheckBoxWithText;

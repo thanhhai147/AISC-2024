@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import '../assets/css/DocumentUploadBox.css';
-import { IoDocumentTextOutline } from "react-icons/io5";
-import { HiOutlineUpload } from "react-icons/hi";
+import '../assets/css/documentUploadBox.css';
 import Button from './button.component';
 import FileImage from '../assets/img/file_image.svg'
+import Toggle from './toggle.component';
 const DocumentUploadBox = () => {
     const [hover, setHover] = useState({
         'exit': false,
@@ -36,11 +35,11 @@ const DocumentUploadBox = () => {
                 <h className='font-family-light' style={{ fontSize: '20px' }} >
                     Thuyết minh dự án AISC.docx
                 </h>
-                <div className='box-document-upload-container-additional-information'>
-                    <h className='font-family-semibold primary-color'>
-                        Tìm kiếm thông tin bổ sung
-                    </h>
+                <div className="toggle-container">
+                    <Toggle />
+                    <p className='font-family-semibold primary-color'>Tìm kiếm thông tin bổ sung</p>
                 </div>
+
                 <div className='box-document-upload-container-button'>
                     <Button 
                         type='warning' 

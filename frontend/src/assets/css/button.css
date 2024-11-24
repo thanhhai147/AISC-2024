@@ -26,6 +26,14 @@
     font-size: var(--font-size-normal);
 }
 
+.extra-large-button{
+    line-height: 20px;
+    width: 614px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    font-size: var(--font-size-normal);
+}
+
 .primary-button {
     color: var(--white-color);
     background-color: var(--primary-color);

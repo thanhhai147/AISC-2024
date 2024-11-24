@@ -1,0 +1,25 @@
+.exam-content {
+    display: flex;
+    margin-top: 24px;
+}
+
+.exam-left {
+    width: fit-content;
+    height: fit-content;
+    background-color: var(--white-color);
+    margin-left: 12px;
+    margin-right: 12px;
+    border-radius: 8px;
+}
+
+.exam-right {
+    width: 1067px;
+    height: fit-content;
+    margin-right: 12px;
+    border-radius: 8px;
+}
+.exam-right-content{
+    background-color: var(--white-color);
+    margin-bottom: 12px;
+    border-radius: 8px;
+}

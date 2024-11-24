@@ -1,0 +1,14 @@
+.navbar-answer-container{
+    height: 64px;
+    display: flex;
+    flex-direction: row;
+    gap: 518px;
+    align-items: center;
+    padding-left: 47px;
+    padding-right: 47px;
+    margin-top: 95px;
+}
+.exam-name {
+    text-align: center; 
+    font-size: 20px; 
+}
