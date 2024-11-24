@@ -10,7 +10,7 @@ export default function Link({
         <a 
             href={href} 
             className='link font-family-regular'
-            style={{ textDecoration: textDecoration }} 
+            style={{textDecoration}}
         >
             {children}
         </a>

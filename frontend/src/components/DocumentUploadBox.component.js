@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import '../assets/css/documentUploadBox.css';
+import { IoDocumentTextOutline } from "react-icons/io5";
+import { HiOutlineUpload } from "react-icons/hi";
 import Button from './button.component';
 import FileImage from '../assets/img/file_image.svg'
-import Toggle from './toggle.component';
-const DocumentUploadBox = () => {
+const DocumentUploadBox = ({ onNavigate, onGenerate }) => {
     const [hover, setHover] = useState({
         'exit': false,
         'generate': false,
@@ -47,6 +48,7 @@ const DocumentUploadBox = () => {
                         status={hover['exit'] ? 'disabled' : 'active'}
                         onMouseEnter={() => handleMouseEnter('exit')}
                         onMouseLeave={() => handleMouseLeave('exit')}
+                        onClick={onNavigate}
                     >
                         Hủy bỏ
                     </Button>
@@ -56,6 +58,7 @@ const DocumentUploadBox = () => {
                         status={hover['generate'] ? 'disabled' : 'active'}
                         onMouseEnter={() => handleMouseEnter('generate')}
                         onMouseLeave={() => handleMouseLeave('generate')}
+                        onClick={onGenerate}
                     >
                         Tạo câu hỏi
                     </Button>

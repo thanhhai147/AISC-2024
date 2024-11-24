@@ -1,35 +1,64 @@
-import React, { useState } from 'react';
-import '../assets/css/imageUploadButton.css'
+// import React, { useState } from 'react';
+// import '../assets/css/imageUploadButton.css'
+// import { LuUpload } from 'react-icons/lu';
+
+// const ImageUploadButton = () => {
+//   const [selectedFile, setSelectedFile] = useState(null);
+
+//   const handleFileChange = (event) => {
+//     const file = event.target.files[0];
+//     setSelectedFile(file);
+
+//     if (file) {
+//       handleUpload(file);
+//     }
+//   };
+
+//   const handleUpload = (file) => {
+//     console.log('Uploading:', file);
+//   };
+
+//   return (
+//     <div className="image-upload-button">
+//       <label htmlFor="image-upload" className="custom-image-upload font-family-regular">
+//         <LuUpload  className="icon-upload" /> Tải ảnh lên
+//       </label>
+//       <input 
+//         id="image-upload" 
+//         type="file" 
+//         onChange={handleFileChange} 
+//         style={{ display: 'none' }} 
+//       />
+//     </div>
+//   );
+// };
+// export default ImageUploadButton;
+import React from 'react';
+import '../assets/css/imageUploadButton.css';
 import { LuUpload } from 'react-icons/lu';
 
-const ImageUploadButton = () => {
-  const [selectedFile, setSelectedFile] = useState(null);
+const ImageUploadButton = ({ onFileSelect }) => {
+    const handleFileChange = (event) => {
+        const file = event.target.files[0];
+        if (file && typeof onFileSelect === 'function') {
+            onFileSelect(file); // Gửi file lên component cha
+        }
+    };
 
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    setSelectedFile(file);
-
-    if (file) {
-      handleUpload(file);
-    }
-  };
-
-  const handleUpload = (file) => {
-    console.log('Uploading:', file);
-  };
-
-  return (
-    <div className="image-upload-button">
-      <label htmlFor="image-upload" className="custom-image-upload font-family-regular">
-        <LuUpload  className="icon-upload" /> Tải ảnh lên
-      </label>
-      <input 
-        id="image-upload" 
-        type="file" 
-        onChange={handleFileChange} 
-        style={{ display: 'none' }} 
-      />
-    </div>
-  );
+    return (
+        <div className="image-upload-button">
+            <label htmlFor="image-upload" className="custom-image-upload font-family-regular">
+                <LuUpload className="icon-upload" /> Tải ảnh lên
+            </label>
+            <input 
+                id="image-upload" 
+                type="file" 
+                accept="image/*" 
+                onChange={handleFileChange} // Gọi hàm khi file được chọn
+                style={{ display: 'none' }} 
+            />
+        </div>
+    );
 };
+
 export default ImageUploadButton;

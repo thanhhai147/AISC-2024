@@ -13,6 +13,8 @@ import settingsIcon from  '../assets/img/settings.svg'
 import settingsBlueIcon from '../assets/img/settings-blue.svg' 
 import forumIcon from  '../assets/img/forum.svg'
 import forumBlueIcon from '../assets/img/forum-blue.svg' 
+import listIcon from '../assets/img/list.svg'
+import listBlueIcon from '../assets/img/list-blue.svg'
 
 const clickToNavigate = (type) => {
 
@@ -35,6 +37,9 @@ const clickToNavigate = (type) => {
         case 'forum':
             window.location.assign('/forum')
             break;
+        case 'question-bank':
+            window.location.assign('/question-bank')
+            break;    
         default:
             window.location.assign('/')
             break;
@@ -62,6 +67,9 @@ const sidebarItem = (name, type='home', mode='default', onMouseEnter, onMouseLea
             break;
         case 'forum':
             icon = mode !== 'default' ? forumBlueIcon : forumIcon
+            break;
+        case 'question-bank':
+            icon = mode !== 'default' ? listBlueIcon : listIcon
             break;
         default:
             icon = mode !== 'default' ? homeBlueIcon : homeIcon
@@ -206,6 +214,17 @@ export default function Sidebar() {
                     'forum': true
                 })
                 break;
+            case '/question-bank':
+            setSelected({
+                'home': false,
+                'exam': false,
+                'history': false,
+                'account': false,
+                'settings': false,
+                'forum': false,
+                'question-bank':true
+            })
+            break;
         }
     }, [window.location.pathname])
 
@@ -233,6 +252,7 @@ export default function Sidebar() {
                     {sidebarItem('Tài khoản', 'account', selected['account'] || hover['account'] ? 'selected' : 'default', handleMouseEnter, handleMouseLeave)}
                     {sidebarItem('Thống kê', 'settings', selected['settings'] || hover['settings'] ? 'selected' : 'default', handleMouseEnter, handleMouseLeave)}
                     {sidebarItem('Diễn đàn', 'forum', selected['forum'] || hover['forum'] ? 'selected' : 'default', handleMouseEnter, handleMouseLeave)}
+                    {sidebarItem('Bộ câu hỏi', 'question-bank', selected['question-bank'] || hover['question-bank'] ? 'selected' : 'default', handleMouseEnter, handleMouseLeave)}
                 </div>
             </div>
         </>

@@ -1,0 +1,17 @@
+/* Feature container styling */
+.feature-container {
+    display: flex;
+    flex-direction: column; 
+    align-items: center;
+    margin-left: 450px ;
+    width: 300px;
+    margin-bottom: 40px;
+    text-align: center; 
+}
+
+/* Title styling */
+.feature-container .title {
+    margin-bottom: 16px;
+    
+}
+
