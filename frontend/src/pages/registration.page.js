@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2"; 
 import '../assets/css/registration.css';
+
+import UserAPI from "../api/user.api";
+
 import InputFormNormal from "../components/inputFormNormal.component";
 import InputFormPassWord from "../components/inputFormPassword.component";
 import imgLoginPage from "../assets/img/login.png";
@@ -29,18 +32,35 @@ export default function RegistrationPage() {
     };
 
     const handleRegistration = () => {
-        setFullNameError(false);
-        setEmailError(false);
-        setPasswordError(false);
 
-        Swal.fire({
-            icon: 'success',
-            title: 'Đăng ký thành công!',
-            text: 'Chúc mừng bạn đã đăng ký thành công.',
-            confirmButtonText: 'OK',
-        }).then(() => {
-            navigate('/'); 
-        });
+        UserAPI.signup(fullName, emailOrPhone, password, 'Basic User')
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                setFullNameError(false);
+                setEmailError(false);
+                setPasswordError(false);
+        
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Đăng ký thành công!',
+                    text: 'Chúc mừng bạn đã đăng ký thành công.',
+                    confirmButtonText: 'OK',
+                }).then(() => {
+                    navigate('/login'); 
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Đăng ký thất bại!',
+                    text: data.message,
+                    confirmButtonText: 'OK',
+                })
+            }
+        })
+        .catch(error => {
+            throw error
+        })
     };
 
     return (
@@ -82,7 +102,7 @@ export default function RegistrationPage() {
                 />
 
                 <div className="options-row">
-                    <CheckBoxWithText text="Tôi đồng ý với Điều Khoản Sử Dụng và Chính Sách Bảo Mật của EduVision" />
+                    {/* <CheckBoxWithText text="Tôi đồng ý với Điều Khoản Sử Dụng và Chính Sách Bảo Mật của EduVision" /> */}
                 </div>
                 
                 <Button 
@@ -103,9 +123,9 @@ export default function RegistrationPage() {
                         Đăng nhập
                     </p>
                 </div>
-                <p className='registerWithGg' style={{ color: '#000', opacity: 1 }}>Hoặc</p>
+                {/* <p className='registerWithGg' style={{ color: '#000', opacity: 1 }}>Hoặc</p> */}
                 
-                <GoogleLoginButton />
+                {/* <GoogleLoginButton /> */}
             </div>
         </div>
     );

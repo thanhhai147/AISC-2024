@@ -64,4 +64,4 @@ class BaseModel():
     @staticmethod
     def delete_image(image_id):
         image = settings.FS.delete(ObjectId(image_id))
-        return image.read()  
+        return image

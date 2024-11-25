@@ -3,6 +3,9 @@ from django.http import FileResponse
 from rest_framework.generics import GenericAPIView
 from rest_framework import status
 from datetime import datetime
+from rest_framework.parsers import MultiPartParser, FormParser
+import json
+from bson import ObjectId
 
 from ..validators.custom_validators import BaseValidator, AdancedValidator
 from ..validators.model_validators import ModelValidator, UserValidator
@@ -14,9 +17,7 @@ class SignUpAPIView(GenericAPIView):
         try:
             user = data['user']
             user_name = user['user_name']
-            date_of_birth = user['date_of_birth']
-            email = user['email']
-            phone_number = user['phone_number']
+            email_phone_number = user['email_phone_number']
             password = user['password']
             role = user['role']
         except:
@@ -37,32 +38,15 @@ class SignUpAPIView(GenericAPIView):
             status=status.HTTP_400_BAD_REQUEST
         )
 
-        if not UserValidator.check_date_of_birth(date_of_birth):
-            return Response(
-            {
-                "success": False,
-                "message": "Ngày sinh không hợp lệ"
-            }, 
-            status=status.HTTP_400_BAD_REQUEST
-        )
-
-        if not UserValidator.check_email(email):
-            return Response(
-            {
-                "success": False,
-                "message": "Email không hợp lệ"
-            }, 
-            status=status.HTTP_400_BAD_REQUEST
-        )
-
-        if not UserValidator.check_phone_number(phone_number):
-            return Response(
-            {
-                "success": False,
-                "message": "Số điện thoại không hợp lệ"
-            }, 
-            status=status.HTTP_400_BAD_REQUEST
-        )
+        if not UserValidator.check_email(email_phone_number):
+            if not UserValidator.check_phone_number(email_phone_number):
+                return Response(
+                    {
+                        "success": False,
+                        "message": "Email hoặc số điện thoại không hợp lệ"
+                    }, 
+                    status=status.HTTP_400_BAD_REQUEST
+                )
 
         if not UserValidator.check_password(password):
             return Response(
@@ -83,8 +67,12 @@ class SignUpAPIView(GenericAPIView):
         )
 
         try:
-            BaseModel.insert_one('user', {
-                **user,
+            user_id = BaseModel.insert_one('user', {
+                'user_name': user_name,
+                'email_phone_number': email_phone_number,
+                'password': password,
+                'role': role,
+                'avatar': None,
                 'created_at': datetime.now(),
                 'updated_at': datetime.now()
             })
@@ -109,7 +97,7 @@ class LogInAPIView(GenericAPIView):
     def post(self, request):
         data = request.data
         try:
-            user_name = data['user_name']
+            email_phone_number = data['email_phone_number']
             password = data['password']
         except:
             return Response(
@@ -120,11 +108,11 @@ class LogInAPIView(GenericAPIView):
                 status=status.HTTP_400_BAD_REQUEST
             )
 
-        if not UserValidator.check_user_name(user_name):
+        if ModelValidator.check_unique('user', 'email_phone_number', email_phone_number):
             return Response(
             {
                 "success": False,
-                "message": "Tên người dùng không hợp lệ"
+                "message": "Email hoặc số điện thoại không tồn tại"
             }, 
             status=status.HTTP_400_BAD_REQUEST
         )
@@ -138,13 +126,132 @@ class LogInAPIView(GenericAPIView):
             status=status.HTTP_400_BAD_REQUEST
         )
 
+        try:
+            user = BaseModel.find_one('user', {
+                'email_phone_number': email_phone_number
+            })
+            if user.get('password', None) != password:
+                return Response(
+                    {
+                        "success": False,
+                        "message": "Mật khẩu không hợp lệ"
+                    },
+                    status=status.HTTP_401_UNAUTHORIZED
+                )
+        except:
+            return Response(
+                {
+                    "success": False,
+                    "message": "Lỗi Datasbase"
+                }, 
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+      
         return Response(
             {
                 "success": True,
-                "message": "Đăng nhập thành công"
+                "message": "Đăng nhập thành công",
+                "data": {
+                    "user_id": str(user.get("_id", None))
+                }
             },
             status=status.HTTP_200_OK
         )
+    
+class GetUserAPIView(GenericAPIView):
+    def get(self, request):
+        params = request.query_params
+        try:
+            user_id = params['user_id']
+        except:
+            return Response(
+                {
+                    "success": False,
+                    "message": "Tên đăng nhập hoặc mật khẩu không được cung cấp"
+                },
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        if not ModelValidator.check_exist_key('user', user_id):
+            return Response(
+                {
+                    "success": False,
+                    "message": "Mã người dùng không tồn tại"
+                },
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        try:
+            user = BaseModel.find_one("user", {
+                "_id": ObjectId(user_id)
+            })
+        except:
+            return Response(
+                {
+                    "success": False,
+                    "message": "Lỗi Database"
+                },
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+        return Response(
+            {
+                "success": True,
+                "message": "Đăng nhập thành công",
+                "data": {
+                    "user_id": str(user.get("_id", None)),
+                    "user_name": user.get("user_name", None),
+                    "email_phone_number": user.get("email_phone_number", None),
+                    "password": user.get("password", None),
+                    "role": user.get("role", None),
+                    "avatar": str(user.get("avatar", None))
+                }
+            },
+            status=status.HTTP_200_OK
+        )
+    
+class GetAvatarAPIView(GenericAPIView):
+    def get(self, request):
+        params = request.query_params
+        try:
+            avatar = params['avatar']
+        except:
+            return Response(
+                {
+                    "success": False,
+                    "message": "Thông tin người dùng không hợp lệ"
+                }, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        if not avatar:
+            return Response(
+                {
+                    "success": False,
+                    "message": "Mã hình ảnh không hợp lệ"
+                }, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        try:
+            image = BaseModel.get_image(avatar)
+            if image is None: 
+                return Response(
+                    {
+                        "success": False,
+                        "message": "Mã hình ảnh không hợp lệ"
+                    }, 
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+        except:
+            return Response(
+                {
+                    "success": False,
+                    "message": "Lỗi Datasbase"
+                }, 
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+
+        return FileResponse(image, content_type=image.content_type)
     
 class LogOutAPIView(GenericAPIView):
     def post(self, request):
@@ -169,16 +276,20 @@ class LogOutAPIView(GenericAPIView):
         )
     
 class UpdateAPIView(GenericAPIView):
+    parser_classes = (MultiPartParser, FormParser)
+    MAX_FILE_SIZE_MB =  0.2   # Giới hạn kích thước file tối đa là 5 MB
     def post(self, request):
         data = request.data
         try:
-            user_id = data['user_id'] 
-            updated_user = data['user']
-            user_name = updated_user.get('user_name')
-            date_of_birth = updated_user.get('date_of_birth')
-            email = updated_user.get('email')
-            phone_number = updated_user.get('phone_number')
-            role = updated_user.get('role')
+            data_json = data.get('json', None)
+            data_json = json.loads(data_json)
+            avatar = data.get('avatar', None)
+            updated_user = data_json.get('user', None)
+            user_id = updated_user.get('user_id', None)
+            user_name = updated_user.get('username', None)
+            email_phone_number = updated_user.get('email_phone_number', None)
+            password = updated_user.get('password', None)
+            role = updated_user.get('role', None)
         except :
             return Response(
                 {
@@ -188,6 +299,17 @@ class UpdateAPIView(GenericAPIView):
                 status=status.HTTP_400_BAD_REQUEST
             )
         
+        if (avatar != None) and (isinstance(data, bytes)):
+            file_size_mb = avatar.size / (1024 * 1024)
+            if file_size_mb > self.MAX_FILE_SIZE_MB:
+                return Response(
+                    {
+                        "success": False,
+                        "message": f"Kích thước ảnh vượt quá giới hạn (5 MB)"
+                    },
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+    
         if not UserValidator.check_user_name(user_name):
             return Response(
                 {
@@ -197,33 +319,38 @@ class UpdateAPIView(GenericAPIView):
                 status=status.HTTP_400_BAD_REQUEST
             )
 
-        if not UserValidator.check_date_of_birth(date_of_birth):
-            return Response(
-                {
-                    "success": False,
-                    "message": "Ngày sinh không hợp lệ"
-                }, 
-                status=status.HTTP_400_BAD_REQUEST
-            )
+        if not AdancedValidator.check_email(email_phone_number):
+            if not AdancedValidator.check_phone_number(email_phone_number):
+                return Response(
+                    {
+                        "success": False,
+                        "message": "Email hoặc số điện thoại không hợp lệ"
+                    }, 
+                    status=status.HTTP_400_BAD_REQUEST
+                )
 
-        if not UserValidator.check_email(email):
+        try:
+            user = BaseModel.find_one('user', {
+                "_id": ObjectId(user_id)
+            })
+            if email_phone_number != user.get('email_phone_number', None):
+                if not ModelValidator.check_unique('user', 'email_phone_number', email_phone_number):
+                    return Response(
+                        {
+                            "success": False,
+                            "message": "Email hoặc số điện thoại đã tồn tại"
+                        }, 
+                        status=status.HTTP_400_BAD_REQUEST
+                    )
+        except:
             return Response(
-                {
-                    "success": False,
-                    "message": "Email không hợp lệ"
-                }, 
-                status=status.HTTP_400_BAD_REQUEST
-            )
-
-        if not UserValidator.check_phone_number(phone_number):
-            return Response(
-                {
-                    "success": False,
-                    "message": "Số điện thoại không hợp lệ"
-                }, 
-                status=status.HTTP_400_BAD_REQUEST
-            )
-
+                    {
+                        "success": False,
+                        "message": f"Lỗi Database"
+                    },
+                    status=status.HTTP_500_INTERNAL_SERVER_ERROR
+                )
+        
         if not UserValidator.check_role(role):
             return Response(
                 {
@@ -232,19 +359,46 @@ class UpdateAPIView(GenericAPIView):
                 }, 
                 status=status.HTTP_400_BAD_REQUEST
             )
+        
+        if not AdancedValidator.check_password(password):
+            return Response(
+                {
+                    "success": False,
+                    "message": "Mật khẩu không hợp lệ"
+                }, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
 
+        image_id = None
+
+        if (avatar != None) and (not isinstance(avatar, str)) and (avatar.content_type=="image/png"):
+            try:
+                user = BaseModel.find_one('user', {
+                    '_id': ObjectId(user_id)
+                })
+                image_id = user.get('avatar', None)
+                if image_id: BaseModel.delete_image(str(image_id))
+                image_id = BaseModel.insert_image(avatar)      
+                print(image_id)    
+            except Exception:
+                return Response(
+                    {
+                        "success": False,
+                        "message": f"Upload hình ảnh không thành công" 
+                    },
+                    status=status.HTTP_500_INTERNAL_SERVER_ERROR
+                )
         try:
             updated_fields = {
                 'user_name': user_name,
-                'date_of_birth': date_of_birth,
-                'email': email,
-                'phone_number': phone_number,
+                'email_phone_number': email_phone_number,
+                'password': password,
                 'role': role,
+                'avatar': image_id,
                 'updated_at': datetime.now()
             }
             updated_fields = {k: v for k, v in updated_fields.items() if v is not None}
-            
-            result = BaseModel.update_one('user', {'user_id': user_id}, {'$set': updated_fields})
+            result = BaseModel.update_one('user', {'_id': ObjectId(user_id)}, {'$set': updated_fields})
         except:
             return Response(
                 {

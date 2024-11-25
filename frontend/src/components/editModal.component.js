@@ -6,14 +6,14 @@ import Button from './button.component';
 
 export default function EditModal({ isOpen, onClose, title, label, value, onSave, type }) {
     // Luôn khởi tạo trạng thái từ giá trị prop `value`
-    const [inputValue, setInputValue] = useState(value);
+    const [inputValue, setInputValue] = useState(() => value);
 
-    // Cập nhật `inputValue` mỗi khi `value` từ props thay đổi
-    useEffect(() => {
-        if (isOpen) {
-            setInputValue(value); // Đồng bộ hóa trạng thái khi mở modal
-        }
-    }, [value, isOpen]);
+    // // Cập nhật `inputValue` mỗi khi `value` từ props thay đổi
+    // useEffect(() => {
+    //     if (isOpen) {
+    //         setInputValue(value); // Đồng bộ hóa trạng thái khi mở modal
+    //     }
+    // }, [value, isOpen]);
 
     // Render modal nếu đang mở
     return isOpen ? (
@@ -22,7 +22,7 @@ export default function EditModal({ isOpen, onClose, title, label, value, onSave
                 <p className='font-family-semibold primary-color'>{title}</p>
                 <TextInputLabel
                     label={label}
-                    value={inputValue} // Gán giá trị từ state
+                    defaultValue={value} // Gán giá trị từ state
                     type={type}
                     onChange={(e) => setInputValue(e.target.value)} // Cập nhật state khi người dùng nhập
                 />

@@ -7,7 +7,7 @@ export default function InforAccount({
     colorIcon = '',
     icon: IconComponent,
     type = 'text',
-    onEdit
+    onEdit = null
 }) {
     // Xử lý hiển thị giá trị
     const displayValue = type === 'password' ? '•'.repeat(value.length) : value || 'Chưa có thông tin';
@@ -19,17 +19,21 @@ export default function InforAccount({
                 <p>{title}</p>
             </span>
             <span className='value-container'>{displayValue}</span>
-            <span className='link-container'>
-                <a
-                    href="#"
-                    onClick={(e) => {
-                        e.preventDefault(); // Ngăn hành vi mặc định
-                        onEdit(); // Gọi callback khi nhấn
-                    }}
-                >
-                    {value ? 'Chỉnh sửa' : 'Thêm'}
-                </a>
-            </span>
+            {
+                onEdit ?
+                <span className='link-container'>
+                    <a
+                        href="#"
+                        onClick={(e) => {
+                            e.preventDefault(); // Ngăn hành vi mặc định
+                            onEdit(); // Gọi callback khi nhấn
+                        }}
+                    >
+                        {value ? 'Chỉnh sửa' : 'Thêm'}
+                    </a>
+                </span> :
+                null
+            }
         </span>
     );
 }

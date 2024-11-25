@@ -6,7 +6,8 @@ export default function InputFormNormal({
     label = '',
     placeholder = '',
     error = false,
-    errorMessage=''
+    errorMessage='',
+    onChange = () => {}
 }) {
 
 
@@ -20,6 +21,7 @@ export default function InputFormNormal({
                 type="text"
                 error={error}
                 errorMessage={errorMessage}
+                onChange={onChange}
                 />
             </div>
         </div>

@@ -4,6 +4,7 @@ import { IoDocumentTextOutline } from "react-icons/io5";
 import { HiOutlineUpload } from "react-icons/hi";
 import Button from './button.component';
 import FileImage from '../assets/img/file_image.svg'
+import Toggle from './toggle.component.js'
 const DocumentUploadBox = ({ onNavigate, onGenerate }) => {
     const [hover, setHover] = useState({
         'exit': false,

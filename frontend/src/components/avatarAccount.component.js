@@ -1,21 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../assets/css/avatarAccount.css';
 import Avatar from './avatar.component';
 import ImageUploadButton from './imageUploadButton.component';
 
-export default function AvatarAccount({ name = '', imgUrl = '' }) {
+export default function AvatarAccount({ name = '', imgUrl = '', onSetAvatar=() => {} }) {
     // State để quản lý URL ảnh
-    const [image, setImage] = useState(imgUrl);
+    const [image, setImage] = useState(null);
+    
+    useEffect(() => {
+        setImage(imgUrl) 
+    }, [imgUrl])
 
     // Hàm xử lý file được tải lên
     const handleImageUpload = (file) => {
         if (file) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setImage(reader.result); // Cập nhật URL ảnh dưới dạng Base64
-                console.log('Image updated:', reader.result); // Kiểm tra URL Base64
-            };
-            reader.readAsDataURL(file); // Đọc file thành URL Base64
+            const imageBlob = new Blob([file], { type: file.type });
+            const imageURL = URL.createObjectURL(imageBlob);
+            setImage(imageURL);
+            onSetAvatar(imageURL, imageBlob)
         }
     };
 
