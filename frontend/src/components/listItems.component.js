@@ -13,9 +13,7 @@ const ListItems = ({ results = [], emptyMessage='Không có kết quả trả v�
     };
 
     return (
-        <div 
-            className='list-items' 
-        >
+        <div className='list-items'>
             {
                 items.length ?
                 items.map((item, index) => (

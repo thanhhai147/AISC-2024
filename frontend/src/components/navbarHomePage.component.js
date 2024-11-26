@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import '../assets/css/navbarHomePage.css';
 import SearchBar from './searchbar.component';
@@ -8,9 +8,12 @@ import logoIcon from '../assets/img/logo.svg'
 import ListItems from './listItems.component';
 
 import { useNotification } from '../context/notification.context';
+import { useAuth } from '../context/authentication.context';
 
 const NavbarHomePage = () => {
     const navigate = useNavigate()
+    const { user } = useAuth()
+    const [username, setUsername] = useState(null)
     const [selected, setSelected] = useState({
         'noti': false,
         'login': false,
@@ -20,6 +23,10 @@ const NavbarHomePage = () => {
         'login': false,
     })
     const { notification } = useNotification()
+
+    useEffect(() => {
+        setUsername(user?.username)
+    }, [user])
 
     const handleClick = (type) => {
         setSelected((prevSelected) => ({
@@ -67,19 +74,28 @@ const NavbarHomePage = () => {
                     </div>
                     : null
                 }
-                <Button 
-                    type='secondary' 
-                    size='large' 
-                    status={(selected['login'] || hover['login']) ? 'disabled' : 'active'}
-                    onClick={() => {
-                        handleClick("click")
-                        navigate("/login")
-                    }}
-                    onMouseEnter={() => handleMouseEnter('login')}
-                    onMouseLeave={() => handleMouseLeave('login')}
-                >
-                    Đăng nhập
-                </Button>
+                {
+                    username ?
+                    <Button 
+                        type='secondary' 
+                        size='large' 
+                    >
+                        Hi, {username}
+                    </Button> :
+                    <Button 
+                        type='secondary' 
+                        size='large' 
+                        status={(selected['login'] || hover['login']) ? 'disabled' : 'active'}
+                        onClick={() => {
+                            handleClick("click")
+                            navigate("/login")
+                        }}
+                        onMouseEnter={() => handleMouseEnter('login')}
+                        onMouseLeave={() => handleMouseLeave('login')}
+                    >
+                        Đăng nhập
+                    </Button>
+                }
             </div>
         </div>
     );
