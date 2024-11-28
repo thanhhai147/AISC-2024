@@ -7,7 +7,7 @@ from datetime import datetime
 from bson import ObjectId
 
 from ..validators.custom_validators import BaseValidator, AdancedValidator
-from ..validators.model_validators import ModelValidator, UserValidator, QuizzesValidator, QuestionsValidator
+from ..validators.model_validators import ModelValidator, UserValidator, QuizzesValidator, QuestionsValidator, QuestionBankValidator
 from ..models.base import BaseModel
 
 from ..models.AI_Models.ai_model import extract_text_from_pdf, extract_text_from_image, generate_mcqs_from_text, modify_mcq
@@ -145,7 +145,7 @@ class AddQuestionAPIView(GenericAPIView):
     def post(self, request):
         data = request.data
         try:
-            user_id = data["user_id"]
+            question_bank_id = data["question_bank_id"]
             questions = data["questions"]
             print(questions)
         except:
@@ -156,11 +156,23 @@ class AddQuestionAPIView(GenericAPIView):
                 }, 
                 status=status.HTTP_400_BAD_REQUEST
             )
+        if not QuestionsValidator.check_question_bank_id(question_bank_id):
+            return Response(
+                {
+                    "success": False,
+                    "message": "Mã bộ câu hỏi không hợp lệ"
+                }, 
+                )   
         for i, question in enumerate(questions):
             question_text = question["text"]
             question_status = question["status"] == 1
             question_explanation = question["explanation"]
-            print(question_explanation)
+            question_answer_text_A = question["question_answer_text_A"]
+            question_answer_text_B = question["question_answer_text_B"]
+            question_answer_text_C = question["question_answer_text_C"]
+            question_answer_text_D = question["question_answer_text_D"]
+            question_is_correct = question["question_is_correct"]
+            
             if not QuestionsValidator.check_question_text(question_text):
                 
                 return Response(
@@ -183,15 +195,56 @@ class AddQuestionAPIView(GenericAPIView):
                     "message": "Nội dung giải thích không hợp lệ"
                 }, 
                 )
+            if not QuestionsValidator.check_answer_text_A(question_answer_text_A):
+                return Response(
+                {
+                    "success": False,
+                    "message": "Nội dung đáp án A không hợp lệ"
+                }, 
+                )    
+            if not QuestionsValidator.check_answer_text_B(question_answer_text_B):
+                return Response(
+                {
+                    "success": False,
+                    "message": "Nội dung đáp án B không hợp lệ"
+                }, 
+                )  
+            if not QuestionsValidator.check_answer_text_C(question_answer_text_C):
+                return Response(
+                {
+                    "success": False,
+                    "message": "Nội dung đáp án C không hợp lệ"
+                }, 
+                )  
+            if not QuestionsValidator.check_answer_text_D(question_answer_text_D):
+                return Response(
+                {
+                    "success": False,
+                    "message": "Nội dung đáp án D không hợp lệ"
+                }, 
+                )  
+            if not QuestionsValidator.check_is_correct(question_is_correct):
+                return Response(
+                {
+                    "success": False,
+                    "message": "Đáp án không hợp lệ"
+                }, 
+                )  
                 
             try:
                 BaseModel.insert_one('questions',
                     {
                         'question_text': question_text,
+                        'question_bank_id': question_bank_id,
                         'created_at': datetime.now(),
                         'updated_at': datetime.now(),
                         'status': question_status,
-                        'explanation': question_explanation
+                        'explanation': question_explanation,
+                        'answer_text_A': question_answer_text_A,
+                        'answer_text_B': question_answer_text_B,
+                        'answer_text_C': question_answer_text_C,
+                        'answer_text_D': question_answer_text_D,
+                        'is_correct': question_is_correct
                     } 
                 )
             except:
@@ -304,17 +357,16 @@ class CreateQuestionBankAPIView(GenericAPIView):
             user_id = question_bank['user_id']
             title = question_bank['title']
             context = question_bank['context']
-            question_ids = question_bank['question_ids']
         except:
             return Response(
                 {
                     "success": False,
-                    "message": "Thông tin đề ôn không hợp lệ"
+                    "message": "Thông tin bộ câu hỏi không hợp lệ"
                 }, 
                 status=status.HTTP_400_BAD_REQUEST
             )
         
-        if not QuizzesValidator.check_user_id(user_id):
+        if not QuestionBankValidator.check_user_id(user_id):
             return Response(
                 {
                     "success": False,
@@ -323,7 +375,7 @@ class CreateQuestionBankAPIView(GenericAPIView):
                 status=status.HTTP_400_BAD_REQUEST
             )
 
-        if not QuizzesValidator.check_title(title):
+        if not QuestionBankValidator.check_title(title):
             return Response(
                 {
                     "success": False,
@@ -332,44 +384,23 @@ class CreateQuestionBankAPIView(GenericAPIView):
                 status=status.HTTP_400_BAD_REQUEST
             )
 
-        if not QuizzesValidator.check_time_limit(time_limit):
+        if not QuestionBankValidator.check_context(context):
             return Response(
                 {
                     "success": False,
-                    "message": "Thời gian làm bài không hợp lệ"
+                    "message": "Dữ liệu không hợp lệ"
                 }, 
                 status=status.HTTP_400_BAD_REQUEST
             )
         
-        for question_id in question_ids:
-            if not QuizQuestionValidator.check_question_id(question_id):
-                return Response(
-                    {
-                        "success": False,
-                        "message": "Mã câu hỏi không hợp lệ"
-                    }, 
-                    status=status.HTTP_400_BAD_REQUEST
-                )
-        
         try:
-            quiz_id = BaseModel.insert_one('quizzes', {
+            BaseModel.insert_one('question_bank', {
                 'user_id': user_id,
                 'title': title,
-                'attempt_count': 0,
-                'number_of_questions': len(question_ids),
-                'time_limit': time_limit,
+                'context': context,
                 'created_at': datetime.now(),
                 'updated_at': datetime.now()
             })
-
-            BaseModel.insert_many('quiz_question', [
-                {
-                    'question_id': question_id,
-                    'quiz_id': quiz_id,
-                    'created_at': datetime.now(),
-                    'updated_at': datetime.now()
-                } for question_id in question_ids
-            ])
         except:
             return Response(
                 {
@@ -382,7 +413,7 @@ class CreateQuestionBankAPIView(GenericAPIView):
         return Response(
             {
                 "success": True,
-                "message": "Tạo thành công đề ôn"
+                "message": "Tạo thành công bộ câu hỏi"
             }, 
             status=status.HTTP_200_OK
         )
