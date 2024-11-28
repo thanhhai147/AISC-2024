@@ -6,7 +6,8 @@ export default function TextInputLabel({
     label = '',
     placeholder = '',
     defaultValue = '',
-    width = '1440px',
+    type = 'text',
+    width = '345px',
     onChange=()=>{}
 }) {
 
@@ -17,6 +18,7 @@ export default function TextInputLabel({
 
             <div className="text-input-label" >
                 <TextInput
+                    type={type}
                     width={{ width }}
                     placeholder={placeholder}
                     defaultValue={defaultValue}

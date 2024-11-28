@@ -1,0 +1,76 @@
+/* Tin nhắn */
+.message {
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-size: var(--font-size-normal);
+    word-wrap: break-word; 
+    overflow-wrap: break-word; 
+    white-space: normal;
+    max-width: 40%; 
+    margin: 5px 0; 
+    box-sizing: border-box; 
+}
+
+/* Tin nhắn người dùng */
+.message-user {
+    align-self: flex-end; 
+    background-color: var(--primary-color);
+    color: var(--white-color);
+    margin-right: 30px;
+}
+
+/* Tin nhắn bot */
+.message-bot {
+    align-self: flex-start; 
+    background-color: var(--foreground-color);
+    color: var(--black-color);
+    margin-left: 30px;
+}
+
+
+.reaction-icons {
+    display: flex;
+    justify-content: flex-start;
+    gap: 20px;
+    margin-left: 30px;
+  }
+  
+  .reaction-icon {
+    position: relative;
+    cursor: pointer;
+    font-size: 20px;
+  }
+  
+  .reaction-icon:hover .tooltip {
+    visibility: visible;
+  }
+  
+  .tooltip {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 11vh;
+    text-align: center;
+    background-color: var(--black-color);
+    color: var(--white-color);
+    border-radius: 5px;
+    padding: 5px;
+    font-size: 12px;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .tooltip like{
+    bottom: -30px;
+  }
+  .tooltip dislike{
+    bottom: -50px;
+  }
+  
+  .reaction-icon:hover .tooltip {
+    visibility: visible;
+    opacity: 1;
+  }
+  
+  
+  

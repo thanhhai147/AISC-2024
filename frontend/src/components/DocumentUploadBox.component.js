@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import '../assets/css/DocumentUploadBox.css';
+import '../assets/css/documentUploadBox.css';
 import { IoDocumentTextOutline } from "react-icons/io5";
 import { HiOutlineUpload } from "react-icons/hi";
 import Button from './button.component';
 import FileImage from '../assets/img/file_image.svg'
-const DocumentUploadBox = () => {
+import Toggle from './toggle.component.js'
+const DocumentUploadBox = ({ onNavigate, onGenerate }) => {
     const [hover, setHover] = useState({
         'exit': false,
         'generate': false,
@@ -36,11 +37,11 @@ const DocumentUploadBox = () => {
                 <h className='font-family-light' style={{ fontSize: '20px' }} >
                     Thuyết minh dự án AISC.docx
                 </h>
-                <div className='box-document-upload-container-additional-information'>
-                    <h className='font-family-semibold primary-color'>
-                        Tìm kiếm thông tin bổ sung
-                    </h>
+                <div className="toggle-container">
+                    <Toggle />
+                    <p className='font-family-semibold primary-color'>Tìm kiếm thông tin bổ sung</p>
                 </div>
+
                 <div className='box-document-upload-container-button'>
                     <Button 
                         type='warning' 
@@ -48,6 +49,7 @@ const DocumentUploadBox = () => {
                         status={hover['exit'] ? 'disabled' : 'active'}
                         onMouseEnter={() => handleMouseEnter('exit')}
                         onMouseLeave={() => handleMouseLeave('exit')}
+                        onClick={onNavigate}
                     >
                         Hủy bỏ
                     </Button>
@@ -57,6 +59,7 @@ const DocumentUploadBox = () => {
                         status={hover['generate'] ? 'disabled' : 'active'}
                         onMouseEnter={() => handleMouseEnter('generate')}
                         onMouseLeave={() => handleMouseLeave('generate')}
+                        onClick={onGenerate}
                     >
                         Tạo câu hỏi
                     </Button>

@@ -1,0 +1,35 @@
+.start-reviewing-container {
+    width: 730px;
+    height: 378px;
+    background-color: var(--white-color);
+    border-radius: 8px;
+    border: 1px solid var(--black-color);
+    margin: 57px auto 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+
+  .row {
+    width: 614px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+  }
+  
+  .exam-name{
+    font-size: 20px;
+  }
+  
+  .row span {
+    font-size: 16px;
+  }
+  
+  .row .value {
+    font-size: 16px;
+    color: var(--black-color);
+  }
+  

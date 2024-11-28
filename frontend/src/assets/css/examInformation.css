@@ -1,0 +1,45 @@
+.container {
+    width: 730px;
+    height: 476px;
+    background-color: var(--white-color);
+    border-radius: 8px;
+    border: 1px solid var(--black-color);
+    margin: 30px auto 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .divider{
+    width: 730px;
+  }
+  .row {
+    width: 614px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+  }
+  
+  .score {
+    font-size: 20px;
+    color: var(--warning-color);
+    margin-bottom: 20px;
+  }
+  .exam-name{
+    font-size: 20px;
+    margin-top: 10px;
+    margin-bottom: 12px;
+  }
+  
+  .row span {
+    font-size: 16px;
+  }
+  
+  .row .value {
+    font-size: 16px;
+    color: var(--black-color);
+  }
+  

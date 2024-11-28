@@ -12,7 +12,7 @@
     cursor: pointer;
 }
 .sidebar-item-list {
-    gap: 30px
+    gap: 30px;
 }
 .sidebar {
     padding-left: 17px;
@@ -20,5 +20,6 @@
     padding-top: 15px;
     padding-bottom: 15px;
     width: 217px;
-    height: 100vh;
+    min-height: 100vh; 
+    height: auto; 
 }

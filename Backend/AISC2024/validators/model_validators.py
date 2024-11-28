@@ -18,7 +18,7 @@ class ModelValidator():
         return BaseModel.find_one(
             collection,
             {
-                "_id": key
+                "_id": ObjectId(key)
             }
         ) is not None
     
@@ -65,7 +65,7 @@ class UserValidator():
             BaseValidator.check_type("string", email) and
             BaseValidator.check_null(email) and
             BaseValidator.check_blank(email) and
-            ModelValidator.check_unique('user', 'email', email) and
+            ModelValidator.check_unique('user', 'email_phone_number', email) and
             AdancedValidator.check_email(email)
         ): return True
         return False
@@ -76,7 +76,7 @@ class UserValidator():
             BaseValidator.check_type("string", phone_number) and
             BaseValidator.check_null(phone_number) and
             BaseValidator.check_blank(phone_number) and
-            ModelValidator.check_unique('user', 'phone_number', phone_number) and
+            ModelValidator.check_unique('user', 'email_phone_number', phone_number) and
             AdancedValidator.check_phone_number(phone_number)
         ): return True
         return False
