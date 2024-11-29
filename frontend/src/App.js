@@ -21,6 +21,16 @@ import ForumPage from './pages/forum.page.js';
 import RegistrationPage from './pages/registration.page.js';
 import ListOfCompletedExams from './pages/listOfCompletedExams.page.js';
 import AnswerDetail from './pages/answerDetail.page.js';
+import QuestionListPage from './pages/questionList.page.js';
+import CreateQuestionsPage from './pages/createQuestions.page.js';
+import QuestionDetailPage from './pages/questionDetail.page.js';
+import EditQuestionPage from './pages/editQuestion.page.js';
+import ChatEduVisionPage from './pages/chatEduVision.page.js';
+import QuestionBankPage from './pages/questionBank.page.js';
+import QuestionBankDetailPage from './pages/questionBankDetail.page.js';
+import News01 from './pages/news01.page.js';
+import News02 from './pages/news02.page.js';
+import News03 from './pages/news03.page.js';
 
 function App() {
   return (
@@ -30,6 +40,10 @@ function App() {
           <Routes>
             <Route path='/' element={ <HomePage/> } />
             <Route path='/login' element={ <LoginPage/> } />
+            <Route 
+              path='/registration'
+              element={<RegistrationPage />}
+            />
             <Route 
               path='/account'
               element={
@@ -134,11 +148,11 @@ function App() {
                 </PrivateRoute>
               }
             />
-            <Route 
-              path='/registration'
+            <Route
+              path='/create-questions'
               element={
                 <PrivateRoute>
-                  <RegistrationPage />
+                  <CreateQuestionsPage />
                 </PrivateRoute>
               }
             />
@@ -147,6 +161,78 @@ function App() {
               element={
                 <PrivateRoute>
                   <AnswerDetail/>
+                </PrivateRoute>
+              }
+            />
+            <Route 
+               path='/question-list'
+               element={
+                 <PrivateRoute>
+                   <QuestionListPage />
+                 </PrivateRoute>
+               }
+            />
+            <Route 
+              path='/question-detail'
+              element={
+                <PrivateRoute>
+                  <QuestionDetailPage />
+                </PrivateRoute>
+              }
+            />
+            <Route 
+              path='/edit-question'
+              element={
+                <PrivateRoute>
+                  <EditQuestionPage />
+                </PrivateRoute>
+              }
+            />
+            <Route 
+              path='/chat-eduvision'
+              element={
+                <PrivateRoute>
+                  <ChatEduVisionPage />
+                </PrivateRoute>
+              }
+            />
+            <Route 
+              path='/question-bank'
+              element={
+                <PrivateRoute>
+                  <QuestionBankPage />
+                </PrivateRoute>
+              }
+            />
+            <Route 
+              path='/question-bank-detail'
+              element={
+                <PrivateRoute>
+                  <QuestionBankDetailPage />
+                </PrivateRoute>
+              }
+            />
+            <Route 
+              path='/news/6-loi-ich-cua-tu-hoc'
+              element={
+                <PrivateRoute>
+                  <News01 />
+                </PrivateRoute>
+              }
+            />
+            <Route 
+              path='/news/giao-duc-truc-tuyen-gia-tang-nhu-cau-ve-cong-cu-ho-tro'
+              element={
+                <PrivateRoute>
+                  <News02 />
+                </PrivateRoute>
+              }
+            />
+            <Route 
+              path='/news/4-phan-mem-day-hoc-truc-tuyen'
+              element={
+                <PrivateRoute>
+                  <News03 />
                 </PrivateRoute>
               }
             />

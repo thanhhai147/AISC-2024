@@ -25,3 +25,8 @@
     top: 40px;
     right: 10px;
 }
+
+.navbar-username {
+    color: var(--primary-color);
+    font-size: var(--font-size-normal);
+}

@@ -1,6 +1,11 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2"; 
 import '../assets/css/login.page.css';
+
+import UserAPI from "../api/user.api";
+import { useAuth } from "../context/authentication.context";
+
 import InputFormNormal from "../components/inputFormNormal.component";
 import InputFormPassWord from "../components/inputFormPassword.component";
 import imgLoginPage from "../assets/img/login.png";
@@ -11,16 +16,44 @@ import Link from "../components/link.component";
 
 export default function LoginPage() {
     const navigate = useNavigate();
+    const { login } = useAuth()
     const [emailOrPhone, setEmailOrPhone] = useState('');
     const [password, setPassword] = useState('');
     const [emailError, setEmailError] = useState(false);
     const [passwordError, setPasswordError] = useState(false);
 
     const handleLogin = () => {
-        setEmailError(false);
-        setPasswordError(false);
-    
-        navigate('/'); 
+
+        UserAPI.login(emailOrPhone, password)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                login(data?.data?.user_id)
+
+                setEmailError(false);
+                setPasswordError(false);
+
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Đăng nhập thành công!',
+                    text: 'Chúc mừng bạn đã đăng nhập thành công.',
+                    confirmButtonText: 'OK',
+                }).then(() => {
+                    navigate('/'); 
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Đăng nhập thất bại!',
+                    text: data.message,
+                    confirmButtonText: 'OK',
+                })
+            }
+        })
+        .catch(error => {
+            throw error
+        })
+
     };
 
     const handleNavigation = (action) => {
@@ -70,12 +103,12 @@ export default function LoginPage() {
 
                 <div className="options-Row">
                     <CheckBoxWithText text="Lưu mật khẩu" />
-                    <Link 
+                    {/* <Link 
                         textDecoration="none" 
                         onClick={() => handleNavigation('forgotPassword')}
                     >
                         Quên mật khẩu?
-                    </Link>
+                    </Link> */}
                 </div>
                 
                 <Button 
@@ -96,9 +129,9 @@ export default function LoginPage() {
                         Đăng ký
                     </p>
                 </div>
-                <p className='loginWithGg' style={{ color: '#000', opacity: 1 }}>Hoặc</p>
+                {/* <p className='loginWithGg' style={{ color: '#000', opacity: 1 }}>Hoặc</p>
                 
-                <GoogleLoginButton />
+                <GoogleLoginButton /> */}
             </div>
         </div>
     );

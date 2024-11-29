@@ -8,7 +8,8 @@ export default function TextInput({
     uneditable = '',
     width = '',
     boldText=false,
-    onChange=()=>{}
+    onChange=()=>{},
+    ...rest // Nhận các props bổ sung
 }) {
 
     return (
@@ -36,6 +37,7 @@ export default function TextInput({
                     
                 `}
                 size={(defaultValue.length || placeholder.length)}
+                {...rest}
             />
         </div>
     );

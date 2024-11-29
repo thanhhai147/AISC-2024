@@ -1,0 +1,10 @@
+.secondary-container{
+    padding-top: 20px;
+}
+.check-box {
+    display: inline-block;
+}
+
+.check-box > *:not(:last-child) {
+    margin-right: 0.5rem; 
+}
