@@ -10,7 +10,7 @@ from ..validators.custom_validators import BaseValidator, AdancedValidator
 from ..validators.model_validators import ModelValidator, UserValidator, QuizzesValidator, QuestionsValidator
 from ..models.base import BaseModel
 
-from ..models.AI_Models.ai_model import extract_text_from_pdf, extract_text_from_image, generate_mcqs_from_text, modify_mcq
+# from ..models.AI_Models.ai_model import extract_text_from_pdf, extract_text_from_image, generate_mcqs_from_text, modify_mcq
 
 class UploadImagesAPIView(GenericAPIView):
     parser_classes = (MultiPartParser, FormParser)

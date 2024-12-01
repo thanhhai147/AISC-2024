@@ -25,7 +25,7 @@ export default function PremiumPage() {
             <NavbarHomePage />
             <img src={imgPremiumPage} alt='Premium Illustration' className='premium-image' />
             <div className="detail">
-                <p className="title font-family-semibold">Trải nghiệm sự khác biệt</p>
+                <p className="title-premium font-family-semibold">Trải nghiệm sự khác biệt</p>
                 <p className="content font-family-medium">Dùng Premium để nắm toàn quyền kiểm soát trải nghiệm</p>
                 <p className="content font-family-medium">Hủy bất cứ lúc nào.</p>
             </div>

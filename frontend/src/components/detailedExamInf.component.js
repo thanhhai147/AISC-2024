@@ -1,13 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import '../assets/css/detailedExamInf.css';
 import Button from "./button.component";
+import SetupExamPopup from "./setupExamPopup.component";
 
 export default function DetailedExamInf({ examName, timeTaken, totalQuestions, attempts, createDate, lastTime }) {
     const navigate = useNavigate(); 
 
-    const handleEdit = () => {
-        navigate('/take-exam');
+    const [isPopupVisible, setIsPopupVisible] = useState(false);
+    
+    const handleOpenPopup = () => {
+        setIsPopupVisible(true);
+    };
+
+    const handleClosePopup = () => {
+        setIsPopupVisible(false);
+    };
+    
+    const handleCreateExam = () => {
+        setIsPopupVisible(false);
     };
 
     return (
@@ -49,10 +60,22 @@ export default function DetailedExamInf({ examName, timeTaken, totalQuestions, a
                     type='success'
                     size='small'
                     status={'active'}
-                    onClick={handleEdit}
+                    onClick={handleOpenPopup}
                 >
                     Chỉnh sửa thông tin đề thi
                 </Button>
+                <SetupExamPopup
+                    isVisible={isPopupVisible}
+                    onClose={ handleClosePopup}
+                    onCreate={handleCreateExam}
+                    popupTitle="Chỉnh sửa thông tin đề ôn"
+                    nameLabel="Tên đề ôn:"
+                    timeLabel="Thời gian làm bài:"
+                    placeholderName="Đề ôn 1"
+                    placeholderTime="30 phút"
+                    buttonCancelText="Hủy bỏ"
+                    buttonCreateText="Hoàn tất chỉnh sửa"
+                />
             </div>
         </div>
     );
