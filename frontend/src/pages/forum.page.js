@@ -7,6 +7,10 @@ import Comment from "../components/comment.component";
 import '../assets/css/forum.page.css';
 import Commented from "../components/commented.component";
 import PostArticle from "../components/postArticle.component";
+import news1 from "../assets/img/tu-hoc.png";
+import news2 from "../assets/img/giao-duc-truc-tuyen.png";
+import news3 from "../assets/img/e-learning.png";
+import News from "../components/news.component";
 
 export default function ForumPage() {
     const [currentView, setCurrentView] = useState('all'); 
@@ -21,7 +25,29 @@ export default function ForumPage() {
     const handleNavItemClick = (type) => {
         setCurrentView(type);
     };
-
+    const newsData = [
+        {
+            id: 1,
+            img: news1,
+            alt: "Tự học",
+            title: "6 lợi ích của tự học mà bạn không nên bỏ lỡ",
+            // param: "6-loi-ich-cua-tu-hoc",
+        },
+        {
+            id: 2,
+            img: news2,
+            alt: "Giáo dục trực tuyến",
+            title: "Theo khảo sát của IFC 2018, sự bùng nổ của giáo dục trực tuyến đã làm gia tăng nhu cầu về công cụ hỗ trợ học tập",
+            // param: "giao-duc-truc-tuyen-gia-tang-nhu-cau-ve-cong-cu-ho-tro",
+        },
+        {
+            id: 3,
+            img: news3,
+            alt: "E-learning",
+            title: "5 phần mềm dạy học trực tuyến tốt nhất hiện nay ở Việt Nam",
+            // param: "5-phan-mem-day-hoc-truc-tuyen",
+        },
+    ];
     return (
         <MainLayout>
             <NavbarForum onNavItemClick={handleNavItemClick} />
@@ -54,6 +80,7 @@ export default function ForumPage() {
                     </>
                 )}
                  {currentView === 'chosenList' && <PostArticle />} 
+                 {currentView === 'edit' && <News type={1}/>} 
             </div>
         </MainLayout>
     );

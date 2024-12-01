@@ -38,12 +38,6 @@ const PostArticle = () => {
                 >
                     Đăng
                 </Button>
-                <Button
-                    type='primary'
-                    size='small'
-                >
-                    Quay lại
-                </Button>
             </div>
         </div>
     );
