@@ -13,7 +13,7 @@ export default function QuestionDetailPage() {
     const [showPopup, setShowPopup] = useState(false);
 
     const handleDelete = () => {
-        navigate("/question-list"); // Quay lại danh sách câu hỏi khi nhấn "Xoá"
+        navigate(-1); // Quay lại danh sách câu hỏi khi nhấn "Xoá"
     };
 
     const handleEdit = () => {
@@ -26,7 +26,7 @@ export default function QuestionDetailPage() {
 
     return (
         <MainLayout>
-            <BackButton onClick={() => navigate("/question-list")} />
+            <BackButton onClick={() => navigate(-1)} />
 
             <div className="question-detail-container">
                 <div className="question-detail-intro">

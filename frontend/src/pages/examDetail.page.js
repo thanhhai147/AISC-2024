@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from 'react-router-dom';
 import '../assets/css/examDetail.page.css';
+import Swal from "sweetalert2"; 
 
 import BackButton from "../components/buttonBack.component";
 import DetailedExamInf from "../components/detailedExamInf.component";
@@ -11,6 +12,14 @@ import Button from "../components/button.component";
 
 export default function ExamDetailPage() {
     const navigate = useNavigate();
+
+    const handleDownloadSuccess = () => {
+        Swal.fire({
+            icon: 'success',
+            title: 'Tải xuống thành công!',
+            confirmButtonText: 'OK',
+        });
+    };
     
     const DetailedExamInformation = [
         {
@@ -50,7 +59,7 @@ export default function ExamDetailPage() {
         <MainLayout>
             <div className="download-exam">
                 <BackButton onClick={handleBackClick} aria-label="Go Back"></BackButton> 
-                <DownloadButton/>
+                <DownloadButton onDownloadSuccess={handleDownloadSuccess} />
             </div>
 
             <div className="detail">

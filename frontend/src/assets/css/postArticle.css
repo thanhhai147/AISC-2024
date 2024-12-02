@@ -1,6 +1,7 @@
 .post-article-wrapper {
-    max-width: 1175px; 
-    /* margin: 0 auto; center */
+    width: 1175px; 
+    margin-left: 14px;
+    margin-right: 14px;
     padding: 20px;
     background-color: var(--white-color);
     border-radius: 8px;
@@ -11,8 +12,13 @@
     gap: 10px; 
     margin-bottom: 20px;
   }
-  
-  /* title */
+  .btn_post_article {
+    display: flex;
+    justify-content: flex-end; 
+    margin-top: 10px; 
+}
+
+
   .title-article {
     width: 100%;
     margin-bottom: 10px;
@@ -22,7 +28,6 @@
     width: 100%;
   }
   
-  /* image */
   .image {
     display: flex;
     justify-content: left center;

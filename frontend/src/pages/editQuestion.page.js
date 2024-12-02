@@ -12,11 +12,11 @@ export default function EditQuestionPage() {
     const navigate = useNavigate();
 
     const handleDelete = () => {
-        navigate("/question-detail"); 
+        navigate(-1); 
     };
 
     const handleEdit = () => {
-        navigate("/question-detail"); 
+        navigate(-1); 
     };
 
 

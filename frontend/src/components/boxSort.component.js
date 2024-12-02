@@ -8,12 +8,10 @@ const BoxSort = () => {
     const [isBoxVisible, setIsBoxVisible] = useState(false);
     const boxRef = useRef(null);
 
-    // Toggle visibility khi click vào icon
     const toggleBoxVisibility = () => {
         setIsBoxVisible(!isBoxVisible);
     };
 
-    // Xử lý khi click ngoài box để ẩn box-sort
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (boxRef.current && !boxRef.current.contains(event.target)) {

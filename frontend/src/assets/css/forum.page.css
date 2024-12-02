@@ -1,0 +1,10 @@
+.forum-page-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; 
+}
+
+.box-sort-wrapper {
+    align-self: flex-end;
+    margin-right: 14px;
+}

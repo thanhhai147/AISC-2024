@@ -3,7 +3,18 @@ import "../assets/css/setupExamPopup.css";
 import Button from "./button.component";
 import TextInputTitle from "./textInput&Title.component";
 
-export default function SetupExamPopup({ isVisible, onClose, onCreate }) {
+export default function SetupExamPopup({
+    isVisible,
+    onClose,
+    onCreate,
+    popupTitle = "Vui lòng đặt tên đề ôn",  // Default title
+    nameLabel = "Tên đề ôn: ",              // Default name label
+    timeLabel = "Thời gian: ",              // Default time label
+    placeholderName = "Đề ôn số 1...",     // Default placeholder for name input
+    placeholderTime = "30 phút",           // Default placeholder for time input
+    buttonCancelText = "Thoát",            // Default text for cancel button
+    buttonCreateText = "Tạo đề ôn"         // Default text for create button
+}) {
     const [examName, setExamName] = useState("");
     const [examTime, setExamTime] = useState("");
 
@@ -12,28 +23,34 @@ export default function SetupExamPopup({ isVisible, onClose, onCreate }) {
     return (
         <div className="popup-overlay">
             <div className="popup-container">
-                <p className="popup-title font-family-semibold primary-color ">Vui lòng đặt tên đề ôn</p>
+                <p className="popup-title font-family-semibold primary-color">
+                    {popupTitle}
+                </p>
                 <div className="popup-content">
                     <TextInputTitle
-                        title="Tên đề ôn: "
-                        placeholder="Đề ôn số 1..."
+                        title={nameLabel}
+                        placeholder={placeholderName}
+                        value={examName}
+                        onChange={(e) => setExamName(e.target.value)} // Cập nhật giá trị khi thay đổi
                     />
 
                     <TextInputTitle
-                        title="Thời gian: "
-                        placeholder="30 phút"
+                        title={timeLabel}
+                        placeholder={placeholderTime}
+                        value={examTime}
+                        onChange={(e) => setExamTime(e.target.value)} // Cập nhật giá trị khi thay đổi
                     />
                 </div>
                 <div className="popup-actions">
                     <Button type="warning" size="small" onClick={onClose}>
-                        Thoát
+                        {buttonCancelText}
                     </Button>
                     <Button
                         type="primary"
                         size="small"
                         onClick={() => onCreate(examName, examTime)}
                     >
-                        Tạo đề ôn
+                        {buttonCreateText}
                     </Button>
                 </div>
             </div>

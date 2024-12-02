@@ -24,10 +24,10 @@ import AnswerDetail from './pages/answerDetail.page.js';
 import QuestionListPage from './pages/questionList.page.js';
 import CreateQuestionsPage from './pages/createQuestions.page.js';
 import QuestionDetailPage from './pages/questionDetail.page.js';
-import EditQuestionPage from './pages/editQuestion.page.js';
 import ChatEduVisionPage from './pages/chatEduVision.page.js';
 import QuestionBankPage from './pages/questionBank.page.js';
 import QuestionBankDetailPage from './pages/questionBankDetail.page.js';
+import EditQuestionPage from './pages/editQuestion.page.js';
 import News01 from './pages/news01.page.js';
 import News02 from './pages/news02.page.js';
 import News03 from './pages/news03.page.js';
@@ -49,6 +49,14 @@ function App() {
               element={
                 <PrivateRoute>
                   <AccountPage />
+                </PrivateRoute>
+              }
+            />
+            <Route 
+              path='/edit-question'
+              element={
+                <PrivateRoute>
+                  <EditQuestionPage />
                 </PrivateRoute>
               }
             />
@@ -177,14 +185,6 @@ function App() {
               element={
                 <PrivateRoute>
                   <QuestionDetailPage />
-                </PrivateRoute>
-              }
-            />
-            <Route 
-              path='/edit-question'
-              element={
-                <PrivateRoute>
-                  <EditQuestionPage />
                 </PrivateRoute>
               }
             />
