@@ -267,7 +267,213 @@ class GetAllQuizAttemptsAPIView(GenericAPIView):
 
 class GetDetailedQuizAttemptsAPIView(GenericAPIView):
     def get(self, request):
-        params = request.query_params
+        params = request.query_params        
+        try:
+            user_id = params['user_id']
+        except:
+            return Response(
+                {
+                    "success": False,
+                    "message": "Thông tin người dùng không hợp lệ"
+                },
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        if not QuizAttemptsValidator.check_user_id(user_id):
+            return Response(
+                {
+                    "success": False,
+                    "message": "Mã người dùng không hợp lệ"
+                },
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        try:
+            quiz_id = params['quiz_id']
+        except KeyError:
+            return Response(
+                {
+                    "success": False,
+                    "message": "Mã bài thi không hợp lệ"
+                },
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        try:
+            attempts = BaseModel.find_many('quiz_attempts', {'user_id': user_id, 'quiz_id': quiz_id})
+        except:
+            return Response(
+                {
+                    "success": False,
+                    "message": "Lỗi Database"
+                },
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+        
+        if not attempts:
+            return Response(
+                {
+                    "success": True,
+                    "data": [],
+                    "message": "Không có lịch sử thi nào trong hệ thống"
+                },
+                status=status.HTTP_200_OK
+            )
+        
+        detailed_attempts = []
+        for attempt in attempts:
+            try:
+                questions = BaseModel.find_many('questions', {'quiz_id': quiz_id})
+                answers = BaseModel.find_many('answers', {'attempt_id': attempt['id']})
+            except Exception as e:
+                return Response(
+                    {
+                        "success": False,
+                        "message": "Lỗi Database khi lấy dữ liệu câu hỏi hoặc đáp án: "
+                    },
+                    status=status.HTTP_500_INTERNAL_SERVER_ERROR
+                )
+
+            detailed_questions = []
+            for question in questions:
+                # Lấy câu trả lời của người dùng và câu trả lời đúng
+                user_answer = next((a for a in answers if a['question_id'] == question['id']), None)
+                correct_answers = BaseModel.find_many('answers', {'question_id': question['id'], 'is_correct': True})
+                
+                detailed_questions.append({
+                    "question_id": question['id'],
+                    "question_text": question['text'],
+                    "user_answer": user_answer['text'] if user_answer else None,
+                    "is_correct": user_answer['is_correct'] if user_answer else False,
+                    "correct_answers": [a['text'] for a in correct_answers],
+                })
+            
+            detailed_attempts.append({
+                "attempt_id": attempt['id'],
+                "timestamp": attempt['timestamp'],
+                "questions": detailed_questions,
+            })
+        
+        return Response(
+            {
+                "success": True,
+                "data": detailed_attempts,
+                "message": "Lấy thành công chi tiết lịch sử bài làm"
+            },
+            status=status.HTTP_200_OK
+        )
+
+class GetDetailedQuizAttemptsAPIView(GenericAPIView):
+    def get(self, request):
+        params = request.query_params        
+        try:
+            user_id = params['user_id']
+        except:
+            return Response(
+                {
+                    "success": False,
+                    "message": "Thông tin người dùng không hợp lệ"
+                },
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        if not QuizAttemptsValidator.check_user_id(user_id):
+            return Response(
+                {
+                    "success": False,
+                    "message": "Mã người dùng không hợp lệ"
+                },
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        try:
+            quiz_id = params['quiz_id']
+        except:
+            return Response(
+                {
+                    "success": False,
+                    "message": "Mã bài thi không hợp lệ"
+                },
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        try:
+            attempts = BaseModel.find_many('quiz_attempts', {'user_id': user_id, 'quiz_id': quiz_id})
+        except:
+            return Response(
+                {
+                    "success": False,
+                    "message": "Lỗi Database"
+                },
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+        
+        if not attempts:
+            return Response(
+                {
+                    "success": True,
+                    "data": [],
+                    "message": "Không có lịch sử thi nào trong hệ thống"
+                },
+                status=status.HTTP_200_OK
+            )
+        
+        detailed_attempts = []
+        for attempt in attempts:
+            try:
+                questions = BaseModel.find_many('questions', {'quiz_id': quiz_id})
+                answers = BaseModel.find_many('answers', {'attempt_id': attempt['_id']})
+            except:
+                return Response(
+                    {
+                        "success": False,
+                        "message": "Lỗi Database"
+                    },
+                    status=status.HTTP_500_INTERNAL_SERVER_ERROR
+                )
+
+            detailed_questions = []
+            total_correct = 0 
+            total_questions = len(questions)
+
+            for question in questions:
+                user_answer = next((a for a in answers if a['question_id'] == question['_id']), None)
+                correct_answers = BaseModel.find_many('answers', {'question_id': question['_id'], 'is_correct': True})
+
+                is_correct = False
+                if user_answer:
+                    is_correct = user_answer['is_correct']
+                    if is_correct:
+                        total_correct += 1
+                
+                detailed_questions.append({
+                    "question_id": question['id'],
+                    "question_text": question['text'],
+                    "user_answer": user_answer['text'] if user_answer else None,
+                    "is_correct": is_correct,
+                    "correct_answers": [a['text'] for a in correct_answers],
+                })
+
+            # Tính điểm: (số câu đúng / tổng số câu hỏi) * 100
+            score = (total_correct / total_questions) * 100 if total_questions > 0 else 0
+
+            detailed_attempts.append({
+                "attempt_id": attempt['id'],
+                "timestamp": attempt['timestamp'],
+                "score": score,
+                "total_questions": total_questions,
+                "correct_answers_count": total_correct,
+                "questions": detailed_questions,
+            })
+        
+        return Response(
+            {
+                "success": True,
+                "data": detailed_attempts,
+                "message": "Lấy thành công chi tiết lịch sử bài làm"
+            },
+            status=status.HTTP_200_OK
+        )
 
 class GetTopActQuizAttemptsAPIView(GenericAPIView):
     def get(self, request):
