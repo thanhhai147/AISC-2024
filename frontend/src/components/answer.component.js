@@ -32,49 +32,52 @@ export default function Answer({ type, answer }) {
             >
                 Đáp án: {currentAnswer}
             </div>
-            <div 
-                className="answer-choice-wrapper" 
-                style={{
-                    display: openChoice ? 'block' : 'none'
-                }}
-            >
+            {
+                type === 'edit' ?
                 <div 
-                    className={
-                        `
-                            answer 
-                            font-family-semibold 
-                            ${type === 'edit' ? 'answer-choice' : ''}
-                        `
-                    }
-                    onClick={() => handleClick(remainingAnswer[0])}
+                    className="answer-choice-wrapper" 
+                    style={{
+                        display: openChoice ? 'block' : 'none'
+                    }}
                 >
-                    Đáp án: {remainingAnswer[0]}
-                </div>
-                <div 
-                    className={
-                        `
-                            answer 
-                            font-family-semibold 
-                            ${type === 'edit' ? 'answer-choice' : ''}
-                        `
-                    }
-                    onClick={() => handleClick(remainingAnswer[1])}
-                >
-                    Đáp án: {remainingAnswer[1]}
-                </div>
-                <div 
-                    className={
-                        `
-                            answer 
-                            font-family-semibold 
-                            ${type === 'edit' ? 'answer-choice' : ''}
-                        `
-                    }
-                    onClick={() => handleClick(remainingAnswer[2])}
-                >
-                    Đáp án: {remainingAnswer[2]}
-                </div>
-            </div>
+                    <div 
+                        className={
+                            `
+                                answer 
+                                font-family-semibold 
+                                ${type === 'edit' ? 'answer-choice' : ''}
+                            `
+                        }
+                        onClick={() => handleClick(remainingAnswer[0])}
+                    >
+                        Đáp án: {remainingAnswer[0]}
+                    </div>
+                    <div 
+                        className={
+                            `
+                                answer 
+                                font-family-semibold 
+                                ${type === 'edit' ? 'answer-choice' : ''}
+                            `
+                        }
+                        onClick={() => handleClick(remainingAnswer[1])}
+                    >
+                        Đáp án: {remainingAnswer[1]}
+                    </div>
+                    <div 
+                        className={
+                            `
+                                answer 
+                                font-family-semibold 
+                                ${type === 'edit' ? 'answer-choice' : ''}
+                            `
+                        }
+                        onClick={() => handleClick(remainingAnswer[2])}
+                    >
+                        Đáp án: {remainingAnswer[2]}
+                    </div>
+                </div> : null
+            }
         </>
     )
 }
