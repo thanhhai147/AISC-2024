@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import '../assets/css/slideBanner.css';
-import slide1 from '../assets/img/slide-banner-1.svg';
-import slide2 from '../assets/img/slide-banner-2.svg';
-import slide3 from '../assets/img/slide-banner-3.svg';
 
+import slide1 from '../assets/img/1.svg';
+import slide2 from '../assets/img/2.svg';
+import slide3 from '../assets/img/3.svg';
 export default function SlideBanner() {
     const images = [slide1, slide2, slide3];
     const [currentIndex, setCurrentIndex] = useState(0);
