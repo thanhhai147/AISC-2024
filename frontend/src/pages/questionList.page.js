@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useLocation } from 'react-router-dom';
 
-import '../assets/css/questionList.page.css'
+import '../assets/css/questionList.page.css';
 import MainLayout from "../layouts/main.layout";
 import List from "../components/list.component";
 import Button from "../components/button.component";
@@ -9,24 +10,33 @@ import CheckBox from "../components/checkBox.component";
 import EditQuestionPopup from "../components/editQuestionPopup.component";
 import SetupBankQuestionPopup from "../components/setupQuestionBankPopup.component";
 import Swal from "sweetalert2";
+import { useAuth } from "../context/authentication.context";
+import { getLocalStorage } from "../utils/localStorage.util";
+ 
 
-export default function QuestionListPage() {
+export default function QuestionListPage() {  
+    const location = useLocation(); 
+    const context = getLocalStorage("context");
+    // const { questions } = useAuth(); 
+    const questions = getLocalStorage("questions")
     const navigate = useNavigate();
-
     const [selectedQuestion, setSelectedQuestion] = useState(null);
 
-    //QUẢN LÝ CHECKBOX
-    // Quản lý trạng thái của checkbox
+    // QUẢN LÝ CHECKBOX
     const [selectedItems, setSelectedItems] = useState([]);
 
     // Hàm khởi tạo danh sách checkbox
     const initializeCheckboxState = () => {
-        return list.data.flat().map(() => false);
+        return questions.map(() => true); // Chọn tất cả
+    };
+
+    const removeclickCheckboxState = () => {
+        return questions.map(() => false); // Mỗi câu hỏi có checkbox chưa chọn
     };
 
     useEffect(() => {
-        setSelectedItems(initializeCheckboxState());
-    }, []);
+        setSelectedItems(initializeCheckboxState()); // Khởi tạo lại selectedItems khi questions thay đổi
+    }, [questions]);
 
     // Hàm xử lý khi thay đổi trạng thái checkbox
     const handleCheckboxChange = (index) => {
@@ -37,12 +47,12 @@ export default function QuestionListPage() {
 
     // Hàm xử lý "Bỏ chọn"
     const handleDeselectAll = () => {
-        setSelectedItems(initializeCheckboxState());
+        setSelectedItems(removeclickCheckboxState());
     };
 
-    //QUẢN LÝ POPUP EDIT QUESTION
+    // QUẢN LÝ POPUP EDIT QUESTION
     const [showPopup, setShowPopup] = useState(false);
-
+    
     const handleEdit = (key) => {
         setSelectedQuestion(key);
         setShowPopup(true); 
@@ -52,7 +62,7 @@ export default function QuestionListPage() {
         setShowPopup(false); 
     };
 
-    //QUẢN LÝ POPUP SETUP QUESTION BANK
+    // QUẢN LÝ POPUP SETUP QUESTION BANK
     const [isPopupVisible, setIsPopupVisible] = useState(false);
     
     const handleOpenPopupQuestionBank = () => {
@@ -71,15 +81,29 @@ export default function QuestionListPage() {
             text: "Bạn có thể xem bộ câu hỏi của mình.",
             confirmButtonText: "Xem bộ câu hỏi",
             allowOutsideClick: false, 
-          }).then((result) => {
+        }).then((result) => {
             if (result.isConfirmed) {
-              navigate("/question-bank"); 
+                navigate("/question-bank"); 
             }
-          });
+        });
     };
 
+    const data = [];
+    questions.forEach((question, index) => {
+        data.push({
+            key: index + 1,
+            index: `${index + 1}`,
+            Question: question['question_text'],
+            detail: "Xem chi tiết",
+            status: "Sửa"
+        });
+    });
+      
     const list = {
-        sections: ["Tất cả câu hỏi", "Danh sách câu hỏi đã chọn", "Đã chọn"],
+        sections: [
+            "Tất cả câu hỏi",
+            `Đã chọn (${selectedItems.filter(item => item).length})` // Đếm số checkbox được chọn
+        ],
         columns: [
             {
                 title: "Thứ tự",
@@ -91,7 +115,6 @@ export default function QuestionListPage() {
                         <CheckBox 
                             checked={selectedItems[record.key - 1] || false}
                             onChange={() => handleCheckboxChange(record.key - 1)}
-
                         />
                         <span>{text}</span>
                     </span>
@@ -106,13 +129,6 @@ export default function QuestionListPage() {
                 filterSearch: true
             },
             {
-                title: "Ngày tạo",
-                dataIndex: "date",
-                key: "date",
-                align: "center",
-                filtered: true
-            },
-            {
                 title: "Chi tiết",
                 dataIndex: "detail",
                 key: "detail",
@@ -120,7 +136,7 @@ export default function QuestionListPage() {
                 render: (text, record) => (
                     <a 
                         className="link-effect black-color"
-                        onClick={() => navigate("/question-detail?ques_id=" + record['key'])}
+                        onClick={() => navigate("/question-detail?ques_id=", { state: { ques_id: record["key"] - 1} } )}
                     >
                         {text}
                     </a>
@@ -136,62 +152,16 @@ export default function QuestionListPage() {
                         <Button 
                             type="success" 
                             size="small" 
-                            // onClick={() => navigate("/take-exam?quiz_id" + record['key'])}
-                            onClick={() => handleEdit(record.key)}
+                            onClick={() => handleEdit(record['key'])}
                         >
-                            {text.split("-")[1]}
-                        </Button>
-                        <span className="ml-1"></span>
-                        <Button type="warning" size="small">
-                            {text.split("-")[0]}
+                            {text}
                         </Button>
                     </span>
                 )
             },
         ],
         data: [
-            //Dữ liệu cho "Tất cả câu hỏi"
-            [
-                {
-                    key: 1,
-                    index: "1",
-                    Question: "Mục tiêu lựa chọn đề tài?",
-                    date: "15:00 18/11/2024",
-                    detail: "Xem chi tiết",
-                    status: "Xoá-Sửa"
-                },
-                {
-                    key: 2,
-                    index: "2",
-                    Question: "Mục tiêu lựa chọn đề tài?",
-                    date: "14:00 19/11/2024",
-                    detail: "Xem chi tiết",
-                    status: "Xoá-Sửa"
-                }
-            ],
-
-            //Dữ liệu cho "Danh sách câu hỏi đã chọn"
-            [
-                {
-                    key: 3,
-                    index: "1",
-                    Question: "Mục tiêu lựa chọn đề tài?",
-                    date: "10:00 20/11/2024",
-                    detail: "Xem chi tiết",
-                    status: "Xoá-Sửa"
-                },
-                {
-                    key: 4,
-                    index: "2",
-                    Question: "Mục tiêu lựa chọn đề tài?",
-                    date: "11:00 20/11/2024",
-                    detail: "Xem chi tiết",
-                    status: "Xoá-Sửa"
-                }
-            ],
-
-            // Dữ liệu cho "Đã chọn"
-            []
+            data
         ]
     }
     
@@ -201,23 +171,24 @@ export default function QuestionListPage() {
             {showPopup && selectedQuestion && (
                 <EditQuestionPopup 
                     onClose={handleClosePopup} 
-                    onManualEdit={() => navigate("/edit-question?ques_id=" + selectedQuestion.key)}
-                    onChatEdit={() => navigate("/chat-eduvision?ques_id=" + selectedQuestion.key)}
+                    onManualEdit={() => navigate("/edit-question?ques_id=" + selectedQuestion, { state: { question: questions[selectedQuestion] } })}
+                    onChatEdit={() => navigate("/chat-eduvision?ques_id=" + selectedQuestion, { state: { question: questions[selectedQuestion] } })}
                 />
             )}
             <span 
                 className="d-flex flex-row align-items-center justify-content-end"
-                style={{ paddingRight: "50px", paddingTop: "20px"}}
+                style={{ paddingRight: "50px", paddingTop: "20px" }}
             >
                 <Button type="warning" size="small" onClick={handleDeselectAll}>Bỏ chọn</Button>
                 <span className="ml-1"></span>
                 <Button type="primary" size="small" onClick={handleOpenPopupQuestionBank}>Thêm vào bộ câu hỏi</Button>
             </span>
             <SetupBankQuestionPopup
+                context={context}
                 isVisible={isPopupVisible}
                 onClose={handleClosePopupQuestionBank}
                 onCreate={handleCreateQuestionBank}
             />
         </MainLayout>
-    )
+    );
 }

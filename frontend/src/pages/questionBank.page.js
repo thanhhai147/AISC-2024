@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import '../assets/css/questionList.page.css';
@@ -7,10 +7,38 @@ import SimpleTable from "../components/simpleTable.component"; // Sử dụng co
 import Button from "../components/button.component";
 import CheckBox from "../components/checkBox.component";
 import SetupExamPopup from "../components/setupExamPopup.component";
+import QuestionAPI from "../api/question.api";
+import { useAuth } from "../context/authentication.context";
 
 export default function QuestionBankPage() {
     const navigate = useNavigate();
+    const {userId} = useAuth()
+    const [questionBanks, setQuestionBanks] = useState([]);
 
+    useEffect(() => {
+        const fetchQuestionBanks = async () => {
+            try {
+                const response = await QuestionAPI.getAllQuestionBank(userId);
+                const data = await response.json()
+                setQuestionBanks(data.data); // Cập nhật dữ liệu vào state
+            } catch (error) {
+                console.error("Error fetching question banks:", error);
+            }
+        };
+        fetchQuestionBanks();
+    }, [userId]);
+    const listData = [];
+    questionBanks.forEach((questionBank, index) => {
+        listData.push({
+            key: index + 1,
+            index: `${index + 1}`,
+            name: questionBank["title"],
+            date: questionBank["create_date"],
+            detail: "Xem chi tiết",
+            status: "Xoá",
+            questionBankID : questionBank["question_bank_id"]
+        });
+    });
     //QUẢN LÝ CHECKBOX
     // Quản lý trạng thái của checkbox
     const [selectedItems, setSelectedItems] = useState([]);
@@ -41,30 +69,6 @@ export default function QuestionBankPage() {
     const handleCreateExam = () => {
         setIsPopupVisible(false);
     };
-
-    const listData = [
-        {
-            key: 1,
-            name: "Đề số 1",
-            date: "14:00 22/11/2024",
-            detail: "Xem chi tiết",
-            status: "Xoá",
-        },
-        {
-            key: 2,
-            name: "Đề số 2",
-            date: "15:00 22/11/2024",
-            detail: "Xem chi tiết",
-            status: "Xoá",
-        },
-        {
-            key: 3,
-            name: "Đề số 3",
-            date: "16:00 22/11/2024",
-            detail: "Xem chi tiết",
-            status: "Xoá",
-        },
-    ];
 
     const columns = [
         {
@@ -104,7 +108,8 @@ export default function QuestionBankPage() {
                     className="link-effect black-color"
                     onClick={() =>
                         navigate(
-                            "/question-bank-detail?ques_bank_id=" + record.key + "&ques_bank_name=" + record.name
+                            "/question-bank-detail?ques_bank_id=" + record.questionBankID,
+                            { state: { title: record.name } }
                         )
                     }
                 >

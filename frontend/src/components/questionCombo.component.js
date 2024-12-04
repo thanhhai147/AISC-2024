@@ -1,14 +1,13 @@
-import React from "react";
+import React, {useState} from "react";
 import "../assets/css/questionCombo.css"
-import { useNavigate } from "react-router-dom";
 
 import Question from "./question.component";
 import MultipleChoices from "./multipleChoices.component";
 import Answer from "./answer.component";
 import Button from "./button.component";
 
-export default function QuestionCombo({ type, questionNumber, questionContext, A, B, C, D, answer, rightAnswer, wrongAnswer,explanation }) {
-    const navigate = useNavigate()
+export default function QuestionCombo({ type, questionNumber, questionContext, A, B, C, D, answer, rightAnswer, wrongAnswer,explanation, onChange}) {
+    
     const basicCombo = () => {
         return (
             <div className="basic-combo">
@@ -36,6 +35,7 @@ export default function QuestionCombo({ type, questionNumber, questionContext, A
                     type={'edit'}
                     questionNumber={questionNumber}
                     questionContext={questionContext}
+                    onChange={onChange}
                 />
                 <MultipleChoices 
                     type={'edit'}
@@ -43,6 +43,7 @@ export default function QuestionCombo({ type, questionNumber, questionContext, A
                     B={B}
                     C={C}
                     D={D}
+                    onChange={onChange}
                 />
                 <Answer type={'edit'} answer={answer} />
             </>
@@ -70,7 +71,7 @@ export default function QuestionCombo({ type, questionNumber, questionContext, A
                         Xóa
                     </Button>
                     <div className="pre-edit-button-spacer"></div>
-                    <Button type="success" size="small" status="active" onClick={() => navigate("/edit-question")}>
+                    <Button type="success" size="small" status="active">
                         Chỉnh sửa
                     </Button>
                 </div>
