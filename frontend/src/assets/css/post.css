@@ -1,18 +1,22 @@
 .Post{
-    width: 1147px;
     height: fit-content;
     background-color: var(--white-color);
     border-radius: 8px;
     border: 1px solid var(--black-color);
     padding: 40px;
-    margin-left: 14px;
-    margin-right: 14px;
     margin-top: 30px;
 }
-.post-image{
-    width: 527px;
-    height: 161px;
+.post-images {
+    display: flex;
+    align-items: center;
     margin-top: 10px;
+}
+.post-images .ant-image{
+    margin-right: 10px;
+}
+.post-title {
+    margin-top: 20px;
+    font-size: 20px;
 }
 .content{
     font-size: 14px;
@@ -24,24 +28,7 @@
     margin-top: 10px;
 }
 .action-row {
+    margin-top: 30px;
     display: flex;
-    gap: 20px; 
-    align-items: center; 
-    margin-top: 10px;
-}
-.action-row .link_Cmt{
-    font-size: 14px;
-}
-.action-row .link_Report{
-    font-size: 14px;
-}
-
-.link_Cmt:hover {
-    color: var(--link-color); 
-    cursor: default;
-}
-
-.link_Report:hover {
-    cursor: default;
-    color: var(--link-color);
+    justify-content: flex-end;
 }

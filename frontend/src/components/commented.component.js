@@ -1,49 +1,97 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Avatar from './avatar.component';
-import LikeButton from '../components/likeButton.component';
-import Button from './button.component'; 
-import PostReport from './postReport.component'; 
 import '../assets/css/post.css';
+import UserAPI from '../api/user.api';
+import Swal from 'sweetalert2';
 
-const Commented = ({ content, timestamp, onCommentClick }) => {
-    const [showReportPopup, setShowReportPopup] = useState(false); 
+const Commented = ({ userId, content, timestamp }) => {
+    const [commentUser, setCommentUser] = useState(null)
+    const [commentUserAvatar, setCommentUserAvatar] = useState(null)
 
-    const handleReportClick = () => {
-        setShowReportPopup(true); 
-    };
+    useEffect(() => {
+        handleLoadCommentUser()
+    }, [userId])
 
-    const handleClosePopup = () => {
-        setShowReportPopup(false); 
-    };
+    useEffect(() => {
+        handleLoadCommentUserAvatar()
+    }, [commentUser])
+
+    const handleLoadCommentUser = () => {
+        if (!userId) return
+        UserAPI.getUser(userId)
+        .then(response => response.json())
+        .then(data => {
+            if (data?.success) {
+                setCommentUser({
+                    userId: data?.data?.user_id,
+                    username: data?.data?.user_name,
+                    avatar: data?.data?.avatar
+                })
+            } else {
+                Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: "Truy xuất người dùng thất bại",
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+            }
+        })
+        .catch(error => {
+            console.error(error)
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "Truy xuất người dùng thất bại",
+                showConfirmButton: false,
+                timer: 1500
+            })
+        })
+    }
+
+    const handleLoadCommentUserAvatar = () => {
+        if (!commentUser?.avatar) return
+        UserAPI.getAvatar(commentUser?.avatar)
+        .then(response => {
+            if (response.ok) {
+                return response.blob()
+            } else {
+                Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: "Truy xuất avatar người dùng thất bại",
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+                return null
+            }
+        })
+        .then(blobData => {
+            if (blobData) {
+                setCommentUserAvatar(URL.createObjectURL(blobData))
+            }
+        })
+        .catch(error => {
+            console.error(error)
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "Truy xuất avatar người dùng thất bại",
+                showConfirmButton: false,
+                timer: 1500
+            })
+        })
+    }
 
     return (
         <div className="Post">
-            <Avatar />
+            <Avatar 
+                name={commentUser?.username} 
+                imageUrl={commentUserAvatar} 
+                timestamp={timestamp}
+                type='comment'
+            />
             <p className='content font-family-regular'>{content}</p>
-            <p className='time font-family-regular'>{timestamp}</p>
-            <div className="action-row">
-                <LikeButton />
-                <p 
-                    className="link_Cmt" 
-                    onClick={onCommentClick}  
-                >
-                    Trả lời
-                </p>
-                <p
-                    className="link_Report"
-                    onClick={handleReportClick}
-                >
-                    Báo cáo
-                </p>
-            </div>
-            {showReportPopup && (
-                <div className="popup-overlay">
-                    <div className="popup-content">
-                        <PostReport /> 
-                        <Button type='small' className="close-popup" onClick={handleClosePopup}>Đóng</Button> 
-                    </div>
-                </div>
-            )}
         </div>
     );
 };

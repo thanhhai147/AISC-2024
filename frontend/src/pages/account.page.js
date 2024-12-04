@@ -154,7 +154,7 @@ export default function AccountPage() {
                         title="Đổi mật khẩu"
                         label="Mật khẩu"
                         type="password"
-                        value={accountData?.password}
+                        value={"......"}
                         onEdit={() => handleEdit("password", "Đổi mật khẩu","Mật khẩu", accountData?.password, "password")}
                     />
                     <InforAccount
