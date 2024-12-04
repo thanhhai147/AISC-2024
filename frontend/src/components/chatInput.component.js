@@ -27,7 +27,7 @@ const ChatInput = ({ onSend }) => {
       <TextInput
         key={key} // Thay đổi key để reset component
         type="text"
-        defaultValue={input} 
+        value={input} 
         onChange={(e) => setInput(e.target.value)} 
         onKeyDown={handleKeyDown} 
         placeholder="Nhập tin nhắn của bạn..."

@@ -19,7 +19,9 @@ export default function List({ list, listTitle, emptyMessage }) {
                         key={'section-' + index} 
                         className={`list-section ${sectionIndex === index ? 'primary-color' : 'primary-disabled-color'}`}
                         onClick={() => {
-                            setSectionIndex(index)
+                            if (index !== sections.length - 1) {
+                                setSectionIndex(index);
+                            }
                         }}
                     >
                         {section}

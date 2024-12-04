@@ -30,7 +30,9 @@ export const AuthProvider = ({ children }) => {
   });
   const [userId, setUserId] = useState(() => getCookie("user_id"))
   const [user, setUser] = useState(null)
+  const [questions, setQuestions] = useState([]);  // Thêm state để lưu câu hỏi
 
+  const [context, setContext] = useState('')
   useEffect(() => {
 
     if (!userId) {
@@ -55,6 +57,20 @@ export const AuthProvider = ({ children }) => {
     })
   }, [userId])
 
+  // Cập nhật câu hỏi trong context
+  const setGeneratedQuestions = (newQuestions) => {
+    setQuestions(newQuestions);
+  };
+
+  const setGeneratedContext = (context) =>{
+    setContext(context);
+  }
+
+  // Xóa câu hỏi trong context
+  const clearQuestions = () => {
+    setQuestions([]);
+  };
+
   const login = (userId) => {
     setCookie('user_id', userId, 3)
     setUserId(userId)
@@ -66,10 +82,11 @@ export const AuthProvider = ({ children }) => {
     setUserId(null)
 
     setIsAuthenticated(false);
+    clearQuestions(); 
   }
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, userId, user, login, logout, setUserId, setUser }}>
+    <AuthContext.Provider value={{ isAuthenticated, userId, user, login, logout, setUserId, setUser, questions, setGeneratedQuestions, clearQuestions, context, setGeneratedContext }}>
       {children}
     </AuthContext.Provider>
   );

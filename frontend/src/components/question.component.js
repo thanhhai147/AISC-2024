@@ -3,17 +3,17 @@ import '../assets/css/question.css'
 
 import TextInput from './textInput.component'
 
-export default function Question({type, questionNumber, questionContext, setQuestionValue}) {
+export default function Question({type, questionNumber, questionContext, setQuestionValue, onChange}) {
 
     return (
         <>
             <div className='question'>
-                <div className='question-number font-family-semibold font-size-normal'>
+                {/* <div className='question-number font-family-semibold font-size-normal'>
                     Câu {questionNumber}
-                </div>
+                </div> */}
                 {
                     type === 'edit' ?
-                        <TextInput defaultValue={questionContext} setValue={setQuestionValue} boldText={true}  />
+                        <TextInput value={questionContext} setValue={setQuestionValue} boldText={true} onChange={(e) => onChange("questionContext", e.target.value)}/>
                     :
                         <div 
                             className={

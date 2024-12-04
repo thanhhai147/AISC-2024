@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import '../assets/css/questionDetail.page.css';
@@ -8,6 +8,7 @@ import Button from "../components/button.component";
 import CheckBox from "../components/checkBox.component";
 import EditQuestionPopup from "../components/editQuestionPopup.component";
 import SetupExamPopup from "../components/setupExamPopup.component";
+import QuestionAPI from "../api/question.api";
 
 export default function QuestionBankDetailPage() {
     const location = useLocation();
@@ -15,7 +16,35 @@ export default function QuestionBankDetailPage() {
 
     // Lấy dữ liệu từ URL query string
     const queryParams = new URLSearchParams(location.search);
-    const quesBankName = queryParams.get("ques_bank_name");
+    const quesBankID = queryParams.get("ques_bank_id");
+    const quesBankName = location.state?.title; 
+
+    const [questions, setQuestions] = useState([]);
+
+    useEffect(() => {
+        const fetchQuestions = async () => {
+            try {
+                const response = await QuestionAPI.getDetailedQuestionBank(quesBankID);
+                const data = await response.json()
+                setQuestions(data.data); // Cập nhật dữ liệu vào state
+            } catch (error) {
+                console.error("Error fetching question banks:", error);
+            }
+        };
+        fetchQuestions();
+    }, [quesBankID]);
+    const listData = [];
+    questions.forEach((question, index) => {
+        listData.push({
+            key: index + 1,
+            question: question["question_text"],
+            date: question["create_date"],
+            detail: "Xem chi tiết",
+            status: "Sửa",
+            questionID : question["question_id"]
+        });
+    });
+    console.log(listData);
 
     //QUẢN LÝ CHECKBOX
     // Quản lý trạng thái của checkbox
@@ -99,7 +128,7 @@ export default function QuestionBankDetailPage() {
                     className="link-effect black-color"
                     onClick={() =>
                         navigate(
-                            "/question-detail?ques_id=" + record.key
+                            "/question-detail?ques_id=" + record.questionID
                         )
                     }
                 >
@@ -117,7 +146,7 @@ export default function QuestionBankDetailPage() {
                     <Button 
                         type="success" 
                         size="small" 
-                        onClick={() => handleEdit(record.key)}
+                        onClick={() => handleEdit(record.questionID)}
                     >
                         {text.split("-")[0]}
                     </Button>
@@ -127,30 +156,6 @@ export default function QuestionBankDetailPage() {
                     </Button>
                 </span>
             )
-        },
-    ];
-
-    const listData = [
-        {
-            key: 1,
-            question: "Mục tiêu lựa chọn đề tài?",
-            date: "14:00 22/11/2024",
-            detail: "Xem chi tiết",
-            status: "Sửa-Xoá"
-        },
-        {
-            key: 2,
-            question: "Mục tiêu lựa chọn đề tài?",
-            date: "15:00 22/11/2024",
-            detail: "Xem chi tiết",
-            status: "Sửa-Xoá"
-        },
-        {
-            key: 3,
-            question: "Mục tiêu lựa chọn đề tài?",
-            date: "16:00 22/11/2024",
-            detail: "Xem chi tiết",
-            status: "Sửa-Xoá"
         },
     ];
 
@@ -165,8 +170,8 @@ export default function QuestionBankDetailPage() {
             {showPopup && selectedQuestion && (
                 <EditQuestionPopup 
                     onClose={handleClosePopup} 
-                    onManualEdit={() => navigate("/edit-question?ques_id=" + selectedQuestion.key)}
-                    onChatEdit={() => navigate("/chat-eduvision?ques_id=" + selectedQuestion.key)}
+                    onManualEdit={() => navigate("/edit-question?ques_id=" + selectedQuestion)}
+                    onChatEdit={() => navigate("/chat-eduvision?ques_id=" + selectedQuestion)}
                 />
             )}
             <span

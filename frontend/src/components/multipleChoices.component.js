@@ -33,16 +33,17 @@ const examChoice = (label, context, status, setSelected) => (
     </div>
 );
 
-const editChoice = (label, context) => (
+const editChoice = (label, context, onChange) => (
     <div className="edit-margin-top">
         <TextInput 
             uneditable={label + ". "}
-            defaultValue={context}
+            value={context}
+            onChange={(e) => onChange(label, e.target.value)} 
         /> 
     </div> 
 );
 
-export default function MultipleChoices({type, A, B, C, D, rightAnswer, wrongAnswer}) {
+export default function MultipleChoices({type, A, B, C, D, rightAnswer, wrongAnswer, onChange}) {
     const [selected, setSelected] = useState(null);
     const [choiceStatus, setChoiceStatus] = useState(() => {
         if (type === 'exam') return {
@@ -76,25 +77,25 @@ export default function MultipleChoices({type, A, B, C, D, rightAnswer, wrongAns
             {type === 'exam' || type === 'review' ? 
                 examChoice('A', A, choiceStatus['A'], setSelected) :
                 type === 'edit' ?
-                editChoice('A', A) :
+                editChoice('A', A, onChange) :
                 basicChoice('A', A)
             }
             {type === 'exam' || type === 'review' ? 
                 examChoice('B', B, choiceStatus['B'], setSelected) :
                 type === 'edit' ?
-                editChoice('B', B) :
+                editChoice('B', B, onChange) :
                 basicChoice('B', B)
             }
             {type === 'exam' || type === 'review' ? 
                 examChoice('C', C, choiceStatus['C'], setSelected) :
                 type === 'edit' ?
-                editChoice('C', C) :
+                editChoice('C', C, onChange) :
                 basicChoice('C', C)
             }
             {type === 'exam' || type === 'review' ? 
                 examChoice('D', D, choiceStatus['D'], setSelected) :
                 type === 'edit' ?
-                editChoice('D', D) :
+                editChoice('D', D, onChange) :
                 basicChoice('D', D)
             }
         </div>

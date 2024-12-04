@@ -8,6 +8,7 @@ export default function TextInput({
     uneditable = '',
     width = '',
     boldText=false,
+    value = '', 
     onChange=()=>{},
     ...rest // Nhận các props bổ sung
 }) {
@@ -28,6 +29,7 @@ export default function TextInput({
             <input
                 type={type}
                 defaultValue={defaultValue}
+                value={value}
                 placeholder={placeholder}
                 style={{width}}
                 onChange={onChange}
@@ -36,7 +38,7 @@ export default function TextInput({
                     ${boldText ? 'font-family-semibold' : 'font-family-regular'}
                     
                 `}
-                size={(defaultValue.length || placeholder.length)}
+                size={(value.length || placeholder.length)}
                 {...rest}
             />
         </div>
