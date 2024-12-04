@@ -34,6 +34,7 @@ export default function ForumPage() {
                     position: "center",
                     icon: "error",
                     title: "Truy xuất mã bài đăng thất bại",
+                    text: data?.message,
                     showConfirmButton: false,
                     timer: 1500
                 })
@@ -44,6 +45,7 @@ export default function ForumPage() {
                 position: "center",
                 icon: "error",
                 title: "Truy xuất mã bài đăng thất bại",
+                text: error.message,
                 showConfirmButton: false,
                 timer: 1500
             })

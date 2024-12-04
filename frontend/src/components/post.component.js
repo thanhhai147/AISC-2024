@@ -64,6 +64,7 @@ const Post = ({ postId }) => {
                     position: "center",
                     icon: "error",
                     title: "Truy xuất người dùng thất bại",
+                    text: data?.message,
                     showConfirmButton: false,
                     timer: 1500
                 })
@@ -75,6 +76,7 @@ const Post = ({ postId }) => {
                 position: "center",
                 icon: "error",
                 title: "Truy xuất người dùng thất bại",
+                text: error.message,
                 showConfirmButton: false,
                 timer: 1500
             })
@@ -127,6 +129,7 @@ const Post = ({ postId }) => {
                         position: "center",
                         icon: "error",
                         title: "Truy xuất ảnh bài đăng thất bại",
+                        text: data?.message,
                         showConfirmButton: false,
                         timer: 1500
                     })
@@ -143,6 +146,7 @@ const Post = ({ postId }) => {
                     position: "center",
                     icon: "error",
                     title: "Truy xuất ảnh bài đăng thất bại",
+                    text: error.message,
                     showConfirmButton: false,
                     timer: 1500
                 })
@@ -160,6 +164,7 @@ const Post = ({ postId }) => {
                 position: "center",
                 icon: "error",
                 title: "Truy xuất ảnh bài đăng thất bại",
+                text: error.message,
                 showConfirmButton: false,
                 timer: 1500
             })
@@ -186,6 +191,7 @@ const Post = ({ postId }) => {
                     position: "center",
                     icon: "error",
                     title: "Truy xuất bình luận thất bại",
+                    text: data?.message,
                     showConfirmButton: false,
                     timer: 1500
                 })
@@ -197,6 +203,7 @@ const Post = ({ postId }) => {
                 position: "center",
                 icon: "error",
                 title: "Truy xuất bình luận thất bại",
+                text: error.message,
                 showConfirmButton: false,
                 timer: 1500
             })

@@ -30,11 +30,11 @@ const PostArticle = () => {
                 });
                 window.location.reload()
             } else {
-                console.log(data.message)
                 Swal.fire({
                     position: "center",
                     icon: "error",
                     title: "Tạo bài viết thất bại",
+                    text: data?.message,
                     showConfirmButton: false,
                     timer: 1500
                 })
@@ -46,6 +46,7 @@ const PostArticle = () => {
                 position: "center",
                 icon: "error",
                 title: "Tạo bài viết thất bại",
+                text: error.message,
                 showConfirmButton: false,
                 timer: 1500
             })
