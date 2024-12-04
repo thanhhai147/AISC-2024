@@ -1,0 +1,21 @@
+.navbar-forum-title {
+    line-height: 28px;
+}
+
+.navbar-forum-label-container {
+    padding-top: 23px;
+}
+
+.navbar-forum-label-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.navbar-forum-line {
+    background-color: var(--primary-color);
+}
+.navbar-forum{
+    margin: 14px;
+}

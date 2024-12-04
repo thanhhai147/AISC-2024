@@ -1,10 +1,13 @@
 .Post{
-    width: 1175px;
-    height: 402px;
+    width: 1147px;
+    height: fit-content;
     background-color: var(--white-color);
     border-radius: 8px;
     border: 1px solid var(--black-color);
     padding: 40px;
+    margin-left: 14px;
+    margin-right: 14px;
+    margin-top: 30px;
 }
 .post-image{
     width: 527px;
@@ -31,4 +34,14 @@
 }
 .action-row .link_Report{
     font-size: 14px;
+}
+
+.link_Cmt:hover {
+    color: var(--link-color); 
+    cursor: default;
+}
+
+.link_Report:hover {
+    cursor: default;
+    color: var(--link-color);
 }

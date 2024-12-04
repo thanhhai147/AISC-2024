@@ -50,7 +50,7 @@ const NavbarHomePage = () => {
     }
     return (
         <div className='navbar-homepage-container foreground-color'>
-            <img src={logoIcon} className='logo-icon'/>
+            <img src={logoIcon} className='logo-icon' onClick={() => navigate("/")}/>
             <div className='navbar-homepage-header'>
                 {/* <SearchBar/> */}
                 <IconPremium onClick={() => navigate("/premium")} />

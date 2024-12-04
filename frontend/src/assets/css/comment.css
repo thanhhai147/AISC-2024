@@ -1,10 +1,14 @@
 .comment-container{
+    /* width: 1147px; */
     background-color: var(--white-color);
     border: 1px solid var(--black-color);
     border-radius: 8px;
     width: 1174px;
     height: 195px;
     padding: 40px;
+    margin-left: 14px;
+    margin-right: 14px;
+    margin-top: 14px;
 }
 .comment-container p {
     margin-bottom: 5px;
