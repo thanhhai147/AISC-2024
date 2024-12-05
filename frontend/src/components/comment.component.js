@@ -1,28 +1,55 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import TextInput from './textInput.component';
 import '../assets/css/comment.css';
 import Button from './button.component';
+import ForumAPI from '../api/forum.api';
+import Swal from 'sweetalert2';
 
-const Comment = () => {
+const Comment = ({ userId, postId, onCreateComment=() => {}, onCloseComment=() => {} }) => {
     const [comment, setComment] = useState('');
-    const [hover, setHover] = useState({
-        exit: false,
-        generate: false,
-    });
+    const [isLoading, setIsLoading] = useState(false);
 
-    const handleMouseEnter = (type) => {
-        setHover((prevHover) => ({
-            ...prevHover,
-            [type]: true,
-        }));
-    };
-
-    const handleMouseLeave = (type) => {
-        setHover((prevHover) => ({
-            ...prevHover,
-            [type]: false,
-        }));
-    };
+    const handleCreateComment = () => {
+        setIsLoading(true)
+        ForumAPI.createComment(userId, postId, comment)
+        .then(response => response.json())
+        .then(data => {
+            console.log(data)
+            if(data?.success) {
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: "Tạo bình luận thành công",
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+            } else {
+                Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: "Tạo bình luận thất bại",
+                    text: data?.message,
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+            }
+        })
+        .catch(error => {
+            console.error(error)
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "Tạo bình luận thất bại",
+                text: error.message,
+                showConfirmButton: false,
+                timer: 1500
+            })
+        })
+        .finally(() => {
+            onCreateComment()
+            setIsLoading(false)
+        })
+    }
 
     const handleInputChange = (event) => {
         setComment(event.target.value); 
@@ -38,11 +65,18 @@ const Comment = () => {
             />
             <div className="button-container">
                 <Button 
+                    type='warning' 
+                    size='small'
+                    status={isLoading ? 'disabled' : 'active'}
+                    onClick={onCloseComment}
+                >
+                    Đóng
+                </Button>
+                <Button 
                     type='success' 
                     size='small'
-                    status={hover.generate ? 'disabled' : 'active'}
-                    onMouseEnter={() => handleMouseEnter('generate')}
-                    onMouseLeave={() => handleMouseLeave('generate')}
+                    status={isLoading ? 'disabled' : 'active'}
+                    onClick={handleCreateComment}
                 >
                     Đăng
                 </Button>

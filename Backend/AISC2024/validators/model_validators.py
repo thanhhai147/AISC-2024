@@ -698,8 +698,7 @@ class PostsValidator():
             BaseValidator.check_type('string', title) and
             BaseValidator.check_null(title) and
             BaseValidator.check_blank(title) and
-            ModelValidator.check_unique('posts', 'title', title) and
-            BaseValidator.check_min_length(12, title) and
+            BaseValidator.check_min_length(1, title) and
             BaseValidator.check_max_length(120, title)
         ): return True
         return False
@@ -710,7 +709,7 @@ class PostsValidator():
             BaseValidator.check_type('string', content) and
             BaseValidator.check_null(content) and
             BaseValidator.check_blank(content) and
-            BaseValidator.check_min_length(12, content) and
+            BaseValidator.check_min_length(1, content) and
             BaseValidator.check_max_length(4000, content)
         ): return True
         return False
@@ -777,7 +776,7 @@ class CommentValidator():
             BaseValidator.check_type('string', content) and
             BaseValidator.check_null(content) and
             BaseValidator.check_blank(content) and
-            BaseValidator.check_min_length(12, content) and
+            BaseValidator.check_min_length(1, content) and
             BaseValidator.check_max_length(4000, content)
         ): return True
         return False

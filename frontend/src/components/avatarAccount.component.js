@@ -31,7 +31,7 @@ export default function AvatarAccount({ name = '', imgUrl = '', onSetAvatar=() =
                 {/* Truyền hàm xử lý file xuống ImageUploadButton */}
                 <ImageUploadButton onFileSelect={handleImageUpload} />
 
-                <p>Tải lên file ảnh và kích thước tối đa 5MB</p>
+                <p>Tải lên file ảnh và kích thước tối đa 25MB</p>
             </div>
         </span>
     );

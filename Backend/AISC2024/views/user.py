@@ -6,6 +6,7 @@ from datetime import datetime
 from rest_framework.parsers import MultiPartParser, FormParser
 import json
 from bson import ObjectId
+from django.contrib.auth.hashers import make_password, check_password
 
 from ..validators.custom_validators import BaseValidator, AdancedValidator
 from ..validators.model_validators import ModelValidator, UserValidator
@@ -67,10 +68,11 @@ class SignUpAPIView(GenericAPIView):
         )
 
         try:
+            hashed_password = make_password(password)
             user_id = BaseModel.insert_one('user', {
                 'user_name': user_name,
                 'email_phone_number': email_phone_number,
-                'password': password,
+                'password': hashed_password,
                 'role': role,
                 'avatar': None,
                 'created_at': datetime.now(),
@@ -130,12 +132,12 @@ class LogInAPIView(GenericAPIView):
             user = BaseModel.find_one('user', {
                 'email_phone_number': email_phone_number
             })
-            if user.get('password', None) != password:
+            if not check_password(password, user.get('password', None)):
                 return Response(
                     {
                         "success": False,
                         "message": "Mật khẩu không hợp lệ"
-                    },
+                    }, 
                     status=status.HTTP_401_UNAUTHORIZED
                 )
         except:
@@ -201,7 +203,6 @@ class GetUserAPIView(GenericAPIView):
                     "user_id": str(user.get("_id", None)),
                     "user_name": user.get("user_name", None),
                     "email_phone_number": user.get("email_phone_number", None),
-                    "password": user.get("password", None),
                     "role": user.get("role", None),
                     "avatar": str(user.get("avatar", None))
                 }
@@ -231,7 +232,7 @@ class GetAvatarAPIView(GenericAPIView):
                 }, 
                 status=status.HTTP_400_BAD_REQUEST
             )
-
+        
         try:
             image = BaseModel.get_image(avatar)
             if image is None: 
@@ -277,7 +278,7 @@ class LogOutAPIView(GenericAPIView):
     
 class UpdateAPIView(GenericAPIView):
     parser_classes = (MultiPartParser, FormParser)
-    MAX_FILE_SIZE_MB =  0.2   # Giới hạn kích thước file tối đa là 5 MB
+    MAX_FILE_SIZE_MB =  1   # Giới hạn kích thước file tối đa là 5 MB
     def post(self, request):
         data = request.data
         try:
@@ -298,14 +299,13 @@ class UpdateAPIView(GenericAPIView):
                 }, 
                 status=status.HTTP_400_BAD_REQUEST
             )
-        
-        if (avatar != None) and (isinstance(data, bytes)):
+        if (avatar != None) and (not isinstance(avatar, str)):
             file_size_mb = avatar.size / (1024 * 1024)
             if file_size_mb > self.MAX_FILE_SIZE_MB:
                 return Response(
                     {
                         "success": False,
-                        "message": f"Kích thước ảnh vượt quá giới hạn (5 MB)"
+                        "message": f"Kích thước ảnh vượt quá giới hạn (25 MB)"
                     },
                     status=status.HTTP_400_BAD_REQUEST
                 )
@@ -360,7 +360,7 @@ class UpdateAPIView(GenericAPIView):
                 status=status.HTTP_400_BAD_REQUEST
             )
         
-        if not AdancedValidator.check_password(password):
+        if (password) and (not AdancedValidator.check_password(password)):
             return Response(
                 {
                     "success": False,
@@ -370,7 +370,7 @@ class UpdateAPIView(GenericAPIView):
             )
 
         image_id = None
-
+        
         if (avatar != None) and (not isinstance(avatar, str)) and (avatar.content_type=="image/png"):
             try:
                 user = BaseModel.find_one('user', {
@@ -378,8 +378,7 @@ class UpdateAPIView(GenericAPIView):
                 })
                 image_id = user.get('avatar', None)
                 if image_id: BaseModel.delete_image(str(image_id))
-                image_id = BaseModel.insert_image(avatar)      
-                print(image_id)    
+                image_id = BaseModel.insert_image(avatar)        
             except Exception:
                 return Response(
                     {
@@ -389,10 +388,11 @@ class UpdateAPIView(GenericAPIView):
                     status=status.HTTP_500_INTERNAL_SERVER_ERROR
                 )
         try:
+            hashed_password = hash(password)
             updated_fields = {
                 'user_name': user_name,
                 'email_phone_number': email_phone_number,
-                'password': password,
+                'password': hashed_password,
                 'role': role,
                 'avatar': image_id,
                 'updated_at': datetime.now()
