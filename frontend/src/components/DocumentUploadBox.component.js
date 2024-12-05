@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { Worker, Viewer } from '@react-pdf-viewer/core';
 import '@react-pdf-viewer/core/lib/styles/index.css';  // Import CSS cho Viewer
 import '../assets/css/documentUploadBox.css';
-import Button from './button.component';
+import Button from './button.component.js';
 import Toggle from './toggle.component.js'; // Import Toggle component
 import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
 

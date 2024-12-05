@@ -107,7 +107,7 @@ export default function EditQuestionPage() {
             [field]: value // Cập nhật giá trị của trường cụ thể
         }));
     };
-    
+    console.log(questionData.correctAnswer)
     return (
         <MainLayout>
             <BackButton onClick={() => navigate(-1)} />
