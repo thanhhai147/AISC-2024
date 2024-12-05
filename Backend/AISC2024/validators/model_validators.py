@@ -234,7 +234,7 @@ class QuestionsValidator():
             BaseValidator.check_null(explanation) and
             BaseValidator.check_blank(explanation) and
             BaseValidator.check_min_length(12, explanation) and
-            BaseValidator.check_max_length(255, explanation)
+            BaseValidator.check_max_length(1024, explanation)
         ): return True
         return False
 
@@ -333,7 +333,7 @@ class QuestionBankValidator():
             BaseValidator.check_type('string', title) and
             BaseValidator.check_null(title) and
             BaseValidator.check_blank(title) and
-            BaseValidator.check_min_length(12, title) and
+            BaseValidator.check_min_length(3, title) and
             BaseValidator.check_max_length(120, title)
         ): return True
         return False
@@ -344,8 +344,8 @@ class QuestionBankValidator():
             BaseValidator.check_type('string', context) and
             BaseValidator.check_null(context) and
             BaseValidator.check_blank(context) and
-            BaseValidator.check_min_length(12, context) and
-            BaseValidator.check_max_length(255, context)
+            BaseValidator.check_min_length(3, context) 
+            # and BaseValidator.check_max_length(255, context)
         ): return True
         return False
 
