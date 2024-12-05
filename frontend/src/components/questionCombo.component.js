@@ -6,7 +6,13 @@ import MultipleChoices from "./multipleChoices.component";
 import Answer from "./answer.component";
 import Button from "./button.component";
 
-export default function QuestionCombo({ type, questionNumber, questionContext, A, B, C, D, answer, rightAnswer, wrongAnswer,explanation, onChange}) {
+export default function QuestionCombo({ 
+    type, 
+    questionNumber, 
+    questionContext, 
+    A, B, C, D, answer, rightAnswer, wrongAnswer, explanation, 
+    onChange,
+}) {
     
     const basicCombo = () => {
         return (
@@ -45,7 +51,7 @@ export default function QuestionCombo({ type, questionNumber, questionContext, A
                     D={D}
                     onChange={onChange}
                 />
-                <Answer type={'edit'} answer={answer} />
+                <Answer type={'edit'} answer={answer} onChange={onChange} />
             </>
         )
     }

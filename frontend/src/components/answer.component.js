@@ -1,20 +1,25 @@
 import React, { useState, useEffect } from "react";
 import "../assets/css/answer.css"
 
-export default function Answer({ type, answer }) {
-    const [currentAnswer, setCurrentAnswer] = useState(answer)
+export default function Answer({ type, answer, onChange=() => {} }) {
+    const [currentAnswer, setCurrentAnswer] = useState(() => answer)
     const [remainingAnswer, setRemainingAnswer] = useState(['A', 'B', 'C', 'D'])
     const [openChoice, setOpenChoice] = useState(false)
     
     useEffect(() => {
+        setCurrentAnswer(answer)
+    }, [answer])
+
+    useEffect(() => {
         setRemainingAnswer(prevRemainingAnswer => prevRemainingAnswer.filter(value => value !== currentAnswer))
+        onChange('correctAnswer', currentAnswer)
     }, [currentAnswer])
 
     const handleClick = (value) => {
         setRemainingAnswer(prevRemainingAnswer => [...prevRemainingAnswer, currentAnswer].sort())
         setCurrentAnswer(value)
     }
-
+    
     return (
         <>
             <div 

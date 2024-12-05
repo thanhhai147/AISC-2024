@@ -8,3 +8,7 @@
 .check-box > *:not(:last-child) {
     margin-right: 0.5rem; 
 }
+
+.ant-table-placeholder {
+    width: 500% !important
+}
