@@ -129,7 +129,6 @@ const Post = ({ postId }) => {
                         position: "center",
                         icon: "error",
                         title: "Truy xuất ảnh bài đăng thất bại",
-                        text: data?.message,
                         showConfirmButton: false,
                         timer: 1500
                     })

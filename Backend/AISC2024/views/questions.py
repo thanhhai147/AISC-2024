@@ -137,8 +137,8 @@ class UploadFilesAPIView(GenericAPIView):
                     os.makedirs(os.path.dirname(save_path), exist_ok=True)
                     
                     # Lưu file
-                    with open(save_path, 'wb') as f:
-                        f.write(binary_content)
+                    # with open(save_path, 'wb') as f:
+                    #     f.write(binary_content)
             
                     # Lưu thông tin file
                     uploaded_files_info.append({
