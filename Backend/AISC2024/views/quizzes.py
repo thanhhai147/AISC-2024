@@ -3,6 +3,7 @@ from django.http import FileResponse
 from rest_framework.generics import GenericAPIView
 from rest_framework import status
 from datetime import datetime
+from bson import ObjectId
 
 from ..validators.custom_validators import BaseValidator, AdancedValidator
 from ..validators.model_validators import ModelValidator, QuizzesValidator, QuestionsValidator, QuizQuestionValidator
@@ -17,6 +18,7 @@ class CreateQuizAPIView(GenericAPIView):
             title = quiz['title']
             time_limit = quiz['time_limit']
             question_ids = quiz['question_ids']
+            print(quiz)
         except:
             return Response(
                 {
@@ -65,7 +67,7 @@ class CreateQuizAPIView(GenericAPIView):
         
         try:
             quiz_id = BaseModel.insert_one('quizzes', {
-                'user_id': user_id,
+                'user_id': ObjectId(user_id),
                 'title': title,
                 'attempt_count': 0,
                 'number_of_questions': len(question_ids),
@@ -76,8 +78,8 @@ class CreateQuizAPIView(GenericAPIView):
 
             BaseModel.insert_many('quiz_question', [
                 {
-                    'question_id': question_id,
-                    'quiz_id': quiz_id,
+                    'question_id': ObjectId(question_id),
+                    'quiz_id': ObjectId(quiz_id),
                     'created_at': datetime.now(),
                     'updated_at': datetime.now()
                 } for question_id in question_ids

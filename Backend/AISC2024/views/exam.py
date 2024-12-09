@@ -3,6 +3,7 @@ from django.http import FileResponse
 from rest_framework.generics import GenericAPIView
 from rest_framework import status
 from datetime import datetime, timedelta
+from collections import defaultdict
 
 from ..validators.custom_validators import BaseValidator, AdancedValidator
 from ..validators.model_validators import ModelValidator, UserValidator, QuizAttemptsValidator, UserAnswersValidator
@@ -320,7 +321,6 @@ class GetTopActQuizAttemptsAPIView(GenericAPIView):
             status=status.HTTP_200_OK
         )
 
-from collections import defaultdict
 
 class ResultsStatisticsAPIView(GenericAPIView):
     def get(self, request):

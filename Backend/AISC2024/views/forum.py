@@ -78,7 +78,7 @@ class CreatePostAPIView(GenericAPIView):
         
         image_ids = []
 
-        if (images != None) and (not isinstance(images, str)) and (images[0].content_type=="image/png"):
+        if (images != None) and (not isinstance(images, str)) and (images[0].content_type.startswith('image/')):
             try:
                 for image in images:
                     image_id = BaseModel.insert_image(image)
@@ -187,7 +187,7 @@ class UpdatePostAPIView(GenericAPIView):
         
         image_ids = []
 
-        if (images != None) and (not isinstance(images, str)) and (images[0].content_type=="image/png"):
+        if (images != None) and (not isinstance(images, str)) and (images[0].content_type.startswith('image/')):
             try:
                 post = BaseModel.find_one('posts', {
                     "_id": post_id

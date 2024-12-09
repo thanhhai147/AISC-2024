@@ -146,7 +146,7 @@ class QuizzesValidator():
             BaseValidator.check_null(title) and
             BaseValidator.check_blank(title) and
             ModelValidator.check_unique('quizzes', 'title', title) and
-            BaseValidator.check_min_length(12, title) and
+            BaseValidator.check_min_length(4, title) and
             BaseValidator.check_max_length(120, title)
         ): return True
         return False
@@ -176,7 +176,6 @@ class QuizzesValidator():
         if (
             BaseValidator.check_type('int', time_limit) and
             BaseValidator.check_null(time_limit) and
-            BaseValidator.check_blank(time_limit) and
             BaseValidator.check_min(0, time_limit)
         ): return True
         return False
