@@ -168,6 +168,9 @@ export default function AccountPage() {
                 <span
                     className="combo-button"
                 >
+                    <Button type="warning" size="large" onClick={handleUpdateAccount}>
+                        Đăng xuất
+                    </Button>
                     <Button type="primary" size="large" onClick={handleUpdateAccount}>
                         Cập nhật
                     </Button>

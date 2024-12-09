@@ -127,19 +127,11 @@ class LogInAPIView(GenericAPIView):
             }, 
             status=status.HTTP_400_BAD_REQUEST
         )
-
+ 
         try:
             user = BaseModel.find_one('user', {
                 'email_phone_number': email_phone_number
             })
-            if not check_password(password, user.get('password', None)):
-                return Response(
-                    {
-                        "success": False,
-                        "message": "Mật khẩu không hợp lệ"
-                    }, 
-                    status=status.HTTP_401_UNAUTHORIZED
-                )
         except:
             return Response(
                 {
