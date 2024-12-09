@@ -250,12 +250,21 @@ class LogOutAPIView(GenericAPIView):
     def post(self, request):
         data = request.data
         try:
-            user_name = data['user_name']
+            user_id = data['user_id']
         except:
             return Response(
                 {
                     "success": False,
-                    "message": "Bạn chưa đăng nhập"
+                    "message": "Thông tin người dùng không hợp lệ"
+                },
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        if not ModelValidator.check_exist_key('user', user_id):
+            return Response(
+                {
+                    "success": False,
+                    "message": "Mã người dùng không tồn tại"
                 },
                 status=status.HTTP_400_BAD_REQUEST
             )

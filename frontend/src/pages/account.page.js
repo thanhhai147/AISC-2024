@@ -17,7 +17,7 @@ import Swal from 'sweetalert2'
 
 export default function AccountPage() {
     const navigate = useNavigate()
-    const { userId, user, setUser } = useAuth()
+    const { userId, user, setUser, logout } = useAuth()
 
     const [isModalOpen, setModalOpen] = useState(false);
     const [currentField, setCurrentField] = useState({key: "", title: "",label:"", value: "",  type:"" });
@@ -124,6 +124,44 @@ export default function AccountPage() {
         })
     }
 
+    const handleLogout = () => {
+        UserAPI.logout(userId)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                setAccountData(null)
+                setAvatar(null)
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: "Đăng xuất thành công",
+                    showConfirmButton: false,
+                    timer: 1500
+                }).finally(() => {
+                    logout()
+                })
+            } else {
+                Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: "Đăng xuất thất bại",
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+            }
+        })
+        .catch(error => {
+            console.error(error)
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "Đăng xuất thất bại",
+                showConfirmButton: false,
+                timer: 1500
+            })
+        })
+    }
+
     return (
         <>
             <MainLayout>
@@ -168,7 +206,7 @@ export default function AccountPage() {
                 <span
                     className="combo-button"
                 >
-                    <Button type="warning" size="large" onClick={handleUpdateAccount}>
+                    <Button type="warning" size="large" onClick={handleLogout}>
                         Đăng xuất
                     </Button>
                     <Button type="primary" size="large" onClick={handleUpdateAccount}>
