@@ -76,7 +76,7 @@ export default function ExamPage() {
                         <Button 
                             type="success" 
                             size="small" 
-                            onClick={() => navigate("/take-exam?quiz_id" + record['key'])}
+                            onClick={() => navigate("/take-exam?")}
                         >
                             {text.split("-")[1]}
                         </Button>

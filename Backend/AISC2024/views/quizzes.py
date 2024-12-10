@@ -565,11 +565,10 @@ class GetDetailedQuiz(GenericAPIView):
 
         try:
             quiz = BaseModel.find_one('quizzes', {
-                '_id': quiz_id
+                '_id': ObjectId(quiz_id)
             })
-
             quiz_questions = BaseModel.find_many('quiz_question', {
-                'quiz_id': quiz_id
+                'quiz_id': ObjectId(quiz_id)
             })
             question_ids = [quiz_question['question_id'] for quiz_question in quiz_questions]
             questions = BaseModel.find_many('questions', {
@@ -577,19 +576,21 @@ class GetDetailedQuiz(GenericAPIView):
                     '$in': question_ids
                 }
             })
-            answers = BaseModel.find_many('answers', {
-                'question_id': {
-                    '$in': question_ids
-                }
-            })
-
-            brief_info = quiz
-            detailed_info = {}
+            
+            quiz['_id'] = str(quiz.get("_id", None))
+            quiz['user_id'] = str(quiz.get("user_id", None))
+            quiz["created_at"] = quiz.get("created_at", None).strftime("%H:%M %d/%m/%Y")
+            quiz["updated_at"] = quiz.get("updated_at", None).strftime("%H:%M %d/%m/%Y")
+            
+            brief_info = (quiz)
+            detailed_info = []
             for question in questions:
-                detailed_info[question['_id']] = question
-                detailed_info[question['_id']]['answers'] = []
-            for answer in answers:
-                detailed_info[answer['question_id']]['answers'].append(answer)
+                question['_id'] = str(question.get("_id", None))
+                question['question_bank_id'] = str(question.get("question_bank_id", None))
+                question["created_at"] = question.get("created_at", None).strftime("%H:%M %d/%m/%Y")
+                question["updated_at"] = question.get("updated_at", None).strftime("%H:%M %d/%m/%Y")
+                
+                detailed_info.append(question) 
         except:
             return Response(
                 {

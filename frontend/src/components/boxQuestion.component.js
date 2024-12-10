@@ -3,7 +3,7 @@ import ButtonQuestion from './buttonQuestion.component';
 import '../assets/css/boxQuestion.css';
 
 
-export default function BoxQuestion({ questionCount = 10, statusQuestions = [] }) {
+export default function BoxQuestion({ questionCount = 10, statusQuestions = [], onQuestionClick  }) {
     // Tạo danh sách trạng thái cho từng câu hỏi dựa vào `statusQuestions`
     const questionStatuses = Array.from({ length: questionCount }, (_, index) => statusQuestions[index] || 'secondary');
 
@@ -13,6 +13,7 @@ export default function BoxQuestion({ questionCount = 10, statusQuestions = [] }
                 <ButtonQuestion
                     key={index}
                     type={status}
+                    onClick={() => onQuestionClick(index)} // Gọi hàm khi nhấn vào
                 >
                 {String(index + 1).padStart(2, '0')}
                 </ButtonQuestion>

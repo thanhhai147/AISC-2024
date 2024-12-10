@@ -9,10 +9,13 @@ const basicChoice = (label, context) => (
     </div>
 );
 
-const examChoice = (label, context, status, setSelected) => (
+const examChoice = (label, context, status, setSelected, onAnswerSelect) => (
     <div 
         className="choice font-family-regular exam-margin-bottom"
-        onClick={() => setSelected(label)} 
+        onClick={() => {
+            setSelected(label); // Cập nhật trạng thái nội bộ
+            onAnswerSelect(label); // Gọi callback để truyền giá trị lên cha
+        }} 
     >
         <div 
             className={`
@@ -43,8 +46,8 @@ const editChoice = (label, context, onChange) => (
     </div> 
 );
 
-export default function MultipleChoices({type, A, B, C, D, rightAnswer, wrongAnswer, onChange}) {
-    const [selected, setSelected] = useState(null);
+export default function MultipleChoices({type, A, B, C, D, rightAnswer, wrongAnswer, onChange, onAnswerSelect, selectedAnswer}) {
+    const [selected, setSelected] = useState(selectedAnswer);
     const [choiceStatus, setChoiceStatus] = useState(() => {
         if (type === 'exam') return {
             'A': 'none',
@@ -75,25 +78,25 @@ export default function MultipleChoices({type, A, B, C, D, rightAnswer, wrongAns
     return (
         <div className="multiple-choices">
             {type === 'exam' || type === 'review' ? 
-                examChoice('A', A, choiceStatus['A'], setSelected) :
+                examChoice('A', A, choiceStatus['A'], setSelected, onAnswerSelect) :
                 type === 'edit' ?
                 editChoice('A', A, onChange) :
                 basicChoice('A', A)
             }
             {type === 'exam' || type === 'review' ? 
-                examChoice('B', B, choiceStatus['B'], setSelected) :
+                examChoice('B', B, choiceStatus['B'], setSelected, onAnswerSelect) :
                 type === 'edit' ?
                 editChoice('B', B, onChange) :
                 basicChoice('B', B)
             }
             {type === 'exam' || type === 'review' ? 
-                examChoice('C', C, choiceStatus['C'], setSelected) :
+                examChoice('C', C, choiceStatus['C'], setSelected, onAnswerSelect) :
                 type === 'edit' ?
                 editChoice('C', C, onChange) :
                 basicChoice('C', C)
             }
             {type === 'exam' || type === 'review' ? 
-                examChoice('D', D, choiceStatus['D'], setSelected) :
+                examChoice('D', D, choiceStatus['D'], setSelected, onAnswerSelect) :
                 type === 'edit' ?
                 editChoice('D', D, onChange) :
                 basicChoice('D', D)
