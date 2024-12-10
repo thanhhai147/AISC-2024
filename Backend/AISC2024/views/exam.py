@@ -158,7 +158,7 @@ class GetListAllQuizAttemptsAPIView(GenericAPIView):
     def get(self, request):
         params = request.query_params
         try:
-            user_id = params['user_id']
+            quiz_id = params['quiz_id']
         except:
             return Response(
                 {
@@ -168,7 +168,7 @@ class GetListAllQuizAttemptsAPIView(GenericAPIView):
                 status=status.HTTP_400_BAD_REQUEST
             )
         
-        if not QuizAttemptsValidator .check_user_id(user_id):
+        if not QuizAttemptsValidator.check_quiz_id(quiz_id):
             return Response(
                 {
                     "success": False,
@@ -179,9 +179,19 @@ class GetListAllQuizAttemptsAPIView(GenericAPIView):
 
         try:
             results = BaseModel.find_many('quiz_attempts', {
-                'user_id': user_id
+                'quiz_id': ObjectId(quiz_id)
             })
+            data = []
+            for result in results:
+                data.append({
+                    "attempted_id": str(result['_id']),
+                    "score": result["score"],
+                    "correct_ans_count": result["correct_ans_count"],
+                    "incorrect_ans_count": result["incorrect_ans_count"],
+                    "number_of_question": result["correct_ans_count"] + result["incorrect_ans_count"],
 
+                })
+                print(result['_id'])
         except:
             return Response(
                 {
@@ -194,7 +204,7 @@ class GetListAllQuizAttemptsAPIView(GenericAPIView):
         return Response(
             {
                 "success": True,
-                "data": results,
+                "data": data,
                 "message": "Lấy thành công danh sách lịch sử thi"
             }, 
             status=status.HTTP_200_OK

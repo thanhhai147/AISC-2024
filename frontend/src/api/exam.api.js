@@ -30,7 +30,15 @@ class ExamAPI {
             }
         )
     }
-
+    static getListAllQuizAttempts(quiz_id) {
+        return fetch(
+            `http://localhost:8000/get-list-all-quiz-attempts?quiz_id=${quiz_id}`, 
+            {
+                method: "GET",
+                mode: "cors"    
+            }
+        )
+    }
 }
 
 export default ExamAPI

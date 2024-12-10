@@ -19,6 +19,7 @@ export default function AnswerDetail() {
                 if (response.ok) {
                     console.log('Quiz attempt updated successfully');
                     getDetailQuizAttempt(data.data);
+                    
                 } else {
                     console.error('Failed to update quiz attempt');
                 }
