@@ -247,12 +247,12 @@ export default function Sidebar() {
             <div className='sidebar col-2 foreground-color'>
                 <div className='sidebar-item-list d-flex flex-column align-items-center'>
                     {sidebarItem('Trang chủ', 'home', selected['home'] || hover['home'] ? 'selected' : 'default', handleMouseEnter, handleMouseLeave)}
+                    {sidebarItem('Diễn đàn', 'forum', selected['forum'] || hover['forum'] ? 'selected' : 'default', handleMouseEnter, handleMouseLeave)}
+                    {sidebarItem('Bộ câu hỏi', 'question-bank', selected['question-bank'] || hover['question-bank'] ? 'selected' : 'default', handleMouseEnter, handleMouseLeave)}
                     {sidebarItem('Đề ôn', 'exam', selected['exam'] || hover['exam'] ? 'selected' : 'default', handleMouseEnter, handleMouseLeave)}
                     {sidebarItem('Lịch sử', 'history', selected['history'] || hover['history'] ? 'selected' : 'default', handleMouseEnter, handleMouseLeave)}
                     {sidebarItem('Tài khoản', 'account', selected['account'] || hover['account'] ? 'selected' : 'default', handleMouseEnter, handleMouseLeave)}
                     {sidebarItem('Thống kê', 'settings', selected['settings'] || hover['settings'] ? 'selected' : 'default', handleMouseEnter, handleMouseLeave)}
-                    {sidebarItem('Diễn đàn', 'forum', selected['forum'] || hover['forum'] ? 'selected' : 'default', handleMouseEnter, handleMouseLeave)}
-                    {sidebarItem('Bộ câu hỏi', 'question-bank', selected['question-bank'] || hover['question-bank'] ? 'selected' : 'default', handleMouseEnter, handleMouseLeave)}
                 </div>
             </div>
         </>
