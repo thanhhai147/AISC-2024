@@ -213,8 +213,8 @@ class QuestionsValidator():
             BaseValidator.check_type('string', question_text) and
             BaseValidator.check_null(question_text) and
             BaseValidator.check_blank(question_text) and
-            BaseValidator.check_min_length(12, question_text) and
-            BaseValidator.check_max_length(120, question_text)
+            BaseValidator.check_min_length(2, question_text) and
+            BaseValidator.check_max_length(500, question_text)
         ): return True
         return False
     

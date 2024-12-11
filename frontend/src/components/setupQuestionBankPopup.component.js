@@ -26,7 +26,7 @@ export default function SetupBankQuestionPopup({ isVisible, onClose, onCreate, c
             const question_bank_id = result.question_bank_id
             const response_add_questions = await QuestionAPI.addQuestion(question_bank_id, checkedQuestions);
             const result_add_questions = await response_add_questions.json()
-            console.log(question_bank_id, questions)
+            console.log(question_bank_id, checkedQuestions)
             if (result.success && result_add_questions.success) {
                 onCreate(questionBankName); // Gọi hàm onCreate nếu cần
                 onClose(); // Đóng popup
@@ -34,7 +34,7 @@ export default function SetupBankQuestionPopup({ isVisible, onClose, onCreate, c
                 Swal.fire({
                     icon: "error",
                     title: "Tạo bộ câu hỏi thất bại!",
-                    text: "Có lỗi xảy ra khi tạo bộ câu hỏi." + result.success + result_add_questions.success,
+                    text: "Có lỗi xảy ra khi tạo bộ câu hỏi." + result.message + " " + result_add_questions.message,
                 });
             }
         } catch (error) {

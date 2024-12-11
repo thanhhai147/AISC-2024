@@ -2,13 +2,14 @@ import '../assets/css/toggle.css';
 import { Switch, ConfigProvider } from "antd";
 import React, { useState } from 'react';
 
-function Toggle() {
+function Toggle({ checked, onChange }) {
     
-    const [checked, setChecked] = useState(false);
+    // const [checked, setChecked] = useState(false);
 
-    const handleChange = (checked) => {
-        setChecked(checked);
-    };
+    // const handleChange = (value) => {
+    //     setChecked(value);
+    //     console.log(value); // Hiển thị trạng thái mới trong console
+    // };
     return (
         <ConfigProvider
             theme={{
@@ -22,7 +23,8 @@ function Toggle() {
             <div className='toggle'>
             <Switch 
                 className={`custom-switch`}
-                onChange={handleChange} 
+                checked={checked} // Đồng bộ giá trị với state
+                onChange={onChange} // Xử lý sự kiện khi click
             />
             </div>
         </ConfigProvider>
