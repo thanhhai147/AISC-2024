@@ -23,4 +23,5 @@ urlpatterns = [
     path('', include('AISC2024.urls.questions')),    
     path('', include('AISC2024.urls.quizzes')),
     path('', include('AISC2024.urls.forum')),
+    path('', include('AISC2024.urls.exam')),
 ]

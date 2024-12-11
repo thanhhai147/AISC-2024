@@ -619,7 +619,6 @@ class GetDetailedQuiz(GenericAPIView):
             quiz = BaseModel.find_one('quizzes', {
                 '_id': ObjectId(quiz_id)
             })
-
             quiz_questions = BaseModel.find_many('quiz_question', {
                 'quiz_id': ObjectId(quiz_id)
             })

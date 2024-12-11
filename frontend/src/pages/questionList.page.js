@@ -23,7 +23,7 @@ export default function QuestionListPage() {
     const [selectedQuestion, setSelectedQuestion] = useState(null);
 
     // QUẢN LÝ CHECKBOX
-    const [selectedItems, setSelectedItems] = useState([]);
+    const [selectedItems, setSelectedItems] = useState(questions.map(() => true));
 
     // Hàm khởi tạo danh sách checkbox
     const initializeCheckboxState = () => {
@@ -34,9 +34,6 @@ export default function QuestionListPage() {
         return questions.map(() => false); // Mỗi câu hỏi có checkbox chưa chọn
     };
 
-    useEffect(() => {
-        setSelectedItems(initializeCheckboxState()); // Khởi tạo lại selectedItems khi questions thay đổi
-    }, [questions]);
 
     // Hàm xử lý khi thay đổi trạng thái checkbox
     const handleCheckboxChange = (index) => {
@@ -98,7 +95,7 @@ export default function QuestionListPage() {
             status: "Sửa"
         });
     });
-      
+
     const list = {
         sections: [
             "Tất cả câu hỏi",
@@ -184,6 +181,7 @@ export default function QuestionListPage() {
                 <Button type="primary" size="small" onClick={handleOpenPopupQuestionBank}>Thêm vào bộ câu hỏi</Button>
             </span>
             <SetupBankQuestionPopup
+                checked={selectedItems}
                 context={context}
                 isVisible={isPopupVisible}
                 onClose={handleClosePopupQuestionBank}

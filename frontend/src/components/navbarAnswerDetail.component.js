@@ -7,7 +7,7 @@ const NavbarAnswerDetail = ({ examName = 'No exam name provided' }) => {
     const navigate = useNavigate();
 
     const handleBackClick = () => {
-        navigate('/');
+        navigate(-1);
     };
 
     return (

@@ -6,11 +6,12 @@ import Swal from "sweetalert2"; // Import SweetAlert2
 import { useAuth } from "../context/authentication.context";
 import QuestionAPI from "../api/question.api"; // Import QuestionAPI
 import { getLocalStorage } from "../utils/localStorage.util";
-export default function SetupBankQuestionPopup({ isVisible, onClose, onCreate, context }) {
+export default function SetupBankQuestionPopup({ isVisible, onClose, onCreate, context, checked}) {
     const { userId } = useAuth(); // Lấy userId từ context
     const questions = getLocalStorage("questions");
-    const [questionBankName, setQuestionBankName] = useState("");
+    const checkedQuestions = questions.filter((_, index) => checked[index]);
 
+    const [questionBankName, setQuestionBankName] = useState("");
     const handleInputChange = (e) => {
         const newValue = e.target.value; // Lấy giá trị từ sự kiện
         setQuestionBankName(newValue); // Cập nhật state
@@ -23,7 +24,7 @@ export default function SetupBankQuestionPopup({ isVisible, onClose, onCreate, c
             // Kiểm tra phản hồi từ API (giả sử API trả về dữ liệu JSON)
             const result = await response.json();
             const question_bank_id = result.question_bank_id
-            const response_add_questions = await QuestionAPI.addQuestion(question_bank_id, questions);
+            const response_add_questions = await QuestionAPI.addQuestion(question_bank_id, checkedQuestions);
             const result_add_questions = await response_add_questions.json()
             console.log(question_bank_id, questions)
             if (result.success && result_add_questions.success) {
@@ -51,11 +52,11 @@ export default function SetupBankQuestionPopup({ isVisible, onClose, onCreate, c
     return (
         <div className="popup-overlay">
             <div className="popup-container">
-                <p className="popup-title font-family-semibold primary-color">Vui lòng đặt tên đề ôn</p>
+                <p className="popup-title font-family-semibold primary-color">Vui lòng đặt tên bộ câu hỏi</p>
                 <div className="popup-content">
                     <TextInputTitle
                         title="Tên bộ câu hỏi: "
-                        placeholder="Đề ôn số 1..."
+                        placeholder="Bộ câu hỏi số 1..."
                         value={questionBankName}
                         onChange={handleInputChange} // Cập nhật giá trị tên bộ câu hỏi
                     />

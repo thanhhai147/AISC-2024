@@ -175,7 +175,6 @@ class QuizzesValidator():
         if (
             BaseValidator.check_type('int', time_limit) and
             BaseValidator.check_null(time_limit) and
-            BaseValidator.check_blank(time_limit) and
             BaseValidator.check_min(0, time_limit)
         ): return True
         return False

@@ -279,7 +279,7 @@ class LogOutAPIView(GenericAPIView):
     
 class UpdateAPIView(GenericAPIView):
     parser_classes = (MultiPartParser, FormParser)
-    MAX_FILE_SIZE_MB =  1   # Giới hạn kích thước file tối đa là 5 MB
+    MAX_FILE_SIZE_MB =  25   # Giới hạn kích thước file tối đa là 5 MB
     def post(self, request):
         data = request.data
         try:
@@ -372,7 +372,7 @@ class UpdateAPIView(GenericAPIView):
 
         image_id = None
         
-        if (avatar != None) and (not isinstance(avatar, str)) and (avatar.content_type=="image/png"):
+        if (avatar != None) and (not isinstance(avatar, str)) and (avatar.content_type.startswith('image/')):
             try:
                 user = BaseModel.find_one('user', {
                     '_id': ObjectId(user_id)

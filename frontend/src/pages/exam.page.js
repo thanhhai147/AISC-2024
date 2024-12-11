@@ -39,7 +39,7 @@ export default function ExamPage() {
             filtered: true
         },
         {
-            title: "Thời gian thực hiện",
+            title: "Thời gian thực hiện (phút)",
             dataIndex: "timeLimit",
             key: "timeLimit",
             align: "center",
@@ -85,7 +85,7 @@ export default function ExamPage() {
                     <Button 
                         type="success" 
                         size="small" 
-                        onClick={() => navigate("/take-exam?quiz_id" + record['key'])}
+                        onClick={() => navigate("/take-exam?quiz_id=" + record['key'])}
                     >
                         {text.split("-")[1]}
                     </Button>
