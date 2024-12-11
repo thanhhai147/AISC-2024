@@ -3,6 +3,8 @@ from django.http import FileResponse
 from rest_framework.generics import GenericAPIView
 from rest_framework import status
 from datetime import datetime, timedelta
+from collections import defaultdict
+from bson import ObjectId
 
 from ..validators.custom_validators import BaseValidator, AdancedValidator
 from ..validators.model_validators import ModelValidator, UserValidator, QuizAttemptsValidator, UserAnswersValidator
@@ -12,19 +14,10 @@ class UpdateQuizAttemptAPIView(GenericAPIView):
     def post(self, request):
         data = request.data
         try:
-            quiz_attempt = data['quiz_attempt']
-            attempt_id = data['attempt_id']
-            user_id = quiz_attempt['user_id']
-            quiz_id = quiz_attempt['quiz_id']
-            score = quiz_attempt['score']
-            attempted_at = quiz_attempt['attempted_at']
-            completion_level = quiz_attempt['completion_level']
-            correct_ans_count = quiz_attempt['correct_ans_count']
-            incorrect_ans_count = quiz_attempt['incorrect_ans_count']
-
-            user_answer = data['user_answer']
-            question_id = user_answer['question_id']
-            answer_id = user_answer['answer_id']
+            user_id = data['user_id']
+            quiz_id = data['quiz_id']
+            user_answers = data['user_answers']
+          
         except:
             return Response(
                 {
@@ -52,99 +45,32 @@ class UpdateQuizAttemptAPIView(GenericAPIView):
                 status=status.HTTP_400_BAD_REQUEST
             )
         
-        if not UserAnswersValidator.check_answer_id(answer_id):
-            return Response(
-                {
-                    "success": False,
-                    "message": "Mã câu trả lời không hợp lệ"
-                },
-                status=status.HTTP_400_BAD_REQUEST
-            )
-        
-        if not UserAnswersValidator.check_question_id(question_id):
-            return Response(
-                {
-                    "success": False,
-                    "message": "Mã câu hỏi không hợp lệ"
-                },
-                status=status.HTTP_400_BAD_REQUEST
-            )
-        
-        if not QuizAttemptsValidator.check_correct_ans_count(correct_ans_count, quiz_id):
-            return Response(
-                {
-                    "success": False,
-                    "message": "Số câu đúng không hợp lệ"
-                },
-                status=status.HTTP_400_BAD_REQUEST
-            )
-        
-        if not QuizAttemptsValidator.check_incorrect_ans_count(incorrect_ans_count, quiz_id):
-            return Response(
-                {
-                    "success": False,
-                    "message": "Số câu sai không hợp lệ"
-                },
-                status=status.HTTP_400_BAD_REQUEST
-            )
-        
-        if not QuizAttemptsValidator.check_score(score, quiz_id):
-            return Response(
-                {
-                    "success": False,
-                    "message": "Điểm số không hợp lệ"
-                },
-                status=status.HTTP_400_BAD_REQUEST
-            )
-        
-        if not QuizAttemptsValidator.check_completion_level(completion_level):
-            return Response(
-                {
-                    "success": False,
-                    "message": "Mức độ hoàn thàn không hợp lệ"
-                },
-                status=status.HTTP_400_BAD_REQUEST
-            )
-        
-        if not QuizAttemptsValidator.check_attempted_at(attempted_at):
-            return Response(
-                {
-                    "success": False,
-                    "message": "Thời gian thi không hợp lệ"
-                },
-                status=status.HTTP_400_BAD_REQUEST
-            )
-
         try:
+            correct_ans_count = sum([user_answer["user_answer"] == user_answer["correct_answer"] for user_answer in user_answers])
+            incorrect_ans_count = len(user_answers) - correct_ans_count
+            score = correct_ans_count / len(user_answers) * 10
+            score = round(score, 1)
             attempt_data = {
-                'user_id': user_id,
-                'quiz_id': quiz_id,
+                'user_id': ObjectId(user_id),
+                'quiz_id': ObjectId(quiz_id),
                 'score': score,
-                'attempted_at': attempted_at,
-                'completion_level': completion_level,
+                'attempted_at': datetime.now(),
                 'correct_ans_count': correct_ans_count,
                 'incorrect_ans_count': incorrect_ans_count,
-                'updated_at': datetime.now()
             }
-            BaseModel.update_one(
-                'quiz_attempts',
-                {'_id': attempt_id},
-                {'$set': attempt_data}
+            print(attempt_data)
+            attempt_id = BaseModel.insert_one('quiz_attempts',
+                attempt_data
             )
-
-            if question_id and answer_id:
-                answer_data = {
+            for user_answer in user_answers:
+                BaseModel.insert_one('user_answers',
+                {
                     'attempt_id': attempt_id,
-                    'question_id': question_id,
-                    'answer_id': answer_id,
-                    'answered_at': datetime.now()
-                }
-                BaseModel.update_one(
-                    'user_answers',
-                    {'attempt_id': attempt_id, 'question_id': question_id},
-                    {'$set': answer_data}
-                )
-
+                    'question_id' : user_answer['question_id'],
+                    'user_answer' : user_answer['user_answer']
+                    
+                })
+           
         except:
             return Response(
                 {
@@ -158,19 +84,15 @@ class UpdateQuizAttemptAPIView(GenericAPIView):
             {
                 "success": True,
                 "message": "Lịch sử thi đã được cập nhật thành công",
-                "data": {
-                    "quiz_attempt": attempt_data,
-                    "user_answer": answer_data if question_id and answer_id else None,
-                }
+                "attempt_id": str(attempt_id),
             },
             status=status.HTTP_200_OK
         )
-
-class GetListAllQuizAttemptsAPIView(GenericAPIView):
+class GetQuizAttemptAPIView(GenericAPIView):
     def get(self, request):
         params = request.query_params
         try:
-            user_id = params['user_id']
+            attempted_id = params['attempted_id']
         except:
             return Response(
                 {
@@ -180,20 +102,32 @@ class GetListAllQuizAttemptsAPIView(GenericAPIView):
                 status=status.HTTP_400_BAD_REQUEST
             )
         
-        if not QuizAttemptsValidator .check_user_id(user_id):
-            return Response(
-                {
-                    "success": False,
-                    "message": "Mã người dùng không hợp lệ"
-                }, 
-                status=status.HTTP_400_BAD_REQUEST
-            )
-
         try:
-            results = BaseModel.find_many('quiz_attempts', {
-                'user_id': user_id
+            result = BaseModel.find_one('quiz_attempts', {
+                '_id': ObjectId(attempted_id)
             })
-
+            user_answers = BaseModel.find_many('user_answers', {
+                'attempt_id': ObjectId(attempted_id)
+            })
+            quiz = BaseModel.find_one('quizzes', {
+                '_id': result["quiz_id"]
+            })
+            questions = []
+            for user_answer in user_answers:
+                question = BaseModel.find_one('questions', {
+                    '_id': ObjectId(user_answer['question_id'])
+                })
+                questions.append({
+                    "question_id" : user_answer['question_id'],
+                    "question_text" : question["question_text"],
+                    "answer_text_A" : question["answer_text_A"],
+                    "answer_text_B" : question["answer_text_B"],
+                    "answer_text_C" : question["answer_text_C"],
+                    "answer_text_D" : question["answer_text_D"],
+                    "explanation" : question["explanation"],
+                    "is_correct" : question["is_correct"],
+                    "user_answer" : user_answer["user_answer"],
+                })
         except:
             return Response(
                 {
@@ -206,7 +140,71 @@ class GetListAllQuizAttemptsAPIView(GenericAPIView):
         return Response(
             {
                 "success": True,
-                "data": results,
+                "data": {
+                    "title": quiz["title"],
+                    "attempted_at": result["attempted_at"].strftime('%A, %d/%m/%Y, %H:%M'),
+                    "score": result["score"],
+                    "correct_ans_count": result["correct_ans_count"],
+                    "incorrect_ans_count": result["incorrect_ans_count"],
+                    "number_of_question": result["correct_ans_count"] + result["incorrect_ans_count"],
+                    "questions": questions
+                },
+                "message": "Lấy thành công danh sách lịch sử thi"
+            }, 
+            status=status.HTTP_200_OK
+        )
+    
+class GetListAllQuizAttemptsAPIView(GenericAPIView):
+    def get(self, request):
+        params = request.query_params
+        try:
+            quiz_id = params['quiz_id']
+        except:
+            return Response(
+                {
+                    "success": False,
+                    "message": "Thông tin người dùng không hợp lệ"
+                }, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        if not QuizAttemptsValidator.check_quiz_id(quiz_id):
+            return Response(
+                {
+                    "success": False,
+                    "message": "Mã người dùng không hợp lệ"
+                }, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        try:
+            results = BaseModel.find_many('quiz_attempts', {
+                'quiz_id': ObjectId(quiz_id)
+            })
+            data = []
+            for result in results:
+                data.append({
+                    "attempted_id": str(result['_id']),
+                    "score": result["score"],
+                    "correct_ans_count": result["correct_ans_count"],
+                    "incorrect_ans_count": result["incorrect_ans_count"],
+                    "number_of_question": result["correct_ans_count"] + result["incorrect_ans_count"],
+
+                })
+                print(result['_id'])
+        except:
+            return Response(
+                {
+                    "success": False,
+                    "message": "Lỗi Datasbase"
+                }, 
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+
+        return Response(
+            {
+                "success": True,
+                "data": data,
                 "message": "Lấy thành công danh sách lịch sử thi"
             }, 
             status=status.HTTP_200_OK
@@ -320,7 +318,6 @@ class GetTopActQuizAttemptsAPIView(GenericAPIView):
             status=status.HTTP_200_OK
         )
 
-from collections import defaultdict
 
 class ResultsStatisticsAPIView(GenericAPIView):
     def get(self, request):

@@ -15,12 +15,13 @@ export default function ExamInformation({
     timeTaken, 
     correctAnswers, 
     incorrectAnswers, 
-    totalQuestions 
+    totalQuestions,
+    attemptedId 
 }) {
     const navigate = useNavigate();
 
     const handleViewAnswers = () => {
-        navigate('/answer-detail'); 
+        navigate('/answer-detail?attempted_id='+ attemptedId); 
         console.log('Xem đáp án');
     };
     return (

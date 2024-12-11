@@ -4,15 +4,31 @@ import '../assets/css/navbarExam.css';
 import Button from './button.component';
 import BackButton from './buttonBack.component';
 import Clock from './clock.component';
-const NavbarExam = () => {
+import ExamAPI from '../api/exam.api';
+
+const NavbarExam = ({initialTime = 1, userId, quizId, userAnswers}) => {
     const navigate = useNavigate(); 
 
     const handleBackClick = () => {
-        navigate('/'); 
+        navigate(-1); 
     };
 
-    const handleSubmitClick = () => {
-        navigate('/scoring'); 
+    const handleSubmitClick = async() => {
+        console.log(userId, quizId, userAnswers)
+
+        try {
+            // Gọi API để cập nhật bài thi
+            const response = await ExamAPI.updateQuizAttempt(userId, quizId, userAnswers);
+            const data = await response.json();
+            if (response.ok) {
+                console.log('Quiz attempt updated successfully');
+                navigate('/scoring?attempted_id=' + data.attempt_id); // Điều hướng đến trang kết quả
+            } else {
+                console.error('Failed to update quiz attempt');
+            }
+        } catch (error) {
+            console.error('Error updating quiz attempt:', error);
+        }
     };
     return (
         <div className='navbar-exam-container foreground-color'>
@@ -24,7 +40,9 @@ const NavbarExam = () => {
             >
                 Tên người thực hiện: Nguyễn Hải Đăng
             </Button>
-            <Clock/>
+            <Clock
+                initialTime={initialTime}>
+            </Clock>
             <Button 
                 type='success' 
                 size='large' 

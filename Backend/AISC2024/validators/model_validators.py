@@ -175,7 +175,6 @@ class QuizzesValidator():
         if (
             BaseValidator.check_type('int', time_limit) and
             BaseValidator.check_null(time_limit) and
-            BaseValidator.check_blank(time_limit) and
             BaseValidator.check_min(0, time_limit)
         ): return True
         return False
@@ -213,8 +212,8 @@ class QuestionsValidator():
             BaseValidator.check_type('string', question_text) and
             BaseValidator.check_null(question_text) and
             BaseValidator.check_blank(question_text) and
-            BaseValidator.check_min_length(12, question_text) and
-            BaseValidator.check_max_length(120, question_text)
+            BaseValidator.check_min_length(2, question_text) and
+            BaseValidator.check_max_length(500, question_text)
         ): return True
         return False
     

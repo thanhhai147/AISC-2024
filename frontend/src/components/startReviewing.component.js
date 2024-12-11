@@ -16,7 +16,7 @@ export default function StartReviewing({ examName, timeTaken, totalQuestions, at
                         <FaRegClock style={{ fontSize: '25px', paddingRight: '8px' }} />
                         Thời gian làm bài
                     </span>
-                    <span className="value font-family-regular">{timeTaken}</span>
+                    <span className="value font-family-regular">{timeTaken} phút</span>
                 </div>
 
                 <div className="row font-family-regular">

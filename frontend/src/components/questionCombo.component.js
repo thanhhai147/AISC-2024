@@ -11,7 +11,7 @@ export default function QuestionCombo({
     questionId,
     questionNumber, 
     questionContext, 
-    A, B, C, D, answer, rightAnswer, wrongAnswer, explanation, 
+    A, B, C, D, answer, rightAnswer, wrongAnswer, explanation, onAnswerSelect,selectedAnswer,
     onChange,
     onRemove,
     onEdit
@@ -87,6 +87,9 @@ export default function QuestionCombo({
             </>
         )
     }
+    // const [selectedAnswer, setSelectedAnswer] = useState("");
+
+    
 
     const examCombo = () => {
         return (
@@ -105,6 +108,9 @@ export default function QuestionCombo({
                     B={B}
                     C={C}
                     D={D}
+                    selectedAnswer={selectedAnswer}
+                    onAnswerSelect={onAnswerSelect} // Truyền callback vào đây
+
                 />
             </div>
         )
@@ -143,11 +149,13 @@ export default function QuestionCombo({
                         questionContext={questionContext}
                     />
                     <MultipleChoices 
-                        type={'exam'}
+                        type={'review'}
                         A={A}
                         B={B}
                         C={C}
                         D={D}
+                        rightAnswer={rightAnswer}
+                        wrongAnswer={wrongAnswer}
                     />
                 </div>
                 <div className="explanation-section">

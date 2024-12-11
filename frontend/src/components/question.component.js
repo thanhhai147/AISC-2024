@@ -14,6 +14,7 @@ export default function Question({type, questionNumber, questionContext, setQues
                         Câu {questionNumber}
                     </div>
                 }
+
                 {
                     type === 'edit' ?
                         <TextInput value={questionContext} setValue={setQuestionValue} boldText={true} onChange={(e) => onChange("questionContext", e.target.value)}/>
