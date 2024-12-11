@@ -7,7 +7,7 @@ import Clock from './clock.component';
 import ExamAPI from '../api/exam.api';
 import { useAuth } from '../context/authentication.context';
 
-const NavbarExam = ({initialTime = 1, quizId, userAnswers}) => {
+const NavbarExam = ({time = 1, quizId, userAnswers, onTimeChange}) => {
     const navigate = useNavigate(); 
     const { userId, user } = useAuth()
 
@@ -44,7 +44,9 @@ const NavbarExam = ({initialTime = 1, quizId, userAnswers}) => {
                 Tên người thực hiện: { user?.username }
             </Button>
             <Clock
-                initialTime={initialTime}>
+                time={time}
+                onTimeChange={onTimeChange}
+            >
             </Clock>
             <Button 
                 type='success' 

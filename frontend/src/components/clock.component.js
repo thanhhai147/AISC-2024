@@ -3,7 +3,7 @@ import Countdown from 'react-countdown';
 import { FaRegClock } from "react-icons/fa";
 import '../assets/css/clock.css'
 
-const Clock = ({initialTime = 1}) => {
+const Clock = ({time = 1, onTimeChange}) => {
     const renderer = ({ hours, minutes, seconds, completed }) => {
         if (completed) {
             return <span>Hết giờ</span>;
@@ -24,8 +24,9 @@ const Clock = ({initialTime = 1}) => {
             <FaRegClock className="clock-icon" />
             <Countdown 
                 className="time" 
-                date={Date.now() + initialTime * 60 * 1000} 
-                renderer={renderer} 
+                date={Date.now() + time * 60 * 1000} 
+                renderer={renderer}
+                onTick={onTimeChange} 
             /> 
         </div>
     );

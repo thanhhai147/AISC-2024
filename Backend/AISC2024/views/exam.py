@@ -58,7 +58,7 @@ class UpdateQuizAttemptAPIView(GenericAPIView):
                 'correct_ans_count': correct_ans_count,
                 'incorrect_ans_count': incorrect_ans_count,
             }
-            print(attempt_data)
+            
             attempt_id = BaseModel.insert_one('quiz_attempts',
                 attempt_data
             )
@@ -70,7 +70,20 @@ class UpdateQuizAttemptAPIView(GenericAPIView):
                     'user_answer' : user_answer['user_answer']
                     
                 })
-           
+
+            BaseModel.update_one('quizzes', 
+                {
+                    '_id': ObjectId(quiz_id)
+                },
+                {
+                    '$set': {
+                        'updated_at': datetime.now()
+                    },
+                    '$inc': {
+                        'attempt_count': 1
+                    }
+                }    
+            )
         except:
             return Response(
                 {

@@ -480,11 +480,11 @@ class GetAttendedQuiz(GenericAPIView):
 
             quiz_ids = [quiz_attempt['quiz_id'] for quiz_attempt in quiz_attempts]
             unique_quiz_ids = list(set(quiz_ids))
-
+            
             results = BaseModel.find_many('quizzes', {
-                'quiz_id': {
-                    '$in': unique_quiz_ids
-                }            
+                '_id': {
+                    "$in": unique_quiz_ids
+                }
             })
         except:
             return Response(
@@ -494,7 +494,6 @@ class GetAttendedQuiz(GenericAPIView):
                 }, 
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
-
         return Response(
             {
                 "success": True,

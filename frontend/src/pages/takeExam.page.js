@@ -18,6 +18,7 @@ export default function TakeExamPage() {
     const [statusQuestions, setStatusQuestions] = useState([]);
     const [selectedAnswers, setSelectedAnswers] = useState([]); // Lưu đáp án đã chọn
     const [loading, setLoading] = useState(true); // Trạng thái theo dõi quá trình tải
+    const [time, setTime] = useState(null)
     
     const handleQuestionClick = (index) => {
         setCurrentQuestionIndex(index); // Chuyển đến câu hỏi được chọn
@@ -32,6 +33,7 @@ export default function TakeExamPage() {
                 setQuiz(data?.data || {}); // Cập nhật dữ liệu
                 setSelectedAnswers(Array(data?.data?.quiz?.number_of_questions).fill("none"))
                 setStatusQuestions(Array(data?.data?.quiz?.number_of_questions).fill("secondary"))
+                setTime(data?.data?.quiz?.time_limit)
             } catch (error) {
                 console.error("Error fetching question banks:", error);
             } finally {
@@ -40,6 +42,7 @@ export default function TakeExamPage() {
         };
         fetchQuestions();
     }, []);
+
     if (loading) {
         return <p></p>;
     }
@@ -65,8 +68,6 @@ export default function TakeExamPage() {
     }
     
     const handleAnswerSelect = (answer) => {
-        console.log(selectedAnswers)
-        console.log("Selected Answer:", answer); // In ra đáp án được chọn
         setSelectedAnswers((prevArray) => 
             prevArray.map((value, i) => (i === currentQuestionIndex ? answer : value))
         );
@@ -80,13 +81,17 @@ export default function TakeExamPage() {
             timeTaken: quiz?.quiz?.["time_limit"], 
             totalQuestions: quiz?.quiz?.["number_of_questions"], 
             attempts: quiz?.quiz?.["attempt_count"], 
-            examType: "Đây là phần giải thích"
+            examType: "Trắc nghiệm"
         }
     ];
 
     const handleStartReviewing = () => {
         setIsReviewingStarted(true); 
     };
+
+    const handleOnTimeChange = (timeObject) => {
+        setTime(timeObject['total'] / 60 / 1000)
+    }
 
     return (
         <>
@@ -109,7 +114,8 @@ export default function TakeExamPage() {
             ) : (
                 <>
                     <NavbarExam
-                        initialTime={quiz?.quiz?.["time_limit"]}
+                        time={time}
+                        onTimeChange={handleOnTimeChange}
                         quizId={quiz?.quiz?.["quiz_id"]}
                         userAnswers={user_answers}
                     >
