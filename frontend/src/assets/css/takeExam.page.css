@@ -4,7 +4,7 @@
 }
 .exam-container{
     width: 1077px;
-    height: 350px;
+    height: fit-content;
     background-color: var(--white-color);
     margin: 12px;
     margin-top: 30px;

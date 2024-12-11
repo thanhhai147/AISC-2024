@@ -19,11 +19,11 @@ export default function ExamDetailPage() {
     const [data, setData] = useState()
     const [editQuestionId, setEditQuestionId] = useState(null)
     const [isPopupVisible, setIsPopupVisible] = useState(false)
-
+    const queryString = window.location.search
+    const params = new URLSearchParams(queryString);
+    const quizId = params.get('quiz_id');
     useEffect(() => {
-        const queryString = window.location.search
-        const params = new URLSearchParams(queryString);
-        const quizId = params.get('quiz_id');
+    
         
         QuizzesAPI.getDetailedQuiz(quizId)
         .then(response => response.json())
@@ -220,7 +220,7 @@ export default function ExamDetailPage() {
     };
 
     const handleStartReviewing = () => {
-        navigate('/take-exam');
+        navigate("/take-exam?quiz_id=" + quizId);
     };
 
     const handleClosePopup = () => {
