@@ -39,6 +39,15 @@ class ExamAPI {
             }
         )
     }
+    static getStatistics(user_id) {
+        return fetch(
+            `http://localhost:8000/results-statistics?user_id=${user_id}`, 
+            {
+                method: "GET",
+                mode: "cors"    
+            }
+        )
+    }
 }
 
 export default ExamAPI

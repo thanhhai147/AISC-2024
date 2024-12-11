@@ -51,7 +51,7 @@ const NavbarExam = ({time = 1, quizId, userAnswers, onTimeChange}) => {
             <Button 
                 type='success' 
                 size='large' 
-                status={'active'}
+                status={time > 0 ? 'active' : 'disabled'}
                 onClick={handleSubmitClick}
             >
                 Nộp bài

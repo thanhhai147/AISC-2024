@@ -349,7 +349,7 @@ class ResultsStatisticsAPIView(GenericAPIView):
         try:
             quiz_attempts = BaseModel.find_many(
                 'quiz_attempts',
-                {'user_id': user_id}
+                {'user_id': ObjectId(user_id)}
             )
         except:
             return Response(
@@ -379,20 +379,18 @@ class ResultsStatisticsAPIView(GenericAPIView):
 
         try:
             for attempt in quiz_attempts:
-                attempt_id = attempt.get('attempt_id')
+                attempt_id = str(attempt.get('_id'))
+                quiz_id = str(attempt.get('quiz_id'))
                 score = attempt.get('score')
                 attempted_at = attempt.get('attempted_at')
-
-                # Chuyển đổi thời gian làm bài về dạng datetime
-                attempted_date = datetime.strptime(attempted_at, "%Y-%m-%dT%H:%M:%S")
-
+                
                 # Tính toán tuần và tháng
-                week_key = f"{attempted_date.year}-W{attempted_date.isocalendar()[1]}"
-                month_key = f"{attempted_date.year}-{attempted_date.month:02d}"
+                week_key = f"{attempted_at.year}-W{attempted_at.isocalendar()[1]}"
+                month_key = f"{attempted_at.year}-{attempted_at.month:02d}"
 
                 # Thêm điểm số vào thống kê
-                weekly_statistics[week_key].append({'attempt_id': attempt_id, 'score': score})
-                monthly_statistics[month_key].append({'attempt_id': attempt_id, 'score': score})
+                weekly_statistics[week_key].append({'attempt_id': attempt_id, 'quiz_id': quiz_id, 'score': score, 'attempted_at': attempted_at})
+                monthly_statistics[month_key].append({'attempt_id': attempt_id, 'quiz_id': quiz_id, 'score': score, 'attempted_at': attempted_at})
 
             # Tổng hợp kết quả
             weekly_result = [
@@ -403,7 +401,7 @@ class ResultsStatisticsAPIView(GenericAPIView):
                 {"month": month, "results": results}
                 for month, results in sorted(monthly_statistics.items())
             ]
-
+            
             return Response(
                 {
                     "success": True,
