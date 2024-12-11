@@ -4,8 +4,10 @@ import '../assets/css/comment.css';
 import Button from './button.component';
 import ForumAPI from '../api/forum.api';
 import Swal from 'sweetalert2';
+import { useAuth } from '../context/authentication.context';
 
-const Comment = ({ userId, postId, onCreateComment=() => {}, onCloseComment=() => {} }) => {
+const Comment = ({ postId, onCreateComment=() => {}, onCloseComment=() => {} }) => {
+    const { userId } = useAuth() 
     const [comment, setComment] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 

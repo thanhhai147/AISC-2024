@@ -252,7 +252,6 @@ const Post = ({ postId }) => {
                     showComment && 
                     <div className="reply-comment-section">
                         <Comment  
-                            userId={post?.userId}
                             postId={postId}
                             onCreateComment={() => {
                                 setShowComment(false)
