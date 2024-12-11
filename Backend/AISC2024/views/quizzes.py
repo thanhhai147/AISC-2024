@@ -628,22 +628,6 @@ class GetDetailedQuiz(GenericAPIView):
                     '$in': question_ids
                 }
             })
-
-            
-            quiz['_id'] = str(quiz.get("_id", None))
-            quiz['user_id'] = str(quiz.get("user_id", None))
-            quiz["created_at"] = quiz.get("created_at", None).strftime("%H:%M %d/%m/%Y")
-            quiz["updated_at"] = quiz.get("updated_at", None).strftime("%H:%M %d/%m/%Y")
-            
-            brief_info = (quiz)
-            detailed_info = []
-            for question in questions:
-                question['_id'] = str(question.get("_id", None))
-                question['question_bank_id'] = str(question.get("question_bank_id", None))
-                question["created_at"] = question.get("created_at", None).strftime("%H:%M %d/%m/%Y")
-                question["updated_at"] = question.get("updated_at", None).strftime("%H:%M %d/%m/%Y")
-                
-                detailed_info.append(question) 
         except:
             return Response(
                 {

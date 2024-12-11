@@ -8,6 +8,10 @@ import '../assets/css/takeExam.page.css';
 import QuizAPI from "../api/quiz.api";
 
 export default function TakeExamPage() {
+    const queryString = window.location.search
+    const params = new URLSearchParams(queryString);
+    const quizId = params.get('quiz_id');
+
     const [isReviewingStarted, setIsReviewingStarted] = useState(false); 
     const [quiz, setQuiz] = useState([]);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -19,14 +23,15 @@ export default function TakeExamPage() {
         setCurrentQuestionIndex(index); // Chuyển đến câu hỏi được chọn
         
     };
+
     useEffect(() => {
         const fetchQuestions = async () => {
             try {
-                const response = await QuizAPI.getDetailedQuiz("6756b5ba16b1b81fb45bbdea");
+                const response = await QuizAPI.getDetailedQuiz(quizId);
                 const data = await response.json();
-                setQuiz(data.data || {}); // Cập nhật dữ liệu
-                setSelectedAnswers(Array(data.data.brief_info.number_of_questions).fill("none"))
-                setStatusQuestions(Array(data.data.brief_info.number_of_questions).fill("secondary"))
+                setQuiz(data?.data || {}); // Cập nhật dữ liệu
+                setSelectedAnswers(Array(data?.data?.quiz?.number_of_questions).fill("none"))
+                setStatusQuestions(Array(data?.data?.quiz?.number_of_questions).fill("secondary"))
             } catch (error) {
                 console.error("Error fetching question banks:", error);
             } finally {
@@ -41,20 +46,20 @@ export default function TakeExamPage() {
     
     const questionData = {
         type: 'exam', 
-        questionContext: quiz?.["detailed_info"][currentQuestionIndex]?.["question_text"],
-        A: quiz?.["detailed_info"][currentQuestionIndex]?.["answer_text_A"],
-        B: quiz?.["detailed_info"][currentQuestionIndex]?.["answer_text_B"],
-        C: quiz?.["detailed_info"][currentQuestionIndex]?.["answer_text_C"],
-        D: quiz?.["detailed_info"][currentQuestionIndex]?.["answer_text_D"],
+        questionContext: quiz?.questions?.[currentQuestionIndex]?.["question_text"],
+        A: quiz?.questions?.[currentQuestionIndex]?.["answer_text_A"],
+        B: quiz?.questions?.[currentQuestionIndex]?.["answer_text_B"],
+        C: quiz?.questions?.[currentQuestionIndex]?.["answer_text_C"],
+        D: quiz?.questions?.[currentQuestionIndex]?.["answer_text_D"],
         answer: "", 
         rightAnswer: "", 
         wrongAnswer: "" 
     };
     const user_answers = [];
-    for (let i = 0; i < quiz?.["detailed_info"]?.length; i++) {
+    for (let i = 0; i < quiz?.questions?.length; i++) {
         user_answers.push({
-            question_id: quiz["detailed_info"][i]._id,
-            correct_answer: quiz["detailed_info"][i].is_correct,
+            question_id: quiz?.questions[i]?.question_id,
+            correct_answer: quiz?.questions[i]?.is_correct,
             user_answer: selectedAnswers[i] || "none" // Lấy câu trả lời đã chọn hoặc mặc định là "none"
         });
     }
@@ -71,10 +76,10 @@ export default function TakeExamPage() {
     };
     const startReviewing = [
         { 
-            examName: quiz?.["brief_info"]?.["title"], 
-            timeTaken: quiz?.["brief_info"]?.["time_limit"], 
-            totalQuestions: quiz?.["brief_info"]?.["number_of_questions"], 
-            attempts: quiz?.["brief_info"]?.["attempt_count"], 
+            examName: quiz?.quiz?.["title"], 
+            timeTaken: quiz?.quiz?.["time_limit"], 
+            totalQuestions: quiz?.quiz?.["number_of_questions"], 
+            attempts: quiz?.quiz?.["attempt_count"], 
             examType: "Đây là phần giải thích"
         }
     ];
@@ -104,9 +109,8 @@ export default function TakeExamPage() {
             ) : (
                 <>
                     <NavbarExam
-                        initialTime={quiz?.["brief_info"]?.["time_limit"]}
-                        userId={quiz?.["brief_info"]?.["user_id"]}
-                        quizId={quiz?.["brief_info"]?.["_id"]}
+                        initialTime={quiz?.quiz?.["time_limit"]}
+                        quizId={quiz?.quiz?.["quiz_id"]}
                         userAnswers={user_answers}
                     >
                     </NavbarExam>
@@ -131,7 +135,7 @@ export default function TakeExamPage() {
                         <div className="box-question">
                             <p className="title-boxquestion">Danh sách câu hỏi</p>
                             <BoxQuestion   
-                                questionCount={quiz?.["brief_info"]?.["number_of_questions"]} 
+                                questionCount={quiz?.quiz?.["number_of_questions"]} 
                                 statusQuestions={statusQuestions} 
                                 onQuestionClick={handleQuestionClick}
                                 />

@@ -5,9 +5,11 @@ import Button from './button.component';
 import BackButton from './buttonBack.component';
 import Clock from './clock.component';
 import ExamAPI from '../api/exam.api';
+import { useAuth } from '../context/authentication.context';
 
-const NavbarExam = ({initialTime = 1, userId, quizId, userAnswers}) => {
+const NavbarExam = ({initialTime = 1, quizId, userAnswers}) => {
     const navigate = useNavigate(); 
+    const { userId, user } = useAuth()
 
     const handleBackClick = () => {
         navigate(-1); 
@@ -25,6 +27,7 @@ const NavbarExam = ({initialTime = 1, userId, quizId, userAnswers}) => {
                 navigate('/scoring?attempted_id=' + data.attempt_id); // Điều hướng đến trang kết quả
             } else {
                 console.error('Failed to update quiz attempt');
+                console.log(data)
             }
         } catch (error) {
             console.error('Error updating quiz attempt:', error);
@@ -38,7 +41,7 @@ const NavbarExam = ({initialTime = 1, userId, quizId, userAnswers}) => {
                 size='large' 
                 status={'disabled'}
             >
-                Tên người thực hiện: Nguyễn Hải Đăng
+                Tên người thực hiện: { user?.username }
             </Button>
             <Clock
                 initialTime={initialTime}>
