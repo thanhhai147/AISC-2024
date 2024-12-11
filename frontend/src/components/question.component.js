@@ -8,9 +8,12 @@ export default function Question({type, questionNumber, questionContext, setQues
     return (
         <>
             <div className='question'>
-                {/* <div className='question-number font-family-semibold font-size-normal'>
-                    Câu {questionNumber}
-                </div> */}
+                {
+                    questionNumber &&
+                    <div className='question-number font-family-semibold font-size-normal'>
+                        Câu {questionNumber}
+                    </div>
+                }
                 {
                     type === 'edit' ?
                         <TextInput value={questionContext} setValue={setQuestionValue} boldText={true} onChange={(e) => onChange("questionContext", e.target.value)}/>

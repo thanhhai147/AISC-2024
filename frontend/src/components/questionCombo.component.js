@@ -8,10 +8,13 @@ import Button from "./button.component";
 
 export default function QuestionCombo({ 
     type, 
+    questionId,
     questionNumber, 
     questionContext, 
     A, B, C, D, answer, rightAnswer, wrongAnswer, explanation, 
     onChange,
+    onRemove,
+    onEdit
 }) {
     
     const basicCombo = () => {
@@ -73,11 +76,11 @@ export default function QuestionCombo({
                 />
                 <Answer type={'pre-edit'} answer={answer} />
                 <div className="pre-edit-buttons">
-                    <Button type="warning" size="small" status="active">
+                    <Button type="warning" size="small" status="active" onClick={() => onRemove(questionId)}>
                         Xóa
                     </Button>
                     <div className="pre-edit-button-spacer"></div>
-                    <Button type="success" size="small" status="active">
+                    <Button type="success" size="small" status="active" onClick={() => onEdit(questionId)}>
                         Chỉnh sửa
                     </Button>
                 </div>

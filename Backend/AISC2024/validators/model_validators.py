@@ -145,8 +145,7 @@ class QuizzesValidator():
             BaseValidator.check_type('string', title) and
             BaseValidator.check_null(title) and
             BaseValidator.check_blank(title) and
-            ModelValidator.check_unique('quizzes', 'title', title) and
-            BaseValidator.check_min_length(12, title) and
+            BaseValidator.check_min_length(1, title) and
             BaseValidator.check_max_length(120, title)
         ): return True
         return False

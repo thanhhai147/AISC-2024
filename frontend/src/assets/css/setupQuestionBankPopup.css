@@ -19,7 +19,7 @@
 }
 .popup-content{
     border: none;
-    box-shadow: none;
+    box-shadow: none
 }
 .popup-title {
     font-size: var(--font-size-normal);

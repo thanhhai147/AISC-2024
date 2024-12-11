@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import QuizzesAPI from "../api/quizzes.api";
+import { useAuth } from "../context/authentication.context";
 
 import '../assets/css/questionDetail.page.css';
 import MainLayout from "../layouts/main.layout";
@@ -13,6 +16,7 @@ import QuestionAPI from "../api/question.api";
 export default function QuestionBankDetailPage() {
     const location = useLocation();
     const navigate = useNavigate();
+    const { userId } = useAuth()
 
     // Lấy dữ liệu từ URL query string
     const queryParams = new URLSearchParams(location.search);
@@ -20,6 +24,15 @@ export default function QuestionBankDetailPage() {
     const quesBankName = location.state?.title; 
 
     const [questions, setQuestions] = useState([]);
+    const [listData, setListData] = useState([])
+    //QUẢN LÝ CHECKBOX
+    // Quản lý trạng thái của checkbox
+    const [selectedItems, setSelectedItems] = useState([]);
+    //QUẢN LÝ POPUP EDIT QUESTION
+    const [showPopup, setShowPopup] = useState(false);
+    const [selectedQuestion, setSelectedQuestion] = useState(null);
+    //QUẢN LÝ POPUP SETUP EXAM
+    const [isPopupVisible, setIsPopupVisible] = useState(false);
 
     useEffect(() => {
         const fetchQuestions = async () => {
@@ -33,38 +46,43 @@ export default function QuestionBankDetailPage() {
         };
         fetchQuestions();
     }, [quesBankID]);
-    const listData = [];
-    questions.forEach((question, index) => {
-        listData.push({
-            key: index + 1,
-            question: question["question_text"],
-            date: question["create_date"],
-            detail: "Xem chi tiết",
-            status: "Sửa",
-            questionID : question["question_id"]
-        });
-    });
-    console.log(listData);
 
-    //QUẢN LÝ CHECKBOX
-    // Quản lý trạng thái của checkbox
-    const [selectedItems, setSelectedItems] = useState([]);
+    useEffect(() => {
+        let updatedListData = []
+        let updatedSelectedItems = {}
+        questions.forEach((question, index) => {
+            updatedListData.push({
+                key: index + 1,
+                question: question["question_text"],
+                date: question["create_date"],
+                detail: "Xem chi tiết",
+                status: "Sửa",
+                questionID : question["question_id"]
+            });
+            updatedSelectedItems[question["question_id"]] = false
+        });
+        setListData(updatedListData)
+        setSelectedItems(updatedSelectedItems)
+    }, [questions])
 
     // Hàm xử lý khi thay đổi trạng thái checkbox
-    const handleCheckboxChange = (index) => {
-        const updatedItems = [...selectedItems];
-        updatedItems[index] = !updatedItems[index];
-        setSelectedItems(updatedItems);
+    const handleCheckboxChange = (questonId) => {
+        setSelectedItems(prevState => ({
+            ...prevState, // Copy previous state
+            [questonId]: !prevState[questonId], // Update specific key
+        }));
     };
 
     // Hàm xử lý "Bỏ chọn"
     const handleDeselectAll = () => {
-        setSelectedItems(selectedItems.map(() => false));
+        setSelectedItems(prevState => {
+            const updatedItems = {};
+            Object.keys(prevState).forEach(key => {
+                updatedItems[key] = false; // Set all to false
+            });
+            return updatedItems;
+        });
     };
-
-    //QUẢN LÝ POPUP EDIT QUESTION
-    const [showPopup, setShowPopup] = useState(false);
-    const [selectedQuestion, setSelectedQuestion] = useState(null);
 
     const handleEdit = (key) => {
         setSelectedQuestion(key);
@@ -74,11 +92,18 @@ export default function QuestionBankDetailPage() {
     const handleClosePopup = () => {
         setShowPopup(false); 
     };
-
-    //QUẢN LÝ POPUP SETUP EXAM
-    const [isPopupVisible, setIsPopupVisible] = useState(false);
     
     const handleOpenPopupSetupExam = () => {
+        if (Object.values(selectedItems).every(value => value === false)) {
+            return Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "Tạo đề ôn thất bại",
+                text: "Vui lòng chọn bộ câu hỏi",
+                showConfirmButton: false,
+                timer: 1500
+            })
+        }
         setIsPopupVisible(true);
     };
 
@@ -86,8 +111,55 @@ export default function QuestionBankDetailPage() {
         setIsPopupVisible(false);
     };
     
-    const handleCreateExam = () => {
-        setIsPopupVisible(false);
+    const handleCreateExam = (examName, examTime) => {
+        if (!examName || !examTime) {
+            return Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "Tạo đề ôn thất bại",
+                text: "Vui lòng nhập tên đền ôn và thời gian",
+                showConfirmButton: false,
+                timer: 1500
+            })
+        }
+
+        QuizzesAPI.createQuiz(userId, examName, examTime, Object.entries(selectedItems).filter(value => value[1]).map(value => value[0]))
+        .then(response => response.json())
+        .then(data => {
+            if(data?.success) {
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: "Tạo đề ôn thành công",
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+                .then(() => {
+                    setIsPopupVisible(false)
+                    navigate("/exam")
+                })
+            } else {
+                Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: "Tạo đề ôn thất bại",
+                    text: data?.message,
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+            }
+        })
+        .catch(error => {
+            console.error(error)
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "Tạo đề ôn thất bại",
+                text: error?.message,
+                showConfirmButton: false,
+                timer: 1500
+            })
+        })
     };
 
     const columns = [
@@ -99,8 +171,8 @@ export default function QuestionBankDetailPage() {
             render: (text, record) => (
                 <span className="check-box black-color">
                     <CheckBox
-                        checked={selectedItems[record.key - 1] || false}
-                        onChange={() => handleCheckboxChange(record.key - 1)}
+                        checked={selectedItems[record?.questionID] || false}
+                        onChange={() => handleCheckboxChange(record?.questionID)}
                     />
                     <span>{record.key}</span>
                 </span>
@@ -150,10 +222,10 @@ export default function QuestionBankDetailPage() {
                     >
                         {text.split("-")[0]}
                     </Button>
-                    <span className="ml-1"></span>
+                    {/* <span className="ml-1"></span>
                     <Button type="warning" size="small">
                         {text.split("-")[1]}
-                    </Button>
+                    </Button> */}
                 </span>
             )
         },

@@ -60,7 +60,9 @@ export default function QuestionDetailPage() {
     };
     return (
         <MainLayout>
-            <BackButton onClick={() => navigate(-1)} />
+            <div className="question-detail-back-button">
+                <BackButton onClick={() => navigate(-1)} />
+            </div>
 
             <div className="question-detail-container">
                 <div className="question-detail-intro">
@@ -76,7 +78,7 @@ export default function QuestionDetailPage() {
                     question ?
                     <QuestionCombo
                         type={"basic"}
-                        questionNumber={`${quesId}`}
+                        questionId={`${quesId}`}
                         questionContext={`${question?.['question_text']}`}
                         A={`${question?.['answer_text_A']}`}
                         B={`${question?.['answer_text_B']}`}
