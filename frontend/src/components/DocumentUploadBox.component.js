@@ -38,8 +38,8 @@ const DocumentUploadBox = ({ onNavigate, onGenerate }) => {
     }
   }, [uploadedFiles]);
 
-  const handleToggleChange = (checked) => {
-    setToggleChecked(checked); // Cập nhật trạng thái của Toggle
+  const handleToggleChange = (value) => {
+    setToggleChecked(value); // Cập nhật trạng thái của Toggle
   };
 
   const handleGenerateQuestions = async () => {
