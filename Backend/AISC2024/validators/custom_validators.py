@@ -18,6 +18,7 @@ class BaseValidator:
 
     @staticmethod
     def check_blank(value) -> bool:
+        if (type(value) != str): return True
         return len(value) > 0
 
     @staticmethod

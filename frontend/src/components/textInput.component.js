@@ -4,7 +4,6 @@ import '../assets/css/textInput.css';
 export default function TextInput({
     placeholder = '',
     type = 'text',
-    defaultValue = '',
     uneditable = '',
     width = '',
     boldText=false,
@@ -28,8 +27,7 @@ export default function TextInput({
             }
             <input
                 type={type}
-                defaultValue={defaultValue}
-                value={value}
+                defaultValue={value}
                 placeholder={placeholder}
                 style={{width}}
                 onChange={onChange}

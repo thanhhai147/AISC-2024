@@ -127,19 +127,11 @@ class LogInAPIView(GenericAPIView):
             }, 
             status=status.HTTP_400_BAD_REQUEST
         )
-
+ 
         try:
             user = BaseModel.find_one('user', {
                 'email_phone_number': email_phone_number
             })
-            if not check_password(password, user.get('password', None)):
-                return Response(
-                    {
-                        "success": False,
-                        "message": "Mật khẩu không hợp lệ"
-                    }, 
-                    status=status.HTTP_401_UNAUTHORIZED
-                )
         except:
             return Response(
                 {
@@ -258,12 +250,21 @@ class LogOutAPIView(GenericAPIView):
     def post(self, request):
         data = request.data
         try:
-            user_name = data['user_name']
+            user_id = data['user_id']
         except:
             return Response(
                 {
                     "success": False,
-                    "message": "Bạn chưa đăng nhập"
+                    "message": "Thông tin người dùng không hợp lệ"
+                },
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        if not ModelValidator.check_exist_key('user', user_id):
+            return Response(
+                {
+                    "success": False,
+                    "message": "Mã người dùng không tồn tại"
                 },
                 status=status.HTTP_400_BAD_REQUEST
             )

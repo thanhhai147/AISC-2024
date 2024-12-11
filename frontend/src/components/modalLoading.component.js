@@ -54,7 +54,7 @@ ModalLoading.propTypes = {
   buttonText: PropTypes.string,
 };
 
-ModalLoading.defaultProps = {
+ModalLoading.default = {
   title: "Đang tải...",
   message: "Quá trình này có thể mất vài giây. Vui lòng đợi trong giây lát!",
   buttonText: "Huỷ bỏ",

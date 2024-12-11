@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Table } from "antd";
 import '../assets/css/list.css';
 
@@ -19,9 +19,7 @@ export default function List({ list, listTitle, emptyMessage }) {
                         key={'section-' + index} 
                         className={`list-section ${sectionIndex === index ? 'primary-color' : 'primary-disabled-color'}`}
                         onClick={() => {
-                            if (index !== sections.length - 1) {
-                                setSectionIndex(index);
-                            }
+                            setSectionIndex(index);
                         }}
                     >
                         {section}
@@ -43,6 +41,7 @@ export default function List({ list, listTitle, emptyMessage }) {
                     <>
                         {listNavbar(list.sections)}
                         <Table 
+                            key={sectionIndex}
                             className="list"
                             sticky={true}
                             columns={list.columns}

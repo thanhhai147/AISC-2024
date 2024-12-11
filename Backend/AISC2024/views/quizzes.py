@@ -13,12 +13,12 @@ class CreateQuizAPIView(GenericAPIView):
     def post(self, request):
         data = request.data
         try:
-            quiz = data['quiz']
-            user_id = quiz['user_id']
-            title = quiz['title']
-            time_limit = quiz['time_limit']
-            question_ids = quiz['question_ids']
-            print(quiz)
+            quiz = data.get('quiz', None)
+            user_id = quiz.get('user_id', None)
+            title = quiz.get('title', None)
+            time_limit = quiz.get('time_limit', None)
+            time_limit = int(time_limit) if time_limit is not None else None
+            question_ids = quiz.get('question_ids')
         except:
             return Response(
                 {
@@ -55,6 +55,15 @@ class CreateQuizAPIView(GenericAPIView):
                 status=status.HTTP_400_BAD_REQUEST
             )
         
+        if not question_ids or type(question_ids) != list or len(question_ids) == 0:
+            return Response(
+                {
+                    "success": False,
+                    "message": "Mã câu hỏi không hợp lệ"
+                }, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
         for question_id in question_ids:
             if not QuizQuestionValidator.check_question_id(question_id):
                 return Response(
@@ -64,7 +73,7 @@ class CreateQuizAPIView(GenericAPIView):
                     }, 
                     status=status.HTTP_400_BAD_REQUEST
                 )
-        
+      
         try:
             quiz_id = BaseModel.insert_one('quizzes', {
                 'user_id': ObjectId(user_id),
@@ -75,7 +84,6 @@ class CreateQuizAPIView(GenericAPIView):
                 'created_at': datetime.now(),
                 'updated_at': datetime.now()
             })
-
             BaseModel.insert_many('quiz_question', [
                 {
                     'question_id': ObjectId(question_id),
@@ -96,7 +104,10 @@ class CreateQuizAPIView(GenericAPIView):
         return Response(
             {
                 "success": True,
-                "message": "Tạo thành công đề ôn"
+                "message": "Tạo thành công đề ôn",
+                "data": {
+                    "quiz_id": str(quiz_id)
+                }
             }, 
             status=status.HTTP_200_OK
         )
@@ -136,18 +147,18 @@ class AddQuestionToQuizAPIView(GenericAPIView):
         
         try:
             BaseModel.insert_one('quiz_question', {
-                'question_id': question_id,
-                'quiz_id': quiz_id,
+                'question_id': ObjectId(question_id),
+                'quiz_id': ObjectId(quiz_id),
                 'created_at': datetime.now(),
                 'updated_at': datetime.now()
             })
             quiz = BaseModel.find_one('quizzes', {
-                '_id': quiz_id
+                '_id': ObjectId(quiz_id)
             })
             BaseModel.update_one(
                 'quizzes',
                 {
-                    '_id': quiz_id
+                    '_id': ObjectId(quiz_id)
                 },
                 {
                     '$set': {
@@ -208,18 +219,16 @@ class DeleteQuestionFromQuizAPIView(GenericAPIView):
         
         try:
             BaseModel.delete_one('quiz_question', {
-                'question_id': question_id,
-                'quiz_id': quiz_id,
-                'created_at': datetime.now(),
-                'updated_at': datetime.now()
+                'question_id': ObjectId(question_id),
+                'quiz_id': ObjectId(quiz_id)
             })
             quiz = BaseModel.find_one('quizzes', {
-                '_id': quiz_id
+                '_id': ObjectId(quiz_id)
             })
             BaseModel.update_one(
                 'quizzes',
                 {
-                    '_id': quiz_id
+                    '_id': ObjectId(quiz_id)
                 },
                 {
                     '$set': {
@@ -250,10 +259,11 @@ class EditQuizAPIView(GenericAPIView):
     def post(self, request):
         data = request.data
         try:
-            quiz = data['quiz']
-            quiz_id = quiz['quiz_id']
-            title = quiz['title']
-            time_limit = quiz['time_limit']
+            quiz = data.get('quiz', None)
+            quiz_id = quiz.get('quiz_id', None)
+            title = quiz.get('title', None)
+            time_limit = quiz.get('time_limit', None)
+            time_limit = int(time_limit)
         except:
             return Response(
                 {
@@ -293,7 +303,7 @@ class EditQuizAPIView(GenericAPIView):
         try:
             BaseModel.update_one('quizzes', 
                 {
-                    '_id': quiz_id
+                    '_id': ObjectId(quiz_id)
                 },
                 {
                     '$set': {
@@ -345,15 +355,15 @@ class DeleteQuizAPIView(GenericAPIView):
 
         try:
             BaseModel.delete_one('quizzes', {
-                '_id': quiz_id
+                '_id': ObjectId(quiz_id)
             })
 
             BaseModel.delete_many('quiz_question', {
-                'quiz_id': quiz_id
+                'quiz_id': ObjectId(quiz_id)
             })
 
             quiz_attempts = BaseModel.find_many('quiz_attempts', {
-                'quiz_id': quiz_id
+                'quiz_id': ObjectId(quiz_id)
             })
 
             for quiz_attempt in quiz_attempts:
@@ -362,7 +372,7 @@ class DeleteQuizAPIView(GenericAPIView):
                 })
             
             BaseModel.delete_many('quiz_attempts', {
-                'quiz_id': quiz_id
+                'quiz_id': ObjectId(quiz_id)
             })
         except:
             return Response(
@@ -406,7 +416,7 @@ class GetAllQuiz(GenericAPIView):
 
         try:
             results = BaseModel.find_many('quizzes', {
-                'user_id': user_id
+                'user_id': ObjectId(user_id)
             })
         except:
             return Response(
@@ -420,7 +430,21 @@ class GetAllQuiz(GenericAPIView):
         return Response(
             {
                 "success": True,
-                "data": results,
+                "data": sorted(
+                    [
+                        {
+                            'quiz_id': str(result.get('_id', None)),
+                            'user_id': str(result.get('user_id', None)),
+                            'title': result.get('title', None),
+                            'attempt_count': result.get('attempt_count', None),
+                            'number_of_questions': result.get('number_of_questions', None),
+                            'time_limit': result.get('time_limit', None),
+                            'updated_at': result.get('updated_at', None)
+                        } for result in results
+                    ],
+                    key=lambda quiz: quiz['updated_at'],
+                    reverse=True
+                ),
                 "message": "Lấy thành công danh sách tất cả đề ôn"
             }, 
             status=status.HTTP_200_OK
@@ -451,7 +475,7 @@ class GetAttendedQuiz(GenericAPIView):
 
         try:
             quiz_attempts = BaseModel.find_many('quiz_attempts', {
-                'user_id': user_id
+                'user_id': ObjectId(user_id)
             })
 
             quiz_ids = [quiz_attempt['quiz_id'] for quiz_attempt in quiz_attempts]
@@ -474,7 +498,21 @@ class GetAttendedQuiz(GenericAPIView):
         return Response(
             {
                 "success": True,
-                "data": results,
+                "data": sorted(
+                    [
+                        {
+                            'quiz_id': str(result.get('_id', None)),
+                            'user_id': str(result.get('user_id', None)),
+                            'title': result.get('title', None),
+                            'attempt_count': result.get('attempt_count', None),
+                            'number_of_questions': result.get('number_of_questions', None),
+                            'time_limit': result.get('time_limit', None),
+                            'updated_at': result.get('updated_at', None)
+                        } for result in results
+                    ],
+                    key=lambda quiz: quiz['updated_at'],
+                    reverse=True
+                ),
                 "message": "Lấy thành công danh sách đề ôn đã làm"
             }, 
             status=status.HTTP_200_OK
@@ -505,14 +543,14 @@ class GetUnAttendedQuiz(GenericAPIView):
 
         try:
             quiz_attempts = BaseModel.find_many('quiz_attempts', {
-                'user_id': user_id
+                'user_id': ObjectId(user_id)
             })
 
             attended_quiz_ids = [quiz_attempt['quiz_id'] for quiz_attempt in quiz_attempts]
             unique_attended_quiz_ids = list(set(attended_quiz_ids))
 
             all_quiz = BaseModel.find_many('quizzes', {
-                'user_id': user_id
+                'user_id': ObjectId(user_id)
             })
             all_quiz_ids = [quiz['_id'] for quiz in all_quiz]
 
@@ -534,7 +572,21 @@ class GetUnAttendedQuiz(GenericAPIView):
         return Response(
             {
                 "success": True,
-                "data": results,
+                "data": sorted(
+                    [
+                        {
+                            'quiz_id': str(result.get('_id', None)),
+                            'user_id': str(result.get('user_id', None)),
+                            'title': result.get('title', None),
+                            'attempt_count': result.get('attempt_count', None),
+                            'number_of_questions': result.get('number_of_questions', None),
+                            'time_limit': result.get('time_limit', None),
+                            'updated_at': result.get('updated_at', None)
+                        } for result in results
+                    ],
+                    key=lambda quiz: quiz['updated_at'],
+                    reverse=True
+                ),
                 "message": "Lấy thành công danh sách đề ôn chưa làm"
             }, 
             status=status.HTTP_200_OK
@@ -576,6 +628,7 @@ class GetDetailedQuiz(GenericAPIView):
                     '$in': question_ids
                 }
             })
+
             
             quiz['_id'] = str(quiz.get("_id", None))
             quiz['user_id'] = str(quiz.get("user_id", None))
@@ -600,12 +653,38 @@ class GetDetailedQuiz(GenericAPIView):
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
 
+        quiz_info = {
+            'quiz_id': str(quiz.get('_id', None)),
+            'user_id': str(quiz.get('user_id', None)),
+            'title': quiz.get('title', None),
+            'attempt_count': quiz.get('attempt_count', None),
+            'number_of_questions': quiz.get('number_of_questions', None),
+            'time_limit': quiz.get('time_limit', None),
+            'created_at': quiz.get('created_at', None),
+            'updated_at': quiz.get('updated_at', None)
+        }
+        questions_info = [
+            {
+                'question_id': str(question.get('_id', None)),
+                'question_bank_id': str(question.get('question_bank_id', None)),
+                'question_text': question.get('question_text', None),
+                'created_at': question.get('created_at', None),
+                'updated_at': question.get('updated_at', None),
+                'explanation': question.get('explanation', None),
+                'answer_text_A': question.get('answer_text_A', None),
+                'answer_text_B': question.get('answer_text_B', None),
+                'answer_text_C': question.get('answer_text_C', None),
+                'answer_text_D': question.get('answer_text_D', None),
+                'is_correct': question.get('is_correct', None)
+            } for question in questions
+        ]
+
         return Response(
             {
                 "success": True,
                 "data": {
-                    "brief_info": brief_info,
-                    "detailed_info": detailed_info
+                    "quiz": quiz_info,
+                    "questions": questions_info
                 },
                 "message": "Lấy thành công danh sách đề ôn đã làm"
             }, 

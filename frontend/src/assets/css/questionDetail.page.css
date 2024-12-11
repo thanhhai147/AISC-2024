@@ -4,9 +4,6 @@
     margin: 20px;
     border-radius: 8px;
 }
-.back-button{
-    margin-left: 20px;
-}
 .question-detail-intro{
     text-align: center;
     font-size: 20px;
@@ -23,5 +20,6 @@
     justify-content: center;
     margin-top: 40px;
 }
-
-
+.question-detail-back-button {
+    margin-left: 20px
+}

@@ -12,7 +12,7 @@ export default function TextInputTitle({
     return (
         <div className="text-input-title-container">
 
-            {title && <lable className="title font-family-semibold">{title}</lable>}
+            {title && <label className="title font-family-semibold">{title}</label>}
 
             <div className="text-input-title">
                 <TextInput

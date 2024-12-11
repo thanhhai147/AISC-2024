@@ -9,7 +9,7 @@ export default function SetupExamPopup({
     onCreate,
     popupTitle = "Vui lòng đặt tên đề ôn",  // Default title
     nameLabel = "Tên đề ôn: ",              // Default name label
-    timeLabel = "Thời gian: ",              // Default time label
+    timeLabel = "Thời gian (phút): ",              // Default time label
     placeholderName = "Đề ôn số 1...",     // Default placeholder for name input
     placeholderTime = "30 phút",           // Default placeholder for time input
     buttonCancelText = "Thoát",            // Default text for cancel button
@@ -42,7 +42,11 @@ export default function SetupExamPopup({
                     />
                 </div>
                 <div className="popup-actions">
-                    <Button type="warning" size="small" onClick={onClose}>
+                    <Button type="warning" size="small" onClick={() => {
+                        setExamName("")
+                        setExamTime("")
+                        onClose()
+                    }}>
                         {buttonCancelText}
                     </Button>
                     <Button
