@@ -284,6 +284,7 @@ class GetTopActQuizAttemptsAPIView(GenericAPIView):
     def get(self, request):
         params = request.query_params
         try:
+            user_id = params.get('user_id', None)
             top_n = int(params.get('top_n', 10))  # Mặc định lấy top 10 nếu không cung cấp tham số
             if top_n <= 0:
                 raise ValueError("Tham số top_n không hợp lệ")
@@ -296,13 +297,34 @@ class GetTopActQuizAttemptsAPIView(GenericAPIView):
                 status=status.HTTP_400_BAD_REQUEST
             )
 
+        activities = []
         try:
-            result = BaseModel.find_many(
+            quiz_attempts = BaseModel.find_many(
                 'quiz_attempts',
-                {},
-                sort=[('attempted_at', -1)],  # Sắp xếp theo `attempted_at` giảm dần
-                limit=top_n
+                {
+                    'user_id': ObjectId(user_id)
+                },
             )
+            quiz_attempts = sorted(
+                quiz_attempts,
+                key=lambda quiz_attempt: quiz_attempt.get('attempted_at'),
+                reverse=False
+            )
+            quiz_ids = [quiz_attempt.get('quiz_id') for quiz_attempt in quiz_attempts]
+            unique_quiz_ids = list(set(quiz_ids))
+            top_n_quiz_ids = unique_quiz_ids[:top_n]
+            for quiz_id in top_n_quiz_ids:
+                quiz = BaseModel.find_one(
+                    'quizzes',
+                    {
+                        '_id': quiz_id
+                    }
+                )
+                activities.append({
+                    'quiz_id': str(quiz_id),
+                    'title': quiz.get('title', None),
+                    'updated_at': quiz.get('updated_at', None),
+                })
         except:
             return Response(
                 {
@@ -311,21 +333,11 @@ class GetTopActQuizAttemptsAPIView(GenericAPIView):
                 },
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
-
-        if not result:
-            return Response(
-                {
-                    "success": True,
-                    "data": [],
-                    "message": "Không có hoạt động nào trong hệ thống"
-                },
-                status=status.HTTP_200_OK
-            )
-
+        print(activities)
         return Response(
             {
                 "success": True,
-                "data": result,
+                "data": activities,
                 "message": f"Lấy thành công top {top_n} hoạt động gần nhất"
             },
             status=status.HTTP_200_OK

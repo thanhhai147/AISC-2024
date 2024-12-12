@@ -48,6 +48,15 @@ class ExamAPI {
             }
         )
     }
+    static getRecentActivities(user_id, topN) {
+        return fetch(
+            `http://localhost:8000/get-top-act-quiz-attempts?user_id=${user_id}&top_n=${topN}`, 
+            {
+                method: "GET",
+                mode: "cors"    
+            }
+        )
+    }
 }
 
 export default ExamAPI

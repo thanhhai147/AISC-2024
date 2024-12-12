@@ -18,7 +18,7 @@ const RecentlyActiveBox = ({ activities=[] }) => {
         {item.title}
       </div>
       <div className='activity-time'>
-        {item.time}
+        {new Date(item.time).toLocaleDateString('vi-Vn') + " " + new Date(item.time).toLocaleTimeString('vi-Vn')}
       </div>
       <div className='activity-button'>
         <Button 
@@ -37,7 +37,7 @@ const RecentlyActiveBox = ({ activities=[] }) => {
           <p className='font-family-semibold primary-color box-recently-active-input-text'>
             Hoạt động gần đây
           </p>
-          <div className={`box-recently-active-noti-container ${!activities.length ? 'align-items-center' : ''}`}>
+          <div className={`box-recently-active-noti-container ${!activities.length ? 'd-flex justify-content-center align-items-center' : ''}`}>
             {
               activities.length ?
               activities.map(item => activityItem(item)) :

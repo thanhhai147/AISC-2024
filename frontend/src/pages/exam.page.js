@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/authentication.context";
 import QuizzesAPI from "../api/quizzes.api";
+import ExamAPI from "../api/exam.api";
 import Swal from "sweetalert2";
 
 import MainLayout from "../layouts/main.layout";
@@ -13,6 +14,7 @@ export default function ExamPage() {
     const navigate = useNavigate()
     const { userId } = useAuth()
     const [listData, setListData] = useState([])
+    const [recentData, setRecentData] = useState([])
 
     const sections = ["Tất cả đề ôn ", "Đề đã làm", "Đề chưa làm"]
     const columns = [
@@ -232,6 +234,40 @@ export default function ExamPage() {
 
     }, [userId])
 
+    useEffect(() => {
+        ExamAPI.getRecentActivities(userId, 5)
+        .then(response => response.json())
+        .then(data => {
+            if(data?.success) {
+                setRecentData(data?.data?.map(item => ({
+                    quizId: item?.quiz_id,
+                    title: item?.title,
+                    updatedAt: item?.updated_at
+                })))
+            } else {
+                Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: "Lấy danh sách hoạt động gần đây thất bại",
+                    text: data?.message,
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+            }
+        })
+        .catch(error => {
+            console.error(error)
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "Lấy danh sách hoạt động gần đây thất bại",
+                text: error?.message,
+                showConfirmButton: false,
+                timer: 1500
+            })
+        })
+    }, [userId])
+
     const handleDeleteQuiz = (quizId) => {
         QuizzesAPI.deleteQuiz(quizId)
         .then(response => response.json())
@@ -274,7 +310,11 @@ export default function ExamPage() {
     return (
         <>
             <MainLayout>
-                <FunctionBoxes activities={[{'title': 'Đề ôn số 1', 'time': '9/4/2024 12:30', 'navigateTo': '/exam-detail?quiz_id=1'}]} />
+                <FunctionBoxes activities={recentData?.map(activity => ({
+                    "title": activity?.title,
+                    "time": activity?.updatedAt,
+                    "navigateTo": `/exam-detail?quiz_id=${activity?.quizId}`
+                }))} />
                 <List 
                     list={{
                         sections: sections,
