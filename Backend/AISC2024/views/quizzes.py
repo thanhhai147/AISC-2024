@@ -146,27 +146,32 @@ class AddQuestionToQuizAPIView(GenericAPIView):
             )
         
         try:
-            BaseModel.insert_one('quiz_question', {
-                'question_id': ObjectId(question_id),
+            checked = BaseModel.find_one('quiz_question', {
                 'quiz_id': ObjectId(quiz_id),
-                'created_at': datetime.now(),
-                'updated_at': datetime.now()
+                'question_id': ObjectId(question_id)
             })
-            quiz = BaseModel.find_one('quizzes', {
-                '_id': ObjectId(quiz_id)
-            })
-            BaseModel.update_one(
-                'quizzes',
-                {
+            if (checked==None):
+                BaseModel.insert_one('quiz_question', {
+                    'question_id': ObjectId(question_id),
+                    'quiz_id': ObjectId(quiz_id),
+                    'created_at': datetime.now(),
+                    'updated_at': datetime.now()
+                })
+                quiz = BaseModel.find_one('quizzes', {
                     '_id': ObjectId(quiz_id)
-                },
-                {
-                    '$set': {
-                        'number_of_questions': quiz['number_of_questions'] + 1,
-                        'updated_at': datetime.now()
+                })
+                BaseModel.update_one(
+                    'quizzes',
+                    {
+                        '_id': ObjectId(quiz_id)
+                    },
+                    {
+                        '$set': {
+                            'number_of_questions': quiz['number_of_questions'] + 1,
+                            'updated_at': datetime.now()
+                        }
                     }
-                }
-            )
+                )
         except:
             return Response(
                 {

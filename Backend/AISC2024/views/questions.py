@@ -749,3 +749,59 @@ class GetDetailedQuestionBankAPIView(GenericAPIView):
             }, 
             status=status.HTTP_200_OK
         )
+
+class UpdateQuestionBankAPIView(GenericAPIView):
+    def get(self, request):
+        params = request.query_params
+        try:
+            question_bank_id = params['question_bank_id']
+        except:
+            return Response(
+                {
+                    "success": False,
+                    "message": "Thông tin bộ câu hỏi không hợp lệ"
+                }, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        if not QuestionsValidator.check_question_bank_id(question_bank_id):
+            return Response(
+                {
+                    "success": False,
+                    "message": "Mã bộ câu hỏi không hợp lệ"
+                }, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        try:
+            question_bank_questions = BaseModel.find_one('question_bank', {
+                '_id': ObjectId(question_bank_id)
+            })
+            BaseModel.update_one('question_bank', {'_id': ObjectId(question_bank_id)}, {'$set': {'updated_at': datetime.now()}})
+
+            data = []
+            for result in question_bank_questions:
+                data.append(
+                    {
+                        "question_id": str(result.get("_id", None)),
+                        "create_date": result.get("created_at", None).strftime("%H:%M %d/%m/%Y"),
+                        "question_text": result.get("question_text", None)
+                    }
+                )
+        except:
+            return Response(
+                {
+                    "success": False,
+                    "message": "Lỗi Datasbase"
+                }, 
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+
+        return Response(
+            {
+                "success": True,
+                "data": data,
+                "message": "Lấy thành công danh sách bộ câu hỏi"
+            }, 
+            status=status.HTTP_200_OK
+        )
