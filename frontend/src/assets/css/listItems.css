@@ -1,10 +1,11 @@
 .list-items {
     width: 280px;
+    max-height: 150px; 
+    overflow-y: auto; 
     margin-top: 5px;
-    padding: 12px;
     display: flex; 
     flex-direction: column; 
-    align-items: center; 
+    /* align-items: center;  */
     border-radius: 8px;
     border: 1px solid var(--black-color);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
@@ -12,8 +13,10 @@
   }
   
   .search_suggestion_line {
-    width: 220px;
-    height: 28px;
+    display: flex;
+    justify-content: space-between;
+    padding: 4px;
+    /* height: 28px; */
     text-decoration: none;
     color: var(--primary-color);
     text-align: left; 
@@ -21,4 +24,12 @@
   
 .button.active { 
   color: var(--primary-color);
+}
+
+.list-items::-webkit-scrollbar {
+  display: none; 
+}
+.list-items {
+  -ms-overflow-style: none; 
+  scrollbar-width: none;
 }

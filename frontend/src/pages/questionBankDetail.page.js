@@ -33,7 +33,6 @@ export default function QuestionBankDetailPage() {
     const [selectedQuestion, setSelectedQuestion] = useState(null);
     //QUẢN LÝ POPUP SETUP EXAM
     const [isPopupVisible, setIsPopupVisible] = useState(false);
-
     useEffect(() => {
         const fetchQuestions = async () => {
             try {
@@ -46,7 +45,7 @@ export default function QuestionBankDetailPage() {
         };
         fetchQuestions();
     }, [quesBankID]);
-
+    
     useEffect(() => {
         let updatedListData = []
         let updatedSelectedItems = {}
@@ -64,7 +63,7 @@ export default function QuestionBankDetailPage() {
         setListData(updatedListData)
         setSelectedItems(updatedSelectedItems)
     }, [questions])
-
+    
     // Hàm xử lý khi thay đổi trạng thái checkbox
     const handleCheckboxChange = (questonId) => {
         setSelectedItems(prevState => ({
@@ -72,7 +71,7 @@ export default function QuestionBankDetailPage() {
             [questonId]: !prevState[questonId], // Update specific key
         }));
     };
-
+    
     // Hàm xử lý "Bỏ chọn"
     const handleDeselectAll = () => {
         setSelectedItems(prevState => {
@@ -83,12 +82,12 @@ export default function QuestionBankDetailPage() {
             return updatedItems;
         });
     };
-
+    
     const handleEdit = (key) => {
         setSelectedQuestion(key);
         setShowPopup(true); 
     };
-
+    
     const handleClosePopup = () => {
         setShowPopup(false); 
     };
@@ -107,6 +106,20 @@ export default function QuestionBankDetailPage() {
         setIsPopupVisible(true);
     };
 
+    const handleAddQuestions = () => {
+            setIsPopupVisible(false);
+            Swal.fire({
+                icon: "success",
+                title: "Thêm vào bộ câu hỏi thành công!",
+                text: "Bạn có thể xem bộ câu hỏi của mình.",
+                confirmButtonText: "Xem bộ câu hỏi",
+                allowOutsideClick: false, 
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    navigate("/exam"); 
+                }
+            });
+        };
     const handleClosePopupSetupExam = () => {
         setIsPopupVisible(false);
     };
@@ -122,7 +135,7 @@ export default function QuestionBankDetailPage() {
                 timer: 1500
             })
         }
-
+        
         QuizzesAPI.createQuiz(userId, examName, examTime, Object.entries(selectedItems).filter(value => value[1]).map(value => value[0]))
         .then(response => response.json())
         .then(data => {
@@ -161,7 +174,7 @@ export default function QuestionBankDetailPage() {
             })
         })
     };
-
+    
     const columns = [
         {
             title: "Thứ tự",
@@ -173,7 +186,7 @@ export default function QuestionBankDetailPage() {
                     <CheckBox
                         checked={selectedItems[record?.questionID] || false}
                         onChange={() => handleCheckboxChange(record?.questionID)}
-                    />
+                        />
                     <span>{record.key}</span>
                 </span>
             ),
@@ -197,12 +210,12 @@ export default function QuestionBankDetailPage() {
             align: "center",
             render: (text, record) => (
                 <a
-                    className="link-effect black-color"
-                    onClick={() =>
-                        navigate(
-                            "/question-detail?ques_id=" + record.questionID
-                        )
-                    }
+                className="link-effect black-color"
+                onClick={() =>
+                    navigate(
+                        "/question-detail?ques_id=" + record.questionID
+                    )
+                }
                 >
                     {text}
                 </a>
@@ -219,18 +232,18 @@ export default function QuestionBankDetailPage() {
                         type="success" 
                         size="small" 
                         onClick={() => handleEdit(record.questionID)}
-                    >
+                        >
                         {text.split("-")[0]}
                     </Button>
                     {/* <span className="ml-1"></span>
                     <Button type="warning" size="small">
-                        {text.split("-")[1]}
+                    {text.split("-")[1]}
                     </Button> */}
                 </span>
             )
         },
     ];
-
+    
     return (
         <MainLayout>
             <SimpleTable
@@ -270,6 +283,8 @@ export default function QuestionBankDetailPage() {
                 isVisible={isPopupVisible}
                 onClose={handleClosePopupSetupExam}
                 onCreate={handleCreateExam}
+                selectedQuestions={selectedItems}
+                handleAddQuestions={handleAddQuestions}
             />
         </MainLayout>
     );

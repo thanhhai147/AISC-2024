@@ -1,9 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../assets/css/setupExamPopup.css";
 import Button from "./button.component";
 import TextInputTitle from "./textInput&Title.component";
-
+import Swal from "sweetalert2"; // Import SweetAlert2
+import { useAuth } from "../context/authentication.context";
+import ListItems from "./listItems.component";
+import QuizzesAPI from "../api/quizzes.api";
 export default function SetupExamPopup({
+    handleAddQuestions,
+    selectedQuestions,
     isVisible,
     onClose,
     onCreate,
@@ -17,7 +22,40 @@ export default function SetupExamPopup({
 }) {
     const [examName, setExamName] = useState("");
     const [examTime, setExamTime] = useState("");
+    const { userId } = useAuth(); // Lấy userId từ context
+    const [allQuestionQuiz, setAllQuestionQuiz] = useState([]);
+    const [allQuestionQuizID, setAllQuestionQuizID] = useState([]);
+    useEffect(() => {
+        QuizzesAPI.getAllQuiz(userId)
+        .then(response => response.json())
+        .then(data => {
+            if(data?.success) {
+                setAllQuestionQuiz(data?.data?.map(item => (item?.title)))
+                setAllQuestionQuizID(data?.data?.map(item => (item?.quiz_id)))
+                console.log("Success")
 
+            } else {
+                console.log("Error")
+            }
+        })
+        .catch(error => {
+            console.log(error)
+        })
+    }, [userId])
+    const handleItemClick = (item, index) => {
+        console.log(`Bạn đã click vào: ${item} tại vị trí ${index}`);
+    };
+    const handleExtraButtonClick = async (item, index) => {
+        console.log(`Nút "Thêm" được nhấn với item: ${item}, tại index: ${allQuestionQuizID[index]}`);
+        console.log(Object.entries(selectedQuestions).filter(value => value[1]).map(value => value[0]))
+        for (const [key, value] of Object.entries(selectedQuestions)) {
+            if (value) {
+                await QuizzesAPI.addQuestionToQuiz(allQuestionQuizID[index], key)
+            }
+        }
+        handleAddQuestions()
+        
+    };
     if (!isVisible) return null;
 
     return (
@@ -39,6 +77,12 @@ export default function SetupExamPopup({
                         placeholder={placeholderTime}
                         value={examTime}
                         onChange={(e) => setExamTime(e.target.value)} // Cập nhật giá trị khi thay đổi
+                    />
+                    <ListItems
+                        results={allQuestionQuiz}
+                        emptyMessage="Không có đề ôn"
+                        onItemClick={handleItemClick} // Truyền hàm click cho nút chính
+                        onExtraButtonClick={handleExtraButtonClick} // Truyền hàm cho nút "Thêm"
                     />
                 </div>
                 <div className="popup-actions">
