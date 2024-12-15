@@ -109,7 +109,7 @@ export default function SetupBankQuestionPopup({ isVisible, onClose, onCreate, c
                     />
                     <ListItems
                         results={allQuestionBank}
-                        emptyMessage="Không có thông báo."
+                        emptyMessage="Không có bộ câu hỏi"
                         onItemClick={handleItemClick} // Truyền hàm click cho nút chính
                         onExtraButtonClick={handleExtraButtonClick} // Truyền hàm cho nút "Thêm"
                     />

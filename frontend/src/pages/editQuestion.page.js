@@ -11,6 +11,10 @@ import Swal from "sweetalert2";
 import QuestionAPI from "../api/question.api";
 import {setLocalStorage, updateLocalStorage, getLocalStorage } from "../utils/localStorage.util";
 
+function isObjectId(str) {
+    return /^[a-f\d]{24}$/i.test(str);
+}
+
 export default function EditQuestionPage() {
     const navigate = useNavigate();
     const location = useLocation();
@@ -28,9 +32,9 @@ export default function EditQuestionPage() {
     const urlParams = new URLSearchParams(window.location.search);
     const quesId = urlParams.get("ques_id");
     useEffect(() => {
-        if (quesId.length===0){
-            const quesid = location.state?.ques_id ; 
-            setQuestion(questions[quesid]);
+        if (!isObjectId(quesId)){
+            // const quesid = location.state?.ques_id 
+            setQuestion(questions[quesId])
         }
         else{
             const fetchQuestion = async () => {
@@ -62,7 +66,6 @@ export default function EditQuestionPage() {
     const handleDelete = () => {
         navigate(-1); 
     };
-    console.log(question);
 
     const handleEdit = async() => {
         question['question_text'] = questionData.questionContext
@@ -71,12 +74,17 @@ export default function EditQuestionPage() {
         question['answer_text_C'] = questionData.C
         question['answer_text_D'] = questionData.D
         question['is_correct'] = questionData.correctAnswer
-        if (quesId.length===0){
+        if (!isObjectId(quesId)){
             const quesid = location.state?.ques_id ; 
             question_temp[quesid] = question;
             updateLocalStorage("questions", question_temp);
-        }
-        else{
+            Swal.fire({
+                icon: "success",
+                title: "Sửa câu hỏi thành công!",
+                confirmButtonText: "OK",
+                allowOutsideClick: false, // Không cho phép đóng ngoài vùng
+            });
+        } else {
             const response = await QuestionAPI.modifyHandcraftedQuestion(question);
             const data = await response.json();
             if (data.success) {
@@ -84,7 +92,6 @@ export default function EditQuestionPage() {
                 Swal.fire({
                   icon: "success",
                   title: "Sửa câu hỏi thành công!",
-                  text: data.message,
                   confirmButtonText: "OK",
                   allowOutsideClick: false, // Không cho phép đóng ngoài vùng
                 });
@@ -107,26 +114,22 @@ export default function EditQuestionPage() {
             [field]: value // Cập nhật giá trị của trường cụ thể
         }));
     };
-    console.log(questionData.correctAnswer)
+    
     return (
         <MainLayout>
-            <BackButton onClick={() => navigate(-1)} />
+            <div className="edit-question-back-button">
+                <BackButton onClick={() => navigate(-1)} />
+            </div>
 
             <div className="question-detail-container">
                 <div className="question-detail-intro">
                     <p className="Title font-family-semibold black-color">Chi tiết câu hỏi </p>
-                    {/* <span className="date">
-                        <p className="font-family-semibold black-color">Ngày tạo: </p>
-                        <p className="font-family-regular black-color">15:46 25/8/2024</p>
-                    </span> */}
                     <hr />
-
                 </div>
             
 
                 <QuestionCombo
                     type={'edit'}
-                    questionNumber={quesId}
                     questionContext={questionData.questionContext}
                     A={questionData.A}
                     B={questionData.B}
@@ -137,7 +140,7 @@ export default function EditQuestionPage() {
                 />
                 <span className="button-container">
                     <Button type="warning" size="small" onClick={handleDelete}>
-                        Xoá
+                        Hủy bỏ
                     </Button>
                     <Button type="success" size="small" onClick={handleEdit}>
                         Cập nhật

@@ -7,10 +7,8 @@ import ChatHeader from "../components/chatHeader.component";
 import ChatMessage from "../components/chatMessage.component";
 import ChatInput from "../components/chatInput.component";
 import BackButton from "../components/buttonBack.component";
-import { useAuth } from "../context/authentication.context";
-import Swal from "sweetalert2";
 import QuestionAPI from "../api/question.api";
-import {updateLocalStorage, getLocalStorage } from "../utils/localStorage.util";
+import { getLocalStorage } from "../utils/localStorage.util";
 
 export default function ChatEduVisionPage() {
     const navigate = useNavigate();
@@ -37,11 +35,9 @@ export default function ChatEduVisionPage() {
                 }
             };
             fetchQuestion();
-
         }
     }, [quesId]);
     const handleSendMessage = async (message) => {
-        console.log(question);
         // Thêm tin nhắn của người dùng vào danh sách
         setMessages((prev) => [...prev, { text: message, isUser: true, ques_id:quesId, data: null}]);
     
@@ -73,13 +69,33 @@ export default function ChatEduVisionPage() {
             <MainLayout>
                 
                 <div className="chat-container" >
-                    <BackButton
-                        onClick={() => navigate(-1)}
-                    />
+                    <div className="chat-back-button">
+                        <BackButton
+                            onClick={() => navigate(-1)}
+                        />
+                    </div>
                     <ChatHeader />
                     <div className="chat-message">
-                        <ChatMessage  text={JSON.stringify(question)} isUser={false} />
-                        <ChatMessage  text={context} isUser={false} />
+                        {
+                            question &&
+                            <ChatMessage  
+                                text={
+                                    <>
+                                        <strong>Nội dung câu hỏi: </strong>{question?.question_text} <br />
+                                        <strong>Câu trả lời: </strong><br />
+                                        <div style={{ paddingLeft: '20px' }}>
+                                            <strong>Câu A: </strong>{question?.answer_text_A} <br />
+                                            <strong>Câu B: </strong>{question?.answer_text_B} <br />
+                                            <strong>Câu C: </strong>{question?.answer_text_C} <br />
+                                            <strong>Câu D: </strong>{question?.answer_text_D} <br />
+                                        </div>
+                                        <strong>Câu trả lời đúng: </strong><br />
+                                        <strong>Câu {question?.is_correct}</strong>. Vì {question?.explanation}
+                                    </>
+                                }
+                                isUser={false} 
+                            />
+                        }
                         {messages.map((msg, index) => (
                             <ChatMessage  text={msg.text} isUser={msg.isUser} ques_id= {msg.ques_id} modified_data={msg.data}/>
                         ))}

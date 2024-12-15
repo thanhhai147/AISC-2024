@@ -1,4 +1,5 @@
 import React from "react";
+import { useAuth } from "../context/authentication.context";
 
 import PropTypes from "prop-types";
 import { FiEdit } from "react-icons/fi";
@@ -7,11 +8,15 @@ import Button from "./button.component";
 import "../assets/css/editQuestionPopup.css"; 
 
 const EditQuestionPopup = ({ onClose, onManualEdit, onChatEdit }) => {
-    
+
+    const { user } = useAuth()
+
     return (
         <div className="popup-overlay">
             <div className="popup-content">
-                <p className="font-family-semibold primary-color">Chọn hình thức chỉnh sửa</p>
+                <div className="w-100 d-flex justify-content-center align-items-center">
+                    <p className="font-family-semibold primary-color">Chọn hình thức chỉnh sửa</p>
+                </div>
                 <span className="button-edit">
                     <span className="icon-button-edit primary-color">
                         <FiEdit />

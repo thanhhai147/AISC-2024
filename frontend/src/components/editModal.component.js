@@ -8,13 +8,6 @@ export default function EditModal({ isOpen, onClose, title, label, value, onSave
     // Luôn khởi tạo trạng thái từ giá trị prop `value`
     const [inputValue, setInputValue] = useState(() => value);
 
-    // // Cập nhật `inputValue` mỗi khi `value` từ props thay đổi
-    // useEffect(() => {
-    //     if (isOpen) {
-    //         setInputValue(value); // Đồng bộ hóa trạng thái khi mở modal
-    //     }
-    // }, [value, isOpen]);
-
     // Render modal nếu đang mở
     return isOpen ? (
         <div className="modal-overlay">
@@ -27,7 +20,7 @@ export default function EditModal({ isOpen, onClose, title, label, value, onSave
                     onChange={(e) => setInputValue(e.target.value)} // Cập nhật state khi người dùng nhập
                 />
                 <div className="modal-actions">
-                    <Button onClick={onClose} type='warning'>Hủy</Button>
+                    <Button onClick={onClose} type='warning'>Hủy bỏ</Button>
                     <Button onClick={() => onSave(inputValue)} type='success'>Lưu</Button>
                 </div>
             </div>
