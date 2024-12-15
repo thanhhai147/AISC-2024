@@ -204,7 +204,6 @@ class GetListAllQuizAttemptsAPIView(GenericAPIView):
                     "number_of_question": result["correct_ans_count"] + result["incorrect_ans_count"],
 
                 })
-                print(result['_id'])
         except:
             return Response(
                 {
@@ -333,7 +332,6 @@ class GetTopActQuizAttemptsAPIView(GenericAPIView):
                 },
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
-        print(activities)
         return Response(
             {
                 "success": True,

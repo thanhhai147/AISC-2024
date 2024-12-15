@@ -36,18 +36,21 @@ export default function List({ list, listTitle, emptyMessage }) {
                     {listTitle}
                 </div>
                 {
-                    (list === undefined || list.length === 0) ? 
+                    (list === undefined || list?.length === 0) ? 
                     emptyList(emptyMessage) :
                     <>
-                        {listNavbar(list.sections)}
+                        {
+                            list?.sections && list?.sections.length > 0 &&
+                            listNavbar(list?.sections)
+                        }
                         <Table 
                             key={sectionIndex}
                             className="list"
                             sticky={true}
-                            columns={list.columns}
-                            dataSource={list.data[sectionIndex]}
+                            columns={list?.columns}
+                            dataSource={(list?.sections && list?.sections.length > 0) ? list?.data[sectionIndex] : list?.data}
                             locale={{
-                                emptyText: 'Danh sách trống',
+                                emptyText: emptyMessage || 'Danh sách trống',
                             }}
                         />
                     </> 
