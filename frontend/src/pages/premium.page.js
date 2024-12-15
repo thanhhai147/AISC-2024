@@ -1,5 +1,5 @@
 import React from "react";
-import imgPremiumPage from "../assets/img/premium.png";
+import imgPremiumPage from "../assets/img/premium.svg";
 import NavbarHomePage from '../components/navbarHomePage.component';
 import Premium from '../components/premium.component';
 import '../assets/css/premium.page.css';
