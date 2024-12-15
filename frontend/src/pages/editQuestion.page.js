@@ -11,10 +11,6 @@ import Swal from "sweetalert2";
 import QuestionAPI from "../api/question.api";
 import {setLocalStorage, updateLocalStorage, getLocalStorage } from "../utils/localStorage.util";
 
-function isObjectId(str) {
-    return /^[a-f\d]{24}$/i.test(str);
-}
-
 export default function EditQuestionPage() {
     const navigate = useNavigate();
     const location = useLocation();

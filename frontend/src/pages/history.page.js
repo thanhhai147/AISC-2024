@@ -75,7 +75,7 @@ export default function HistoryPage() {
                 align: "center",
                 render: (text, record) => (
                     <p 
-                        className="link-effect link-color"
+                        className="link-effect"
                         onClick={() => navigate("/list-of-completed-exams?quiz_id=" + record['key'])}
                     >
                         {text}
