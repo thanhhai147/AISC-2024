@@ -48,9 +48,9 @@
     color: var(--black-color);
 }
 
-.ant-table-cell-row-hover {
+/* .ant-table-cell-row-hover {
     border-radius: 8px;
-}
+} */
 
 .ant-table-placeholder {
     background-color: var(--white-color) !important;

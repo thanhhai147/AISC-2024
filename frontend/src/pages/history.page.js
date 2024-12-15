@@ -57,7 +57,8 @@ export default function HistoryPage() {
                 dataIndex: "avgCompletion",
                 key: "avgCompletion",
                 align: "center",
-                filtered: true
+                filtered: true,
+                render: (number) => number ? number * 100 + "%" : null
             },
             {
                 title: "Ngày cập nhật",
@@ -73,12 +74,12 @@ export default function HistoryPage() {
                 key: "status",
                 align: "center",
                 render: (text, record) => (
-                    <a 
+                    <p 
                         className="link-effect link-color"
                         onClick={() => navigate("/list-of-completed-exams?quiz_id=" + record['key'])}
                     >
                         {text}
-                    </a>
+                    </p>
                 )
             },
         ]
@@ -174,6 +175,9 @@ export default function HistoryPage() {
                     }
                 })
                 setQuizAttemptData(updatedQuizAttemptData)
+            })
+            .then(() => {
+                
             })
         }, [quizData])
 

@@ -123,4 +123,5 @@ p {
 
 .link-effect {
   text-decoration: underline;
+  cursor: pointer;
 }

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import "../assets/css/setupExamPopup.css";
 import Button from "./button.component";
 import TextInputTitle from "./textInput&Title.component";
-import Swal from "sweetalert2"; // Import SweetAlert2
 import { useAuth } from "../context/authentication.context";
 import ListItems from "./listItems.component";
 import QuizzesAPI from "../api/quizzes.api";

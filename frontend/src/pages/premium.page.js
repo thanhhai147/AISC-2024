@@ -5,19 +5,53 @@ import Premium from '../components/premium.component';
 import '../assets/css/premium.page.css';
 
 export default function PremiumPage() {
-    const premiumData = {
-        period: "1 Tuần",
-        price: "39.000 VND/1 tuần",
-        shortDescription: "Tặng thêm lần đầu mua gói với giá 0 VNĐ",
-        longDescription: [
-            "1 tài khoản Premium",
-            "Hủy bất cứ lúc nào",
-        ],
-        VAT: "Không bao gồm thuế GTGT"
-    };
+    const premiumData = [
+        {
+            period: "1 Tuần",
+            price: "39.000 VND/1 tuần",
+            shortDescription: "Tặng thêm lần đầu mua gói với giá 0 VNĐ",
+            longDescription: [
+                "1 tài khoản Premium",
+                "Hủy bất cứ lúc nào",
+            ],
+            VAT: "Không bao gồm thuế GTGT"
+        },
+        {
+            period: "1 Tháng",
+            price: "129.000 VND/1 tháng",
+            shortDescription: "Tặng thêm lần đầu mua gói với giá 0 VNĐ",
+            longDescription: [
+                "1 tài khoản Premium",
+                "Hủy bất cứ lúc nào",
+            ],
+            VAT: "Không bao gồm thuế GTGT"
+        },
+        {
+            period: "3 Tháng",
+            price: "109.000 VND/1 tháng",
+            shortDescription: "Tặng thêm lần đầu mua gói với giá 0 VNĐ",
+            longDescription: [
+                "1 tài khoản Premium",
+                "Hủy bất cứ lúc nào",
+            ],
+            VAT: "Không bao gồm thuế GTGT"
+        },
+        {
+            period: "6 Tháng",
+            price: "99.000 VND/1 tháng",
+            shortDescription: "Tặng thêm lần đầu mua gói với giá 0 VNĐ",
+            longDescription: [
+                "1 tài khoản Premium",
+                "Hủy bất cứ lúc nào",
+            ],
+            VAT: "Không bao gồm thuế GTGT"
+        }
+    ];
     const features = [
-        { name: 'Tạo câu hỏi', free: 'Bị giới hạn 3 lần / ngày', premium: 'Không giới hạn' },
-        { name: 'Chỉnh sửa câu hỏi', free: 'Bị giới hạn 10 lần / ngày', premium: 'Không giới hạn' },
+        { name: 'Tạo và chỉnh sửa câu hỏi', free: 'Bị giới hạn 3 lần / ngày', premium: 'Không giới hạn' },
+        { name: 'Tạo và chỉnh sửa bộ câu hỏi', free: 'Bị giới hạn 3 bộ câu hỏi', premium: 'Không giới hạn' },
+        { name: 'Tạo và chỉnh sửa đề ôn', free: 'Bị giới hạn 3 đề ôn', premium: 'Không giới hạn' },
+        { name: 'Chatbot AI', free: 'Không có', premium: 'Không giới hạn' },
       ];
 
     return (
@@ -51,34 +85,17 @@ export default function PremiumPage() {
                 </table>
             </div>
             <div className="premium-grid-container">
-                <Premium
-                    period={premiumData.period}
-                    price={premiumData.price}
-                    shortDescription={premiumData.shortDescription}
-                    longDescription={premiumData.longDescription}
-                    VAT={premiumData.VAT}
-                />
-                <Premium
-                    period={premiumData.period}
-                    price={premiumData.price}
-                    shortDescription={premiumData.shortDescription}
-                    longDescription={premiumData.longDescription}
-                    VAT={premiumData.VAT}
-                />
-                <Premium
-                    period={premiumData.period}
-                    price={premiumData.price}
-                    shortDescription={premiumData.shortDescription}
-                    longDescription={premiumData.longDescription}
-                    VAT={premiumData.VAT}
-                />
-                <Premium
-                    period={premiumData.period}
-                    price={premiumData.price}
-                    shortDescription={premiumData.shortDescription}
-                    longDescription={premiumData.longDescription}
-                    VAT={premiumData.VAT}
-                />
+                {
+                    premiumData.map(premium => (
+                        <Premium
+                            period={premium.period}
+                            price={premium.price}
+                            shortDescription={premium.shortDescription}
+                            longDescription={premium.longDescription}
+                            VAT={premium.VAT}
+                        />
+                    ))
+                }
             </div>
         </>
     );

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import '../assets/css/navbarHomePage.css';
-import SearchBar from './searchbar.component';
 import IconPremium from './iconPremium.component';
 import Button from './button.component';
 import logoIcon from '../assets/img/logo.svg'
@@ -14,6 +13,7 @@ const NavbarHomePage = () => {
     const navigate = useNavigate()
     const { user } = useAuth()
     const [username, setUsername] = useState(null)
+    const [userRole, setUserRole] = useState(null)
     const [selected, setSelected] = useState({
         'noti': false,
         'login': false,
@@ -26,6 +26,7 @@ const NavbarHomePage = () => {
 
     useEffect(() => {
         setUsername(user?.username)
+        setUserRole(user?.role)
     }, [user])
 
     const handleClick = (type) => {
@@ -52,8 +53,10 @@ const NavbarHomePage = () => {
         <div className='navbar-homepage-container foreground-color'>
             <img src={logoIcon} className='logo-icon' onClick={() => navigate("/")}/>
             <div className='navbar-homepage-header'>
-                {/* <SearchBar/> */}
-                <IconPremium onClick={() => navigate("/premium")} />
+                {
+                    userRole === "Premium User" &&
+                    <IconPremium onClick={() => navigate("/premium")} />
+                }
                 <Button 
                     type='secondary' 
                     size='large' 

@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import '../assets/css/textInput&Title.css';
 import TextInput from "./textInput.component"; 
 
@@ -6,8 +6,7 @@ export default function TextInputTitle({
     title = '',
     placeholder = '',
     value = '', 
-    onChange=()=>{},
-    ...rest
+    onChange=()=>{}
 }) {
     return (
         <div className="text-input-title-container">

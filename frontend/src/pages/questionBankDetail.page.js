@@ -209,16 +209,16 @@ export default function QuestionBankDetailPage() {
             key: "detail",
             align: "center",
             render: (text, record) => (
-                <a
-                className="link-effect black-color"
-                onClick={() =>
-                    navigate(
-                        "/question-detail?ques_id=" + record.questionID
-                    )
-                }
+                <p
+                    className="link-effect black-color"
+                    onClick={() =>
+                        navigate(
+                            "/question-detail?ques_id=" + record.questionID
+                        )
+                    }
                 >
                     {text}
-                </a>
+                </p>
             ),
         },
         {

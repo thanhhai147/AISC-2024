@@ -13,6 +13,7 @@
 
 .logo-icon{
     margin-left: 40px;
+    cursor: pointer;
 }
 .navbar-homepage-header{
     display: flex;
