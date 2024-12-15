@@ -33,8 +33,8 @@ export default function EditQuestionPage() {
     const quesId = urlParams.get("ques_id");
     useEffect(() => {
         if (!isObjectId(quesId)){
-            // const quesid = location.state?.ques_id 
-            setQuestion(questions[quesId])
+            const quesid = location.state?.ques_id 
+            setQuestion(questions[quesid])
         }
         else{
             const fetchQuestion = async () => {

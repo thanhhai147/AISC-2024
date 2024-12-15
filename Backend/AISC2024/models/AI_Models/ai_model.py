@@ -52,6 +52,8 @@ def generate_mcqs_from_text(context, number_mcqs=10, isExternalSearch = False):
             Answer: [The correct option for question]
             Explanation: [Explain why this is the correct answer]
             Supporting Text: [Relevant part of the document]
+            
+            Ensure you follow this format exactly when generating the questions.
             """
         else:
             prompt = f"""
@@ -75,6 +77,8 @@ def generate_mcqs_from_text(context, number_mcqs=10, isExternalSearch = False):
             Answer: [The correct option for question]
             Explanation: [Explain why this is the correct answer]
             Supporting Text: [Relevant part of the document]
+            
+            Ensure you follow this format exactly when generating the questions.
             """
         response = model.generate_content(prompt).text.strip()
         mcqs = [mcq.strip() for mcq in response.split("## MCQ") if mcq.strip()]
@@ -105,6 +109,8 @@ def modify_mcq(context, original_mcq, edit_request):
     Answer: [The correct option for question (A,B,C or D)]
     Explanation: [Explain why this is the correct answer]
     Supporting Text: [Relevant part of the document]
+    
+    Ensure you follow this format exactly when generating the questions.
     """
     new_response = model.generate_content(custom_mcq_prompt).text.strip()
     new_mcq = new_response.split("## MCQ")[1].strip()
