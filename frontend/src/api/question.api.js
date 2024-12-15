@@ -30,7 +30,7 @@ class QuestionAPI {
     
         // Chuyển đối tượng thành JSON
         const jsonData = JSON.stringify(requestBody);
-        console.log(jsonData);
+ 
         // Gửi yêu cầu POST
         return fetch(`http://localhost:8000/generate-questions`, {
             method: "POST",
@@ -50,7 +50,7 @@ class QuestionAPI {
         };
         // Chuyển đối tượng thành JSON
         const jsonData = JSON.stringify(requestBody);
-        console.log(requestBody);
+      
         // Gửi yêu cầu POST
         return fetch(`http://localhost:8000/add-questions`, {
             method: "POST",
@@ -70,7 +70,7 @@ class QuestionAPI {
     
         // Chuyển đối tượng thành JSON
         const jsonData = JSON.stringify(requestBody);
-        console.log(jsonData);
+ 
         // Gửi yêu cầu POST
         return fetch(`http://localhost:8000/modify-question-handcrafted`, {
             method: "POST",
@@ -92,7 +92,7 @@ class QuestionAPI {
     
         // Chuyển đối tượng thành JSON
         const jsonData = JSON.stringify(requestBody);
-        console.log(jsonData);
+    
         // Gửi yêu cầu POST
         return fetch(`http://localhost:8000/modify-question-chatbot`, {
             method: "POST",
@@ -114,7 +114,6 @@ class QuestionAPI {
     
         // Chuyển đối tượng thành JSON
         const jsonData = JSON.stringify(requestBody);
-        console.log(jsonData);
         // Gửi yêu cầu POST
         return fetch(`http://localhost:8000/create-question-bank`, {
             method: "POST",

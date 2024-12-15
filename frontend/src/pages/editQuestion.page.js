@@ -32,8 +32,9 @@ export default function EditQuestionPage() {
     const urlParams = new URLSearchParams(window.location.search);
     const quesId = urlParams.get("ques_id");
     useEffect(() => {
-        if (!isObjectId(quesId)){
+        if (quesId.length === 0){
             const quesid = location.state?.ques_id 
+            console.log(quesid)
             setQuestion(questions[quesid])
         }
         else{
@@ -74,7 +75,7 @@ export default function EditQuestionPage() {
         question['answer_text_C'] = questionData.C
         question['answer_text_D'] = questionData.D
         question['is_correct'] = questionData.correctAnswer
-        if (!isObjectId(quesId)){
+        if (quesId.length === 0){
             const quesid = location.state?.ques_id ; 
             question_temp[quesid] = question;
             updateLocalStorage("questions", question_temp);
