@@ -48,7 +48,7 @@ const EditQuestionPopup = ({ onClose, onManualEdit, onChatEdit }) => {
                     </span>
                 </span>
                 <Button className="popup-button cancel" type="warning" size="large" onClick={onClose}>
-                    Hủy
+                    Hủy bỏ
                 </Button>
             </div>
         </div>

@@ -40,10 +40,7 @@ export default function QuestionDetailPage() {
 
         }
     }, [quesId]);
-
-    
-    // console.log(question);
-    // console.log(quesId); 
+ 
     const navigate = useNavigate();
     const [showPopup, setShowPopup] = useState(false);
 
@@ -67,10 +64,6 @@ export default function QuestionDetailPage() {
             <div className="question-detail-container">
                 <div className="question-detail-intro">
                     <p className="Title font-family-semibold black-color">Chi tiết câu hỏi</p>
-                    {/* <span className="date">
-                        <p className="font-family-semibold black-color">Ngày tạo: </p>
-                        <p className="font-family-regular black-color">15:46 25/8/2024</p>
-                    </span> */}
                     <hr />
                 </div>
 
@@ -90,7 +83,7 @@ export default function QuestionDetailPage() {
               
                 <span className="button-container">
                     <Button type="warning" size="small" onClick={handleDelete}>
-                        Xoá
+                        {quesId.length === 0 ? "Hủy bỏ" : "Xóa"}
                     </Button>
                     <Button type="success" size="small" onClick={handleEdit}>
                         Chỉnh sửa câu hỏi
