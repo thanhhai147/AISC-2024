@@ -168,8 +168,8 @@ export default function QuestionListPage() {
             {showPopup && selectedQuestion && (
                 <EditQuestionPopup 
                     onClose={handleClosePopup} 
-                    onManualEdit={() => navigate("/edit-question?ques_id=", { state: { question: questions[selectedQuestion] } })}
-                    onChatEdit={() => navigate("/chat-eduvision?ques_id=", { state: { question: questions[selectedQuestion] } })}
+                    onManualEdit={() => navigate("/edit-question?ques_id=", { state: { ques_id: data[selectedQuestion - 1]['key'] - 1  } })}
+                    onChatEdit={() => navigate("/chat-eduvision?ques_id=", { state: { ques_id: data[selectedQuestion - 1]['key'] - 1  } })}
                 />
             )}
             <span 
