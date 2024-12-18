@@ -805,3 +805,45 @@ class UpdateQuestionBankAPIView(GenericAPIView):
             }, 
             status=status.HTTP_200_OK
         )
+
+class DeleteQuestionBankAPIView(GenericAPIView):
+    def get(self, request):
+        params = request.query_params
+        try:
+            question_bank_id = params['question_bank_id']
+        except:
+            return Response(
+                {
+                    "success": False,
+                    "message": "Thông tin bộ câu hỏi không hợp lệ"
+                }, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        if not QuestionsValidator.check_question_bank_id(question_bank_id):
+            return Response(
+                {
+                    "success": False,
+                    "message": "Mã bộ câu hỏi không hợp lệ"
+                }, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        try:
+            BaseModel.delete_one('question_bank', {'_id': ObjectId(question_bank_id)})
+        except:
+            return Response(
+                {
+                    "success": False,
+                    "message": "Lỗi Datasbase"
+                }, 
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+
+        return Response(
+            {
+                "success": True,
+                "message": "Xóa thành công"
+            }, 
+            status=status.HTTP_200_OK
+        )

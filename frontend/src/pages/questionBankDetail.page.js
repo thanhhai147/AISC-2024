@@ -124,7 +124,7 @@ export default function QuestionBankDetailPage() {
         setIsPopupVisible(false);
     };
     
-    const handleCreateExam = (examName, examTime) => {
+    const handleCreateExam = (examName, examTime, allQuestionQuiz) => {
         if (!examName || !examTime) {
             return Swal.fire({
                 position: "center",
@@ -135,7 +135,17 @@ export default function QuestionBankDetailPage() {
                 timer: 1500
             })
         }
-        
+
+        if(allQuestionQuiz.some(item => item.toLowerCase() === examName.toLowerCase())){
+                    return Swal.fire({
+                        position: "center",
+                        icon: "error",
+                        title: "Vui lòng đặt tên lại!",
+                        text: "Tên đề ôn đã tồn tại",
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                }
         QuizzesAPI.createQuiz(userId, examName, examTime, Object.entries(selectedItems).filter(value => value[1]).map(value => value[0]))
         .then(response => response.json())
         .then(data => {

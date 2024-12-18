@@ -5,6 +5,7 @@ from rest_framework import status
 from datetime import datetime, timedelta
 from collections import defaultdict
 from bson import ObjectId
+import math
 
 from ..validators.custom_validators import BaseValidator, AdancedValidator
 from ..validators.model_validators import ModelValidator, UserValidator, QuizAttemptsValidator, UserAnswersValidator
@@ -16,6 +17,7 @@ class UpdateQuizAttemptAPIView(GenericAPIView):
         try:
             user_id = data['user_id']
             quiz_id = data['quiz_id']
+            time_taken = data['time_taken']
             user_answers = data['user_answers']
           
         except:
@@ -54,6 +56,8 @@ class UpdateQuizAttemptAPIView(GenericAPIView):
                 'user_id': ObjectId(user_id),
                 'quiz_id': ObjectId(quiz_id),
                 'score': score,
+                'time_taken': math.ceil(time_taken),
+                'attempted_start': datetime.now() - timedelta(minutes=math.ceil(time_taken)),
                 'attempted_at': datetime.now(),
                 'correct_ans_count': correct_ans_count,
                 'incorrect_ans_count': incorrect_ans_count,
@@ -154,8 +158,10 @@ class GetQuizAttemptAPIView(GenericAPIView):
             {
                 "success": True,
                 "data": {
+                    "time_taken": result["time_taken"],
                     "title": quiz["title"],
                     "attempted_at": result["attempted_at"].strftime('%A, %d/%m/%Y, %H:%M'),
+                    "attempted_start": result["attempted_start"].strftime('%A, %d/%m/%Y, %H:%M'),
                     "score": result["score"],
                     "correct_ans_count": result["correct_ans_count"],
                     "incorrect_ans_count": result["incorrect_ans_count"],
@@ -194,9 +200,14 @@ class GetListAllQuizAttemptsAPIView(GenericAPIView):
             results = BaseModel.find_many('quiz_attempts', {
                 'quiz_id': ObjectId(quiz_id)
             })
+            quiz_title =  BaseModel.find_one('quizzes', {
+                '_id': ObjectId(quiz_id)
+            })
             data = []
             for result in results:
                 data.append({
+                    "time_taken": result["time_taken"],
+                    "title": quiz_title['title'],
                     "attempted_id": str(result['_id']),
                     "score": result["score"],
                     "correct_ans_count": result["correct_ans_count"],

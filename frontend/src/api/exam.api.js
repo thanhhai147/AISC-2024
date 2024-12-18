@@ -1,9 +1,10 @@
 class ExamAPI {
-    static updateQuizAttempt(user_id, quiz_id, user_answers) {
+    static updateQuizAttempt(user_id, quiz_id, time_taken, user_answers) {
         // Tạo đối tượng chứa dữ liệu mà bạn muốn gửi
         const requestBody = {
             user_id: user_id,
             quiz_id: quiz_id,
+            time_taken: time_taken,
             user_answers: user_answers
         };
         // Chuyển đối tượng thành JSON

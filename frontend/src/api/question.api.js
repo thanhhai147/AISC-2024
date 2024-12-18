@@ -155,6 +155,15 @@ class QuestionAPI {
         )
     }
 
+    static deleteQuestionBank(question_bank_id) {
+        return fetch(
+            `http://localhost:8000/delete-question-bank?question_bank_id=${question_bank_id}`, 
+            {
+                method: "GET",
+                mode: "cors"    
+            }
+        )
+    }
 }
 
 export default QuestionAPI

@@ -40,11 +40,12 @@ export default function AnswerDetail() {
             examName: detailQuizAttempt["title"]
         }
     ];
+    
     const ExamInformation =[
         {
-            startTime: "Thứ hai, 02/09/2024, 13:44",
+            startTime: detailQuizAttempt["attempted_start"], 
             endTime: detailQuizAttempt["attempted_at"], 
-            duration: "60 phút",
+            duration: detailQuizAttempt["time_taken"],
             statusExam: "Hoàn tất",
             score: detailQuizAttempt["score"],
         }

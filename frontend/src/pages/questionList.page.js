@@ -63,7 +63,17 @@ export default function QuestionListPage() {
     const [isPopupVisible, setIsPopupVisible] = useState(false);
     
     const handleOpenPopupQuestionBank = () => {
-        setIsPopupVisible(true);
+        console.log(selectedItems.every(value => !value))
+        if(selectedItems.every(value => !value)){
+            return Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "Vui lòng chọn câu hỏi",
+                showConfirmButton: false,
+                timer: 1500
+            })
+        }
+        else{setIsPopupVisible(true);}
     };
 
     const handleClosePopupQuestionBank = () => {

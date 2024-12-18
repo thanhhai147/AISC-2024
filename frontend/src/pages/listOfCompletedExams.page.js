@@ -2,12 +2,14 @@ import React, { useState, useEffect } from "react";
 import ExamInformation from "../components/examInformation.component";
 import MainLayout from "../layouts/main.layout";
 import ExamAPI from "../api/exam.api";
+import { useAuth } from "../context/authentication.context";
 
 export default function ListOfCompletedExams() {
     const [loading, setLoading] = useState(true); // Trạng thái theo dõi quá trình tải
     const [allQuizAttempts, getAllQuizAttempts] = useState([]);
     const urlParams = new URLSearchParams(window.location.search);
     const quizId = urlParams.get("quiz_id");
+    const { userId, user} = useAuth()
     useEffect(() => {
         const fetchQuestions = async () => {
             try {
@@ -36,9 +38,9 @@ export default function ListOfCompletedExams() {
     allQuizAttempts.forEach((quiz_attempt, i) => {
         completedExams.push({
             score: quiz_attempt["score"],
-            examName: "Đề thi số 1",
-            userName: "Nguyễn Hải Đăng",
-            timeTaken: "25 phút",
+            examName: quiz_attempt["title"],
+            userName: user?.['username'],
+            timeTaken: quiz_attempt["time_taken"],
             correctAnswers: quiz_attempt["correct_ans_count"],
             incorrectAnswers: quiz_attempt["incorrect_ans_count"],
             totalQuestions: quiz_attempt["number_of_question"],

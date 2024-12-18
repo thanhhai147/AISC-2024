@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import MainLayout from "../layouts/main.layout";
 import ExamInformation from "../components/examInformation.component";
+import { useAuth } from "../context/authentication.context";
 import ExamAPI from "../api/exam.api";
 
 export default function Scoring() {
@@ -8,6 +9,8 @@ export default function Scoring() {
     const [detailQuizAttempt, getDetailQuizAttempt] = useState([]);
     const urlParams = new URLSearchParams(window.location.search);
     const attemptedId = urlParams.get("attempted_id");
+    const { userId, user} = useAuth()
+    
     useEffect(() => {
         const fetchQuestions = async () => {
             try {
@@ -34,9 +37,9 @@ export default function Scoring() {
     const completedExams = [
         {
             score: detailQuizAttempt["score"],
-            examName: "Đề thi số 1",
-            userName: "Nguyễn Hải Đăng",
-            timeTaken: "25 phút",
+            examName: detailQuizAttempt["title"],
+            userName: user?.['username'],
+            timeTaken: detailQuizAttempt["time_taken"],
             correctAnswers: detailQuizAttempt["correct_ans_count"],
             incorrectAnswers: detailQuizAttempt["incorrect_ans_count"],
             totalQuestions: detailQuizAttempt["number_of_question"],

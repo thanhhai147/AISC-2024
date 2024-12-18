@@ -95,7 +95,7 @@ export default function SetupExamPopup({
                     <Button
                         type="primary"
                         size="small"
-                        onClick={() => onCreate(examName, examTime)}
+                        onClick={() => onCreate(examName, examTime, allQuestionQuiz)}
                     >
                         {buttonCreateText}
                     </Button>

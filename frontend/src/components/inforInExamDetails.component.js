@@ -14,7 +14,7 @@ export default function InforInExamDetails({startTime, endTime, duration, status
             </div>
             <div className="row font-family-semibold">
                 <span>Thời gian thực hiện:</span>
-                <span className="value font-family-regular">{duration}</span>
+                <span className="value font-family-regular">{duration} phút</span>
             </div>
             <div className="row font-family-semibold">
                 <span>Trạng thái:</span>

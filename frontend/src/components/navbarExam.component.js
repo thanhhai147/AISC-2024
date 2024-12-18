@@ -7,7 +7,7 @@ import Clock from './clock.component';
 import ExamAPI from '../api/exam.api';
 import { useAuth } from '../context/authentication.context';
 
-const NavbarExam = ({time = 1, quizId, userAnswers, onTimeChange}) => {
+const NavbarExam = ({time = 1, timeLimit, quizId, userAnswers, onTimeChange}) => {
     const navigate = useNavigate(); 
     const { userId, user } = useAuth()
 
@@ -15,12 +15,14 @@ const NavbarExam = ({time = 1, quizId, userAnswers, onTimeChange}) => {
         navigate(-1); 
     };
 
+    const timeTaken = timeLimit - time
     const handleSubmitClick = async() => {
-        console.log(userId, quizId, userAnswers)
+        console.log(timeTaken, userId, quizId, userAnswers)
+        
 
         try {
             // Gọi API để cập nhật bài thi
-            const response = await ExamAPI.updateQuizAttempt(userId, quizId, userAnswers);
+            const response = await ExamAPI.updateQuizAttempt(userId, quizId, timeTaken, userAnswers);
             const data = await response.json();
             if (response.ok) {
                 console.log('Quiz attempt updated successfully');

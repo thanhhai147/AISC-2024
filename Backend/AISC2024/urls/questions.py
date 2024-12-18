@@ -1,5 +1,5 @@
 from django.urls import path
-from ..views.questions import UploadFilesAPIView, GenerateQuestionsAPIView, AddQuestionAPIView, ModifyHandcraftedQuestionAPIView,ModifyChatBotQuestionAPIView, CreateQuestionBankAPIView, GetAllQuestionBankAPIView, GetDetailedQuestionBankAPIView, GetDetailedQuestionAPIView
+from ..views.questions import UploadFilesAPIView, GenerateQuestionsAPIView, DeleteQuestionBankAPIView, AddQuestionAPIView, ModifyHandcraftedQuestionAPIView,ModifyChatBotQuestionAPIView, CreateQuestionBankAPIView, GetAllQuestionBankAPIView, GetDetailedQuestionBankAPIView, GetDetailedQuestionAPIView
 
 urlpatterns = [
     path('upload-files', UploadFilesAPIView.as_view(), name='upload-files'),
@@ -11,4 +11,5 @@ urlpatterns = [
     path('get-question-banks', GetAllQuestionBankAPIView.as_view(), name='get-question-banks'),
     path('get-detail-question-bank', GetDetailedQuestionBankAPIView.as_view(), name='get-detail-question-bank'),
     path('get-detail-question', GetDetailedQuestionAPIView.as_view(), name='get-detail-question'),
+    path('delete-question-bank', DeleteQuestionBankAPIView.as_view(), name='delete-question-bank'),
 ]

@@ -12,7 +12,6 @@ export default function SetupBankQuestionPopup({ isVisible, onClose, onCreate, c
     const { userId } = useAuth(); // Lấy userId từ context
     const questions = getLocalStorage("questions");
     const checkedQuestions = questions.filter((_, index) => checked[index]);
-
     const [questionBankName, setQuestionBankName] = useState("");
     const [allQuestionBank, setAllQuestionBank] = useState([]);
     const [allQuestionBankID, setAllQuestionBankID] = useState([]);
@@ -38,31 +37,53 @@ export default function SetupBankQuestionPopup({ isVisible, onClose, onCreate, c
         })
     }, [userId])
     const handleCreateQuestionBank = async () => {
-        try {
-            const response = await QuestionAPI.createQuestionBank(userId, questionBankName, context);
-            const result = await response.json();
-            const question_bank_id = result.question_bank_id;
-            const response_add_questions = await QuestionAPI.addQuestion(question_bank_id, checkedQuestions);
-            const result_add_questions = await response_add_questions.json();
-            
-            if (result.success && result_add_questions.success) {
-                onCreate(questionBankName); // Gọi hàm onCreate nếu cần
-                onClose(); // Đóng popup
-            } else {
+        if(allQuestionBank.some(item => item.toLowerCase() === questionBankName.toLowerCase())){
+            return Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "Vui lòng đặt tên lại!",
+                text: "Tên bộ câu hỏi đã tồn tại",
+                showConfirmButton: false,
+                timer: 1500
+            })
+        }
+        else{
+            try {
+                const response = await QuestionAPI.createQuestionBank(userId, questionBankName, context);
+                const result = await response.json();
+                const question_bank_id = result.question_bank_id;
+                const response_add_questions = await QuestionAPI.addQuestion(question_bank_id, checkedQuestions);
+                const result_add_questions = await response_add_questions.json();
+                
+                if(!result.success){
+                    Swal.fire({
+                        icon: "error",
+                        title: "Tạo bộ câu hỏi thất bại!",
+                        text: "Có lỗi xảy ra: " + result.message ,
+                    });
+                }
+                else if(!result_add_questions.success){
+                    await QuestionAPI.deleteQuestionBank(question_bank_id);
+                    Swal.fire({
+                        icon: "error",
+                        title: "Tạo bộ câu hỏi thất bại!",
+                        text: "Có lỗi xảy ra: " + result_add_questions.message,
+                    });
+                }
+                else {
+                    onCreate(questionBankName); // Gọi hàm onCreate nếu cần
+                    onClose(); // Đóng popup
+                } 
+            } catch (error) {
+                console.error("Lỗi khi tạo bộ câu hỏi:", error);
                 Swal.fire({
                     icon: "error",
-                    title: "Tạo bộ câu hỏi thất bại!",
-                    text: "Có lỗi xảy ra: " + result.message + " " + result_add_questions.message,
+                    title: "Đã xảy ra lỗi!",
+                    text: "Vui lòng thử lại sau.",
                 });
             }
-        } catch (error) {
-            console.error("Lỗi khi tạo bộ câu hỏi:", error);
-            Swal.fire({
-                icon: "error",
-                title: "Đã xảy ra lỗi!",
-                text: "Vui lòng thử lại sau.",
-            });
         }
+        
     };
 
     const handleItemClick = (item, index) => {

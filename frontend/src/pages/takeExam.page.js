@@ -19,6 +19,7 @@ export default function TakeExamPage() {
     const [selectedAnswers, setSelectedAnswers] = useState([]); // Lưu đáp án đã chọn
     const [loading, setLoading] = useState(true); // Trạng thái theo dõi quá trình tải
     const [time, setTime] = useState(null)
+    const [timeLimit, setTimeLimit] = useState(null)
     
     const handleQuestionClick = (index) => {
         setCurrentQuestionIndex(index); // Chuyển đến câu hỏi được chọn
@@ -34,6 +35,7 @@ export default function TakeExamPage() {
                 setSelectedAnswers(Array(data?.data?.quiz?.number_of_questions).fill("none"))
                 setStatusQuestions(Array(data?.data?.quiz?.number_of_questions).fill("secondary"))
                 setTime(data?.data?.quiz?.time_limit)
+                setTimeLimit(data?.data?.quiz?.time_limit)
             } catch (error) {
                 console.error("Error fetching question banks:", error);
             } finally {
@@ -91,6 +93,7 @@ export default function TakeExamPage() {
 
     const handleOnTimeChange = (timeObject) => {
         setTime(timeObject['total'] / 60 / 1000)
+        // console.log(time * 60000)
     }
 
     return (
@@ -115,6 +118,7 @@ export default function TakeExamPage() {
                 <>
                     <NavbarExam
                         time={time}
+                        timeLimit={timeLimit}
                         onTimeChange={handleOnTimeChange}
                         quizId={quiz?.quiz?.["quiz_id"]}
                         userAnswers={user_answers}
