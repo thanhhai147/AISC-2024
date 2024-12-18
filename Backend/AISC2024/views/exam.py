@@ -160,8 +160,8 @@ class GetQuizAttemptAPIView(GenericAPIView):
                 "data": {
                     "time_taken": result["time_taken"],
                     "title": quiz["title"],
-                    "attempted_at": result["attempted_at"].strftime('%A, %d/%m/%Y, %H:%M'),
-                    "attempted_start": result["attempted_start"].strftime('%A, %d/%m/%Y, %H:%M'),
+                    "attempted_at": result["attempted_at"],
+                    "attempted_start": result["attempted_start"],
                     "score": result["score"],
                     "correct_ans_count": result["correct_ans_count"],
                     "incorrect_ans_count": result["incorrect_ans_count"],

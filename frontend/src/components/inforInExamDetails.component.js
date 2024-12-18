@@ -6,11 +6,11 @@ export default function InforInExamDetails({startTime, endTime, duration, status
         <div className="row-content">
             <div className="row font-family-semibold">
                 <span >Bắt đầu vào lúc:</span>
-                <span className="value font-family-regular">{startTime}</span>
+                <span className="value font-family-regular">{new Date(startTime).toLocaleString('vi-Vn')}</span>
             </div>
             <div className="row font-family-semibold">
                 <span>Kết thúc vào lúc:</span>
-                <span className="value font-family-regular">{endTime}</span>
+                <span className="value font-family-regular">{new Date(endTime).toLocaleString('vi-Vn')}</span>
             </div>
             <div className="row font-family-semibold">
                 <span>Thời gian thực hiện:</span>

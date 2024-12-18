@@ -29,6 +29,7 @@ export default function StatisticsPage() {
         .then(response => response.json())
         .then(data => {
             if (data?.success) {
+                console.log(data?.data)
                 setData(data?.data)
             } else {
                 Swal.fire({
@@ -97,10 +98,6 @@ export default function StatisticsPage() {
             }
         })
     }, [data])
-
-    useEffect(() => {
-        console.log(chartData)
-    }, [chartData])
 
     return (
         <MainLayout>

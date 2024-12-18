@@ -31,7 +31,6 @@ export const AuthProvider = ({ children }) => {
   const [userId, setUserId] = useState(() => getCookie("user_id"))
   const [user, setUser] = useState(null)
   const [questions, setQuestions] = useState([]);  // Thêm state để lưu câu hỏi
-
   const [context, setContext] = useState('')
   useEffect(() => {
 
