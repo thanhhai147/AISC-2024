@@ -185,7 +185,7 @@ export default function AccountPage() {
                         title="Email hoặc số điện thoại"
                         value={accountData?.emailPhoneNumber}
                         type="text"
-                        onEdit={() => handleEdit("emailPhoneNumber", "Cập nhật", "Email hoặc số điện thoại", accountData?.emailPhoneNumber, "text")}
+                        // onEdit={() => handleEdit("emailPhoneNumber", "Cập nhật", "Email hoặc số điện thoại", accountData?.emailPhoneNumber, "text")}
                     />
                     <InforAccount
                         icon={CiLock}

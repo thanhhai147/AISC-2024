@@ -109,7 +109,7 @@ export default function QuestionListPage() {
     const list = {
         sections: [
             "Tất cả câu hỏi",
-            `Đã chọn (${selectedItems.filter(item => item).length})` // Đếm số checkbox được chọn
+            // `Đã chọn (${selectedItems.filter(item => item).length})` // Đếm số checkbox được chọn
         ],
         columns: [
             {

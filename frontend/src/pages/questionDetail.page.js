@@ -83,7 +83,7 @@ export default function QuestionDetailPage() {
               
                 <span className="button-container">
                     <Button type="warning" size="small" onClick={handleDelete}>
-                        {quesId.length === 0 ? "Hủy bỏ" : "Xóa"}
+                        Hủy bỏ
                     </Button>
                     <Button type="success" size="small" onClick={handleEdit}>
                         Chỉnh sửa câu hỏi

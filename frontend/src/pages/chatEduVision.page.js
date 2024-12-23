@@ -52,7 +52,7 @@ export default function ChatEduVisionPage() {
             // Cập nhật tin nhắn với nội dung từ API
             setMessages((prev) => [
                 ...prev.slice(0, -1), // Xóa tin nhắn "BOT đang trả lời..."
-                { text: (data.data), isUser: false, ques_id:quesId, data: data.data_json },
+                { text: (data?.data_json), isUser: false, ques_id:quesId, data: data.data_json },
             ]);
         } catch (error) {
             console.error("Error fetching question details:", error);
@@ -96,9 +96,33 @@ export default function ChatEduVisionPage() {
                                 isUser={false} 
                             />
                         }
-                        {messages.map((msg, index) => (
-                            <ChatMessage  text={msg.text} isUser={msg.isUser} ques_id= {msg.ques_id} modified_data={msg.data}/>
-                        ))}
+                        {
+                            messages.map((msg, index) => (
+                                <ChatMessage  
+                                    text={
+                                        msg.isUser ? 
+                                        msg.text :
+                                        msg.text === "BOT đang trả lời..." ?
+                                        msg.text :
+                                        <> 
+                                            <strong>Nội dung câu hỏi: </strong>{msg?.text?.question_text} <br />
+                                            <strong>Câu trả lời: </strong><br />
+                                            <div style={{ paddingLeft: '20px' }}>
+                                                <strong>Câu A: </strong>{msg?.text?.answer_text_A} <br />
+                                                <strong>Câu B: </strong>{msg?.text?.answer_text_B} <br />
+                                                <strong>Câu C: </strong>{msg?.text?.answer_text_C} <br />
+                                                <strong>Câu D: </strong>{msg?.text?.answer_text_D} <br />
+                                            </div>
+                                            <strong>Câu trả lời đúng: </strong><br />
+                                            <strong>Câu {msg?.text?.is_correct}</strong>. Vì {msg?.text?.explanation}
+                                        </>
+                                    } 
+                                    isUser={msg.isUser} 
+                                    ques_id= {msg.ques_id} 
+                                    modified_data={msg.data}
+                                />
+                            ))
+                        }
                     </div>
                     <ChatInput onSend={handleSendMessage} />
                 </div>
